@@ -1,0 +1,25 @@
+@use '../globals' as g;
+@use '../util' as u;
+
+.banner{
+  height: 60vh;
+  margin: 0 0 3rem 0;
+  padding: 20px;
+  box-sizing: border-box;
+  @include g.mix-flex-aligment(center);
+  flex-direction: column;
+  
+  &__img{
+    filter: drop-shadow(0 0 10px #f00000);
+  }
+
+  &__title{
+    font-family: u.$font;
+  }
+  &__paragraph{
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+}

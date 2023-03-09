@@ -1,0 +1,36 @@
+@use '../util' as u;
+
+h1 {
+  font-size: 3.2em;
+  font-family: u.$primaryFont;
+  margin: 0;
+}
+
+h2,
+h3 {
+  font-weight: 700;
+  line-height: 1.1;
+  margin-top: 0;
+}
+
+h1{
+  font-size: clamp(u.f-pixel2rem(26), u.f-pixel2rem(16) + 2vw, u.f-pixel2rem(42));
+}
+h2{
+  font-size: clamp(u.f-pixel2rem(22), u.f-pixel2rem(14) + 1.5vw, u.f-pixel2rem(36));
+}
+
+p {
+  margin-top: 0;
+  font-size: u.f-pixel2rem(16);
+  font-family: u.$font;
+}
+ul{
+  list-style-type: none;
+  padding-left: 0;
+}
+a,
+a:visited,
+a:active {
+  text-decoration: none;
+}

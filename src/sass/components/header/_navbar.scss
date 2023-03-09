@@ -1,0 +1,19 @@
+@use '../../util' as u;
+@use '../../globals' as g;
+
+.navbar{
+  width: 100%;
+  min-height: 20vh;
+  margin:0;
+  padding: 10px;
+  box-sizing: border-box;
+  @include g.mix-flex-aligment(center);
+  flex-direction: column;
+  background: linear-gradient(180deg, black, transparent);
+  
+  &__title{
+    font-size: min(3rem, 8vw);
+    box-sizing: border-box;
+    text-align: center;
+  }
+}

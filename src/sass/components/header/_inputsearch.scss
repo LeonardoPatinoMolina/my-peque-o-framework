@@ -1,21 +1,28 @@
 @use '../../globals' as g;
+@use '../../util' as u;
 
 .search{
   min-height: 50px;
-  max-height: 50px;
+  padding: 0;
+  width: min(40%, 250px);
   background-color: #555;
   border-radius: 16px;
   box-sizing: border-box;
-  flex:1;
-  @include g.mix-flex-aligment(unset);
+  @include g.mix-flex-aligment(center);
+  @include u.breakpoint-down('small'){
+    width:70%;
+  }
   box-shadow: 0 0 12px 2px #0003;
   
   &__input_text{
-    border-radius: 0 15px 15px 0;
-    border: none;
     height: 50px;
-    padding-left: 9px;
+    width: 100%;
+    border-radius: 15px 0 0 15px;
+    border: none;
+    margin: 0;
+    display: flex;
     font-size: 1.1rem;
+    padding-left: 1rem;
     
     &:focus{
       outline: unset;
@@ -25,6 +32,7 @@
       font-size: inherit;
     }
   }
+
   &__logo{
     padding: 10px;
     color: #0008;

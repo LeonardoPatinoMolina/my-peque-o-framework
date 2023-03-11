@@ -8,11 +8,13 @@
   padding: 10px;
   box-sizing: border-box;
   @include g.mix-flex-aligment(center);
-  flex-direction: column;
+  flex-wrap: wrap;
   background: linear-gradient(180deg, black, transparent);
+  border-radius: 3px solid #fff;
   
   &__title{
-    font-size: min(3rem, 8vw);
+    font-size: min(1.7rem, 10vw);
+    width: 30%;
     box-sizing: border-box;
     text-align: center;
   }

@@ -1,0 +1,41 @@
+@use '../../globals' as g;
+@use '../../util' as u;
+
+.nav{
+  // background-color: #be2a2a;
+  font-family: u.$font;
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  
+  &__list{
+    width: inherit;
+    @include g.mix-flex-aligment(space-evenly);
+    
+    &__item{
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px;
+
+      &::after{
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 4px 2px #0002;
+        bottom: 3px;
+        left: 0;
+      }
+      &:hover::after{
+        content: "";
+        animation-name: underlineOnce; 
+        animation-duration: .3s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+        animation-iteration-count: unset;
+      }
+    }
+  }
+}

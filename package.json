@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx concurrently \"npx live-server\" \"npx sass --watch src/sass:src/css\"",
+    "dev": "npx concurrently \"npx live-server\" \"npx sass --watch src/sass:src/css --style compressed\"",
     "start": "npx live-server",
     "build": "npx sass src/sass:src/css"
   },
@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
-    "live-server": "^1.2.2",
-    "nodemon": "^2.0.21"
+    "live-server": "^1.2.2"
   }
 }

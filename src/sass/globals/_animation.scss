@@ -1,0 +1,127 @@
+/*modal-----------------------*/
+@keyframes openModal {
+  from{
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  to{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+@keyframes closeModal {
+  from{
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  to{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+.open_an, .close_an{
+  animation-name: openModal;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+.close_an{
+  animation-name: closeModal;
+  animation-direction: reverse;
+}
+
+/*items modal-----------------*/
+.coldDown_an {
+  animation-name: coldDown;
+  animation-duration: .5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  /* animation-delay: .2s; */
+}
+@keyframes coldDown {
+  from{
+    opacity: 0;
+    transform: translateY(-10px) scale(1.2);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes shake {
+    
+  0% { transform: translate(0, 0); transform: scale(.8); }
+  10%, 90% { transform: translate(-5px, 0); }
+  20%, 80% { transform: translate(5px, 0); }
+  30%, 50%, 70% { transform: translate(-5px, 0); }
+  40%, 60% { transform: translate(5px, 0); }
+  100% { transform: translate(0, 0); }
+}
+.shake-an{
+  animation-name: shake;
+  animation-duration: .7s;
+}
+.bounce-a-in, .bounce-a-out {
+  animation-name: bounce_in;
+  animation-timing-function: cubic-bezier(.8, .5, .2, 1.4);
+  animation-duration: .4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounce_in {
+  from {
+    visibility: hidden;
+    transform: scale(.1) translateY(-100px);
+  }
+    
+  to {
+    visibility: visible;
+    transform: scale(1) translateY(0);
+  }
+}
+.bounce-a-out {
+  animation-name: bounce_out;
+  animation-direction: reverse;
+}
+
+@keyframes bounce_out {
+  from {
+    visibility: hidden;
+    transform: scale(.1) translateY(-100px);
+  }
+  to {
+    visibility: visible;
+    transform: scale(1) translateY(0);
+  }
+} 
+.underline-an-alternate{
+  animation-name: underlineAltern; 
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+// .footer__list__item:last-child:hover::after{
+//   animation-name: underlineOnce; 
+//   animation-duration: .3s;
+//   animation-timing-function: ease-out;
+//   animation-fill-mode: forwards;
+//   animation-iteration-count: unset;
+
+// } 
+@keyframes underlineAltern {
+  0%{
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  50%{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100%{
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+@keyframes underlineOnce {
+  0%{
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  100%{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}

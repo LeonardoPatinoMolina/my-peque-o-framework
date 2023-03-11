@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx concurrently \"npx live-server\" \"npx sass --watch src/sass:src/css --style compressed\"",
     "start": "npx live-server",
-    "build": "npx sass src/sass:src/css"
+    "build": "npx sass src/sass:src/css --style compressed"
   },
   "keywords": [],
   "author": "",

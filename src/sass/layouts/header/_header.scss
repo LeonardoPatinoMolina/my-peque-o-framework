@@ -1,9 +1,9 @@
 @use '../../util' as u;
 @use '../../globals' as g;
 
-.navbar{
+.header{
   width: 100%;
-  min-height: 20vh;
+  height: 180px;
   margin:0;
   padding: 10px;
   box-sizing: border-box;
@@ -11,6 +11,7 @@
   flex-wrap: wrap;
   background: linear-gradient(180deg, black, transparent);
   border-radius: 3px solid #fff;
+  position: relative;
   
   &__title{
     font-size: min(1.7rem, 10vw);

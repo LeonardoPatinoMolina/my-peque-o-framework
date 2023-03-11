@@ -1,5 +1,5 @@
-import {$} from '../../../lib/utils.js'
-import { Router } from '../../../pages/router/router.js'
+import {$} from '../../../../lib/utils.js'
+import { Router } from '../../../../pages/router/router.js'
 
 export const navbarRules = ()=>{
 
@@ -12,5 +12,5 @@ export const navbarRules = ()=>{
   linkBtnMovies.addEventListener('click',()=>{
     Router.jumpToTree('movies')
   })
-
+  
 };

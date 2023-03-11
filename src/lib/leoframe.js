@@ -153,14 +153,20 @@ export class Pagination {
   jumpToTree(treeName){
     if(this.currentPage.name === treeName) return;
     const newPage = this.pages.filter(page=>page.name === treeName)[0];
+    $('#placeholder').classList.add('flex-align')
     this.currentPage.remove()
-    newPage.render();
+    newPage.render().then(()=>{
+      $('#placeholder').classList.remove('flex-align')
+    });
     this.currentPage = newPage;
   }
   comeHome(){
     if(this.currentPage.name === 'home') return;
+    $('#placeholder').classList.add('flex-align')
     this.currentPage.remove();
-    this.home.render();
+    this.home.render().then(()=>{
+      $('#placeholder').classList.remove('flex-align')
+    });
     this.currentPage = this.home;
   }
 }

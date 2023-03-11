@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx concurrently \"npx live-server\" \"npx sass --watch src/sass:src/css --style compressed\"",
+    "dev": "npx sass --watch src/sass:src/css --style compressed",
     "start": "npx live-server",
     "build": "npx sass src/sass:src/css --style compressed"
   },
@@ -13,9 +13,5 @@
   "license": "ISC",
   "dependencies": {
     "sass": "^1.58.3"
-  },
-  "devDependencies": {
-    "concurrently": "^7.6.0",
-    "live-server": "^1.2.2"
   }
 }

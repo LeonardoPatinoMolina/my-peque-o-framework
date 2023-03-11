@@ -1,0 +1,56 @@
+@use '../util/' as u;
+@use '../globals/' as g;
+
+.footer{
+  // background-color: #f00000;
+  background: linear-gradient(0deg,black, transparent);
+  height: u.f-pixel2em(90);
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 1rem;
+  @include g.mix-flex-aligment(none);
+  &__list{
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    @include g.mix-flex-aligment(space-evenly);
+    &__item{
+      & a {
+        color: #fff;
+      }
+      font-family: u.$font;
+      font-size: min(1rem, 4vw);
+      width: fit-content;
+      @include g.mix-flex-aligment(center);
+      padding: 4px;
+      margin: 0 1rem 0 1rem;
+      position: relative;
+
+      &:last-child:after{
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 4px 2px #0002;
+        bottom: 0;
+        left: 0;
+      }
+      &:last-child:hover:after{
+        content: "";
+        animation-name: underlineOnce;
+        animation-duration: .3s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+        animation-iteration-count: unset;
+      }
+      
+    }
+  }//end list
+
+  
+}// end appfooter

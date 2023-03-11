@@ -2,12 +2,13 @@
 @use '../../util' as u;
 
 .nav{
-  // background-color: #be2a2a;
+  height: 80px;
+  position: relative;
   font-family: u.$font;
   width: 100%;
   border-radius: 10px;
   display: flex;
-  
+
   &__list{
     width: inherit;
     @include g.mix-flex-aligment(space-evenly);

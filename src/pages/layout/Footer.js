@@ -7,7 +7,7 @@ export const Footer = new TreeLayoutComponent({
   children: [
     new Component({
       name: "footer",
-      path: "/src/components/footer/",
+      path: "/src/components/layout/footer/",
       rootNumber: false,
     }).build({ parent: false }),
 

@@ -97,15 +97,12 @@
   animation-iteration-count: infinite;
   animation-direction: alternate;
   animation-fill-mode: forwards;
+  //   animation-name: underlineOnce;
+  //   animation-duration: .3s;
+  //   animation-timing-function: ease-out;
+  //   animation-fill-mode: forwards;
+  //   animation-iteration-count: unset;
 }
-// .footer__list__item:last-child:hover::after{
-//   animation-name: underlineOnce; 
-//   animation-duration: .3s;
-//   animation-timing-function: ease-out;
-//   animation-fill-mode: forwards;
-//   animation-iteration-count: unset;
-
-// } 
 @keyframes underlineAltern {
   0%{
     clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
@@ -124,4 +121,32 @@
   100%{
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
+}
+
+@keyframes transPage2right {
+  0%{
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    // clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  25%{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  50%{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    // clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  75%{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100%{
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+}
+
+.transitionpage-an{
+  animation-name: transPage2right; 
+  animation-duration: 1.2s;
+  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation-fill-mode: forwards;
+  animation-iteration-count: unset;
 }

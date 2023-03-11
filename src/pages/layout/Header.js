@@ -4,20 +4,20 @@ export const Header = new TreeLayoutComponent({
   name: 'header',
   children: [
     new Component({
-      name: "navbar",
-      path: "/src/components/navbar/",
+      name: "header",
+      path: "/src/components/layout/header/",
       rootNumber: false,
     }).build({
       parent: false,
       childBuilder: (parent) => {
         new Component({
-          name: "input_search",
-          path: "/src/components/navbar/",
+          name: "search",
+          path: "/src/components/layout/header/",
           rootNumber: 1,
         }).build({ parent });
         new Component({
           name: "nav",
-          path: "/src/components/navbar/",
+          path: "/src/components/layout/header/",
           rootNumber: 2,
         }).build({ parent });
       },

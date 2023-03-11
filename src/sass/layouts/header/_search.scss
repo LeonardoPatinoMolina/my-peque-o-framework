@@ -1,11 +1,13 @@
 @use '../../globals' as g;
 @use '../../util' as u;
 
+
 .search{
+  $padre: &;
   min-height: 50px;
   padding: 0;
   width: min(40%, 250px);
-  background-color: #555;
+  background-color: #645e5f;
   border-radius: 16px;
   box-sizing: border-box;
   @include g.mix-flex-aligment(center);
@@ -15,6 +17,7 @@
   box-shadow: 0 0 12px 2px #0003;
   
   &__input_text{
+    background: #353333;
     height: 50px;
     width: 100%;
     border-radius: 15px 0 0 15px;
@@ -23,12 +26,14 @@
     display: flex;
     font-size: 1.1rem;
     padding-left: 1rem;
+    color: #ffc4c4;
     
     &:focus{
-      outline: unset;
+      outline: 1px solid #b81546;
     }
     
     &::placeholder{
+      color: #0007;
       font-size: inherit;
     }
   }
@@ -39,3 +44,17 @@
     @include g.mix-flex-aligment(center);
   }
 }
+
+// sass/
+// │   ├── base/
+// │   │   ├── _base.sass
+// │   │   ├── _variables.sass
+// │   │   └── _mixins.sass
+// │   ├── components/
+// │   │   ├── _cards.sass
+// │   │   ├── _headers.sass
+// │   │   ├── _search.sass
+// │   │   └── _slides.sass
+// │   ├── layouts/
+// │   │   ├── _footer.sass
+// │   │   └── _section.sass

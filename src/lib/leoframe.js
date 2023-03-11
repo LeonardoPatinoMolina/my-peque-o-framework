@@ -73,7 +73,6 @@ export class Component {
 
 export class TreeComponent {
   componentsNodes = [];
-  nodes = [];
   root = new DocumentFragment();
   name;
   /**

@@ -80,10 +80,9 @@ export class Component {
 //sintaxis en typescript con fines descriptivos
 //la sintaxis originas está escrita en javascript 
 class TreeComponent {
-  componentsNodes: HTMLElement[] = [];
-  private nodes: Component[] = [];
-  private root: DocumentFragment = new DocumentFragment();
   public readonly name: string;
+  private componentsNodes: Component[] = [];
+  private root: DocumentFragment = new DocumentFragment();
   constructor({
     name, 
     children}:{
@@ -103,6 +102,17 @@ class TreeComponent {
 }
 ~~~
   Esta clase tiene como finalidad establecer una raiz a cada componente, es decir, es la clase que ensambla cada arbol de componentes, igualmente es responsable de renderizar el arbol en el DOM.
+  #### <u>estructura</u>
+  ``name:`` nombre de árbol de componentes, este nombre es relevante ya que la paginación lo utiliza como referencia.
+  
+  ``componentsNodes:`` componentes nodo del arbol, hace referencia a la estructura compleja de componentes que representan el árbol.
+
+  ``root:`` raíz del árbol, hace referencia a la estructura final del árbol, este atributo es de suma importancia ya que en él está toda la estrutura que será inyectada en el DOM.
+
+  ``render():`` método encardado de renderizar todo el árbol, este método es delicado porque es el encardado de ejecutar todas las operaciones asíncronas del arbol, esto incluye los métodos _create()_ de cada componente en sus nodos, este método establece el orden en el que se renderiza toda la vista basado por supuesto en la estructura compleja que se fue estableciendo en la composición.
+
+  ``assemble(), recurseAssemble():`` estos métodos trabajan en conjunto, y se encargan de complementar el renderizado de la vista que inicia el método _render()_. _assemble()_ se encarga de anidar cada componente hijo en su padre respetando todas las reglas mencionadas hasta ahora, debido a que la estructura anidada requiere de iteraciones cada véz más especificas, abtraemos el proceso con _recurseAssemble()_.
+
 #### __TreeLayoutComponent__
 ~~~typescript
 //sintaxis en typescript con fines descriptivos
@@ -113,6 +123,9 @@ class TreeLayoutComponent extends TreeComponent {
 }
 ~~~
   Esta clase tiene exactamente las mismas funcionalidades que __TreeComponent__, de hecho es una su clase hija, pero tiene como diferencia que a la hora de renderizarse lo hace según la estructura preestablecida en el DOM, es por esta razón que sobreescribimos el método assemble.
+  #### <u>estructura</u>
+  La estructura es exactamente la misma que su clase padre con una diferencia. Los arboles de componentes comunes se ensamblan en la raiz principal, pero este arbol pertene a la estructura Layout, por ello se encambla en una raíz especifica, el meétodo responsble de ensamblar el árbol en su raíz es _assemble()_, por ello, basta con sobre escribir este método apuntando ahora a la raiz layout.
+
 #### __Pagination__
 ~~~typescript
 //sintaxis en typescript con fines descriptivos
@@ -133,9 +146,21 @@ class Pagination {
 }
 ~~~
 Esta clase es encargada de manipular el contenido de la etiqueta raiz de los TreeConponent. Ya que se trata del contenido principal de la página, le atribuje a esta clase el decoroso nombre de __paginación__ y su implementación se asemeja a un sistema de enrutamiento, pero por supuesta para nada sofisticado.
-### __Sintaxis__
-La sintaxis que diseñé para maquetar el árbol de componentes está inspirada en los arboles de Widgets de flutter, aquí un pequeño ejemplo de un arbol de componentes en mi framework:
+  #### <u>estructura</u>
+``currentPage:`` hace referenci aal árbol de componentes que está renderizado.
 
+``home:`` árbol de componentes predetermiado como renderizado inicial.
+
+``pages:`` arboles de componentes dispuestos a participar de la paginación, es decir, su renderización está a manos de esta clase.
+  
+``jumpToTree():`` método encargado de cambiar el arbol renderizado por otro que se le especifique.
+
+``comeHome():`` método encargado de renderizar siempre el árbol de componentes predeterminado como inicial.
+
+### __Sintaxis__
+La sintaxis que diseñé para maquetar el árbol de componentes está inspirada en los arboles de Widgets de flutter, aquí un pequeño ejemplo de un arbol de componentes en mi pequeño framework:
+
+ <u>Layout</u>
 ~~~javascript
 import { Component, TreeComponent } from "my_framework";
 
@@ -163,4 +188,14 @@ export const Header = new TreeLayoutComponent({
     }),
   ],
 });
+~~~
+ <u>paginación</u>
+~~~javascript
+export const Router = new Pagination({
+  home: Home,
+  pages: [
+    Home,
+    Movies
+  ]
+})
 ~~~

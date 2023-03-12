@@ -1,21 +1,14 @@
 "use strict";
-import { Home } from "./pages/home.page.js";
-import { Header } from "./pages/layout/Header.js"
-import { Footer } from "./pages/layout/Footer.js"
-import { componentsRules } from "./components/componentsRules.js";
-
+import { Header } from "./pages/layout/header/Header.js";
+import { Footer } from "./pages/layout/Footer.js";
+import { Router } from "./pages/router.js";
 
 //layout
-const App = async ()=>{
-  
-  await Header.render()
-  await Footer.render()
+const App = async () => {
+  await Header.render();
+  await Footer.render();
 
-  await Home.render()
-}
+  await Router.init();
+};
 
-
-
-App().then(()=>{
-  componentsRules();
-})
+App();

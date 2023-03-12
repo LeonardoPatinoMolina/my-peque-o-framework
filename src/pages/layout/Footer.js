@@ -1,15 +1,13 @@
-      
 import { Component, TreeLayoutComponent } from "../../lib/leoframe.js";
 
 export const Footer = new TreeLayoutComponent({
   name: 'footer',
-  treeType: 'footer',
   children: [
     new Component({
+      props: {year: 2023},
       name: "footer",
-      path: "/src/components/layout/footer/",
+      templatePath: 'components/layout/footer/',
       rootNumber: false,
     }).build({ parent: false }),
-
   ],
 });

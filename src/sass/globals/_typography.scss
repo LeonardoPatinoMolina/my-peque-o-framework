@@ -1,8 +1,9 @@
 @use '../util' as u;
+@use './variables' as v;
 
 h1 {
   font-size: 3.2em;
-  font-family: u.$primaryFont;
+  font-family: v.$primaryFont;
   margin: 0;
 }
 
@@ -22,8 +23,8 @@ h2{
 
 p {
   margin-top: 0;
-  font-size: u.f-pixel2rem(16);
-  font-family: u.$font;
+  // font-size: u.f-pixel2rem(16);
+  font-family: v.$font;
 }
 ul{
   list-style-type: none;

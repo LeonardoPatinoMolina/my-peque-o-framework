@@ -5,19 +5,21 @@ import { $ } from "./utils.js";
  * Clase de declaración de componente
  */
 export class Component {
-  path;
   name;
   children = [];
   body;
   rootNumber;
+  templatePath;
+  props;
 
   /**
-   * @param {name: string, path: string, rootNumber: number | boolean} args
+   * @param {name: string, rootNumber: number | boolean, props: {[string]:any}[], templatePath: string} args
    */
-  constructor({ name, path, rootNumber }) {
+  constructor({ name, rootNumber, props, templatePath }) {
     this.name = name;
-    this.path = path;
     this.rootNumber = rootNumber;
+    this.props = props;
+    this.templatePath = templatePath;
   }
 
   /**
@@ -38,26 +40,22 @@ export class Component {
   };
 
   create = async () => {
-    return new Promise((resolve, reject) => {
-      const reader = new XMLHttpRequest();
-      reader.open("GET", `${this.path}${this.name}.html`, true);
-      reader.send();
-      reader.onreadystatechange = async () => {
-        if (reader.readyState === 4 && reader.status === 200) {
-          const componentNode = this.string2html(reader.responseText);
-          this.body = componentNode;
-          if (this.children.length === 0) resolve(componentNode);
-          const childrenPromises = this.children.map((element) =>
-            element.create()
-          );
-          await Promise.all(childrenPromises);
-          resolve(componentNode);
-        }
-        if (reader.readyState === 4 && reader.status !== 200) {
-          reject(`incorrecto - ${this.name}`);
-        }
-      };
-    });
+    const moduleTemplate = await import(`../${this.templatePath}${this.name}.template.js`)
+    let textComponent = moduleTemplate.template;
+    if(this.props){
+      for (const [key, value] of Object.entries(this.props)){
+        const regex = new RegExp(`{${key}}`, "g");
+        textComponent = textComponent.replace(regex,`${value}`)
+      }//end for
+    }
+    const componentNode = this.string2html(textComponent);
+    this.body = componentNode;
+    if (this.children.length > 0){
+      const childrenPromises = this.children.map(async (element) =>
+        element.create()
+      );
+      const responsePromise = await Promise.all(childrenPromises);
+    }
   };
   /**
    * Transforma un texto plano en nodos html
@@ -75,14 +73,15 @@ export class TreeComponent {
   componentsNodes = [];
   root = new DocumentFragment();
   name;
+  rulesScript;
   /**
    *
-   * @param {{name: string, children: HTMLElement[], treeType: string}} param0
+   * @param {{name: string, children: HTMLElement[], rulesScript: HTMLElement}} param0
    */
-  constructor({name, children, treeType }) {
+  constructor({name, children, rulesScript }) {
     this.name = name;
     this.componentsNodes.push(...children);
-    this.treeType = treeType;
+    this.rulesScript = rulesScript;
   }
 
   render = async () => {
@@ -91,6 +90,9 @@ export class TreeComponent {
     );
     const childrenNodes = await Promise.all(createdComp);
     this.assemble();
+    if(this.rulesScript) {
+      document.head.appendChild(this.rulesScript);
+    };
   };
 
   assemble() {
@@ -127,6 +129,7 @@ export class TreeComponent {
   }
 
   remove(){
+    if(this.rulesScript) document.head.removeChild(this.rulesScript);
     $('#root').innerHTML = ""
   }
 }
@@ -135,39 +138,56 @@ export class TreeComponent {
 export class Pagination {
   currentPage;
   home;
-  pages = [];
+  pages;
 
   /**
    * 
-   * @param {{home: TreeComponent, pages: TreeComponent[]}} param0 
+   * @param {{home: string, pages: string[]}} param0 
    */
   constructor({home, pages}){
-    this.pages = [home, ...pages];
+    this.pages = pages;
     this.home = home;
-    this.currentPage = home;
   }
   /**
-   * 
+   * Encargada de renderizar el arbol que se le indique siempre
+   * y cuando se ncuentre en paginacion
    * @param {string} treeName 
+   * @returns {Promise<void>}
    */
-  jumpToTree(treeName){
+  async jumpToTree(treeName){
     if(this.currentPage.name === treeName) return;
-    const newPage = this.pages.filter(page=>page.name === treeName)[0];
+    const nextTree = await import(`../pages/${this.pages[treeName]}`)
+
     $('#placeholder').classList.add('flex-align')
-    this.currentPage.remove()
-    newPage.render().then(()=>{
+    this.currentPage.remove();
+
+    nextTree.default.render().then(()=>{
       $('#placeholder').classList.remove('flex-align')
     });
-    this.currentPage = newPage;
+    this.currentPage = nextTree.default;
   }
-  comeHome(){
+  /**
+   * Encargada de renderizar el componente home
+   * @returns {Promise<void>}
+   */
+  async comeHome(){
     if(this.currentPage.name === 'home') return;
     $('#placeholder').classList.add('flex-align')
     this.currentPage.remove();
-    this.home.render().then(()=>{
-      $('#placeholder').classList.remove('flex-align')
-    });
-    this.currentPage = this.home;
+    const homeTree = await import(`../pages/${this.pages[this.home]}`)
+    await homeTree.default.render();
+    
+    $('#placeholder').classList.remove('flex-align')
+    this.currentPage = homeTree.default;
+  }
+
+  /**
+   * Encargada de renderizar el arbol de componentes establecido como home
+   */
+  async init (){
+    const homeModule = await import(`../pages/${this.pages[this.home]}`)
+    homeModule.default.render();
+    this.currentPage = homeModule.default
   }
 }
 

@@ -1,3 +1,4 @@
+export const template = `
 <div class="search">
   <input
   list="epas" 
@@ -10,3 +11,4 @@
     search
   </span>
 </div>
+`

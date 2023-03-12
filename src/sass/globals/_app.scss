@@ -1,5 +1,6 @@
 @use '../util' as u;
 @use 'mixins' as m;
+@use 'variables' as v;
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -10,6 +11,7 @@
   color: rgba(255, 255, 255, 0.87);
   // background: radial-gradient();
 
+  scroll-behavior: smooth;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -74,4 +76,8 @@ button {
 }
 .none-display{
   display: none;
+}
+.color-primary{
+  text-decoration: underline;
+  outline: 2px solid red;
 }

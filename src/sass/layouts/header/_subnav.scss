@@ -1,0 +1,53 @@
+@use '../../globals' as g;
+@use '../../util' as u;
+
+.subnav{
+  height: 40px;
+  width: 100%;
+  position: absolute;
+  z-index: 12;
+  bottom: -4px;
+  font-family: g.$font;
+  font-size: .9rem;
+  color: #aaa;
+  background: linear-gradient(0, black, transparent,transparent);
+
+  &::after{
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: #ff9393;
+    box-shadow: 0 0 4px 2px #0002;
+    display: flex;
+    bottom: 0;
+    content: "";
+    left: 0;
+  }
+  &__list{
+    width: 100%;
+    @include g.mix-flex-aligment(space-evenly);
+    height: 100%;
+    box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0;
+    
+    
+    &__item{
+      height: 100%;
+      margin: 0;
+      width: 100%;
+      @include g.mix-flex-aligment(center);
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      z-index: 2;
+      &:hover{
+        color: #fff;
+      }
+      &.selected{
+        color: #fff;
+        background-color: #ff9393;
+      }
+    }
+  }
+}

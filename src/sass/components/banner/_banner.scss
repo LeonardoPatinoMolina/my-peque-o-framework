@@ -2,7 +2,7 @@
 @use '../../util' as u;
 
 .banner{
-  min-height: 60vh;
+  min-height: 50vh;
   margin: 0 0 3rem 0;
   padding: 20px;
   box-sizing: border-box;
@@ -11,9 +11,11 @@
   
   &__img{
     filter: drop-shadow(0 0 10px #f00000);
+    width: 60%;
+    height: 60%;
   }
   &__title{
-    font-family: u.$font;
+    font-family: g.$font;
   }
   &__paragraph{
     margin-top: 2rem;

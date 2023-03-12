@@ -4,6 +4,7 @@
 .footer{
   // background-color: #f00000;
   background: linear-gradient(0deg,black, transparent);
+  background: #0006;
   height: u.f-pixel2em(90);
   color: #ffffff;
   width: 100%;
@@ -23,7 +24,7 @@
       & a {
         color: #fff;
       }
-      font-family: u.$font;
+      font-family: g.$font;
       font-size: min(1rem, 4vw);
       width: fit-content;
       @include g.mix-flex-aligment(center);

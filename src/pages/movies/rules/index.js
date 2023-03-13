@@ -3,9 +3,7 @@ import { Router } from "../../router.js";
 import { MoviePropsPage } from "../../../adapter/moviePage.js";
 
   addEventListener("cardclick", ({ detail }) => {
-    console.log(detail.dataset);
     if(detail.dataset.type !== 'movie') return;
-    console.log('movie click');
     let movie;
     if(detail.dataset.filter === 'popular'){
       movie = POPULAR_MOVIES.find(m=>`${m.id}` === `${detail.id}`);
@@ -17,5 +15,6 @@ import { MoviePropsPage } from "../../../adapter/moviePage.js";
       movie = UPCOMING_MOVIES.find(m=>`${m.id}` === `${detail.id}`);
     }
     Router.jumpToTree("movie", new MoviePropsPage(movie).data);
+    window.scrollTo = (0,0);
   });
 

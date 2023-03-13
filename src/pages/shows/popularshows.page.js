@@ -15,8 +15,7 @@ const PopularShows = new TreeComponent({
       name: 'cardwrapper',
       templatePath: 'components/cards/'
     })
-      .build({
-        parent: false,
+      .kinship({
         childBuilder: (parent)=>{
           for (let i = 0; i < 20; i++) {
             new Component({
@@ -29,7 +28,7 @@ const PopularShows = new TreeComponent({
                  type: 'show'
                 }
             })
-              .build({parent});
+              .kinship({parent});
           }//end for
         }
       })

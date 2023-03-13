@@ -8,6 +8,6 @@ export const Footer = new TreeLayoutComponent({
       name: "footer",
       templatePath: 'components/layout/footer/',
       rootNumber: false,
-    }).build({ parent: false }),
+    })
   ],
 });

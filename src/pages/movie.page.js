@@ -7,7 +7,6 @@ const Movie = new TreeComponent({
       name: 'page',
       templatePath: 'components/page/'
     })
-      .build({parent: false}),
   ]
 });
 

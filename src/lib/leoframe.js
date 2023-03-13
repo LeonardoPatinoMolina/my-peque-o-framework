@@ -23,20 +23,22 @@ export class Component {
   }
 
   /**
-   *
+   * Método se encardo de establecer relación de parentesco
+   * con su posible padre o hijos, en caso de tener un componente
+   * sin un padre (a excepción del arbol que lo contiene), este método 
+   * no será requerido
    * @param {{parent: HTMLElement | boolean, childBuilder: (component: Component
    * )=> void}} args
    * @returns {HTMLElement | void}
    */
-  build = ({ parent = false, childBuilder }) => {
+  kinship = ({ parent = false, childBuilder = false }) => {
     if (parent) {
       parent.children.push(this);
-    } else {
-      if (childBuilder) {
-        childBuilder(this);
-      }
-      return this;
     }
+    if (childBuilder) {
+      childBuilder(this);
+    }
+    return this;
   };
 
   create = async (externProps) => {

@@ -14,19 +14,18 @@ export const Header = new TreeLayoutComponent({
       name: "header",
       templatePath: 'components/layout/header/',
       rootNumber: false,
-    }).build({
-      parent: false,
+    }).kinship({
       childBuilder: (parent) => {
         new Component({
           name: "search",
           templatePath: 'components/layout/header/',
           rootNumber: 1,
-        }).build({ parent });
+        }).kinship({ parent });
         new Component({
           name: "nav",
           templatePath: 'components/layout/header/',
           rootNumber: 2,
-        }).build({ parent });
+        }).kinship({ parent });
         new Component({
           name: 'subnav',
           templatePath: 'components/layout/header/',
@@ -38,7 +37,7 @@ export const Header = new TreeLayoutComponent({
             opction3: 'Próximamente',
           },
         })
-          .build({parent});
+          .kinship({parent});
         new Component({
           name: 'subnav',
           templatePath: 'components/layout/header/',
@@ -50,7 +49,7 @@ export const Header = new TreeLayoutComponent({
             opction3: 'Al aire',
           },
         })
-          .build({parent});
+          .kinship({parent});
       },
     }),
   ],

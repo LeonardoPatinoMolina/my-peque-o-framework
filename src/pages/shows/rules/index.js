@@ -3,9 +3,7 @@ import { Router } from "../../router.js";
 import { ShowPropsPage } from "../../../adapter/showPage.js";
 
   addEventListener("cardclick", ({ detail }) => {
-    console.log(detail);
     if(detail.dataset.type !== 'show') return;
-    console.log('show click');
     let show;
     if(detail.dataset.filter === 'popular'){
       show = POPULAR_TV.find(m=>`${m.id}` === `${detail.id}`);
@@ -14,10 +12,9 @@ import { ShowPropsPage } from "../../../adapter/showPage.js";
       show = TOP_RATED_TV.find(m=>`${m.id}` === `${detail.id}`);
     }
     else if(detail.dataset.filter === 'onair'){
-      console.log('aja');
       show = ON_AIR_TV.find(m=>`${m.id}` === `${detail.id}`);
     }
-    console.log(show);
     Router.jumpToTree("show", new ShowPropsPage(show).data);
+    window.scrollTo(0,0);
   });
 

@@ -1,0 +1,78 @@
+@use '../../globals/' as g;
+
+.page{
+  margin-top: 1rem;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+
+
+&__img{
+  width: 70%;
+  height: auto;
+}
+
+  &__watch{
+    @include g.mix-flex-aligment(center);
+    width: 90%;
+    height: 150px;
+    background-color: #0009;
+    position: relative;
+    &::before{
+      height: fit-content;
+      width: fit-content;
+      background-color: blue;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+    &:focus::before{
+      background-color: g.$primaryColor;
+      content: "solo ilustrativo :)";
+      border-radius: 0 0 6px 0;
+      padding: .2rem;
+      font-weight: bold;
+      font-family: g.$font;
+    }
+
+    &__img{
+      width: 40%;
+      height: 40%;
+    }
+  }
+
+  &__description{
+    width: 90%;
+    text-align: center;
+  }
+  &__aside{
+    width: 100%;
+    @include g.mix-flex-aligment(center);
+    flex-direction: column;
+
+    &__subtitle{  
+      color: #888;
+    }
+
+    &__img{
+      user-select: none;
+      width: 80%;
+      height: auto;
+    }
+
+    &__info{
+      background-color: #0006;
+      @include g.mix-flex-aligment(space-evenly);
+      margin-top: 1rem;
+
+      &__text{
+        margin: 0;
+        padding: 1rem;
+        max-width: 150px;
+        text-align: center;
+      }
+      
+    }
+  }
+}

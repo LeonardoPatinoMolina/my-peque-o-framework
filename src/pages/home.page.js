@@ -7,7 +7,6 @@ const Home = new TreeComponent({
       name: 'banner',
       templatePath: 'components/banner/'
     })
-      .build({parent: false}),
   ]
 });
 

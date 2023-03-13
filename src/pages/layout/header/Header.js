@@ -32,12 +32,25 @@ export const Header = new TreeLayoutComponent({
           templatePath: 'components/layout/header/',
           rootNumber: 3,
           props: {
+            className: "subnav_movies",
             opction1: 'Popular',
             opction2: 'Mejores',
             opction3: 'Próximamente',
           },
         })
-          .build({parent})
+          .build({parent});
+        new Component({
+          name: 'subnav',
+          templatePath: 'components/layout/header/',
+          rootNumber: 4,
+          props: {
+            className: "subnav_series",
+            opction1: 'Popular',
+            opction2: 'Mejores',
+            opction3: 'Al aire',
+          },
+        })
+          .build({parent});
       },
     }),
   ],

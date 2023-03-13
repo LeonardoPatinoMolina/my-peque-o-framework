@@ -1,0 +1,18 @@
+@use '../../util' as u;
+
+.cardwrapper{
+  display: grid;
+  gap: .7rem;
+  padding: .7rem;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  // @include u.breakpoint("large"){
+  //   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  // }
+  grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+  box-sizing: border-box;
+  justify-content: center;
+}
+  
+// const epa = "<div class="movie__description_wrapper">
+// <p class="movie__description" tabindex="-1"><b>Descripction:</b> {overview}</p>
+// </div>"

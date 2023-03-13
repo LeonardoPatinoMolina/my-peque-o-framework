@@ -48,7 +48,7 @@ export class Component {
       path:string, 
       rootNumber: number,
       templatePath: string,
-      props: {[string]:any}
+      props?: {[string]:any}
     })
   //método
   public build({
@@ -74,7 +74,7 @@ export class Component {
 
   ``rootNumber:`` hace referencia a su ubicación relativa en su padre. recordando que este framework tiene como enfoque la composición, cada componente puede ser parte de otro, la relación que nace de esta característica es la de _padre_ e _hijo_. Todo componente tiene implícito el rol de hijo, si en dado caso tratamos con un componente que no tiene padre, podemos establecer este atributo en __false__, caso contrario, se debe hacer referencia al lugar del padre donde el componente se acoplará, para ello el padre emplea la __[Raíz relativa](#raiz-relativa)__ que mencionamos anteriormente.
 
-  ``props:`` propiedades iniciales que arantizan la posibilidad de reutilizar el componente, esta es una de las ventajas por las que opté por este tipo de diseño.
+  ``props:`` propiedades iniciales que arantizan la posibilidad de reutilizar el componente, esta es una de las ventajas por las que opté por este tipo de diseño, el componente no está obligado a poseer props, por ello son opcionales. Sin embargo, el componente tambien cuenta con props globales, las cuales provienen del arbol al que pertenece
   
 
 ``create():`` método encargado de crear completamente el componente. Como mencioné anteriormente cada componente está modularizado en su propio archivo HTML, en algún momento esta sintaxis debe ser acoplada a su respectivo árbol. Esta función se encarga de ello, debido a que es una operación asíncrona requiere de una administración especial la cual se realiza desde el árbol en sí
@@ -90,13 +90,16 @@ class TreeComponent {
   private componentsNodes: Component[] = [];
   private root: DocumentFragment = new DocumentFragment();
   private rulesScript: HTMLElement;
+  public readonly globalProps: {[string]:any}
   constructor({
     name, 
     children,
-    rulesScript}:{
+    rulesScript,
+    globalProps}:{
       name: string, 
       children: HTMLElement[],
-      rulesScript: HTMLElement
+      rulesScript: HTMLElement,
+      globalProps?: {[string]:any}
     });
   //método
   public render(): Promise<void>
@@ -108,6 +111,8 @@ class TreeComponent {
     component: Component): void;
   //método
   public remove(): void;
+  //método
+  public setProps(props: {[string]:any}): TreeComponent;
 }
 ~~~
   Esta clase tiene como finalidad establecer una raíz a cada componente, es decir, es la clase que ensambla cada árbol de componentes, igualmente es responsable de renderizar el árbol en el DOM.
@@ -120,11 +125,15 @@ class TreeComponent {
 
   ``rulesScript:`` nodo script que contiene la lógica perteneciente al arbol de componentes, esta es parte del diseño de importación de scripts por demanda, de esta forma la página no conocerá lógica de arboles que no se hayan renderizado.
 
+  ``globalProps:`` se trata de un objeto con props que puede ser inyectado en el árbol al momento de su declaración de forma opcional, la utilidad de este atributo es que será distribuido a travéz de todos sus componentes hijos.
+
   ``render():`` método encardado de renderizar todo el árbol, este método es delicado porque es el encardado de ejecutar todas las operaciones asíncronas del árbol, esto incluye los métodos _create()_ de cada componente en sus nodos, este método establece el orden en el que se renderiza toda la vista, basado por supuesto en la estructura compleja que se fue estableciendo en la composición.
 
   ``assemble(), recurseAssemble():`` estos métodos trabajan en conjunto, y se encargan de complementar el renderizado de la vista que inicia el método _render()_. _assemble()_ se encarga de anidar cada componente hijo en su padre respetando todas las reglas mencionadas hasta ahora, debido a que la estructura anidada requiere de iteraciones cada vez más específicas, abstraemos el proceso con _recurseAssemble()_.
 
-  ``remove():`` método encargado de remover el arbol de componentes del DOM, esto incluye el script de lógica.y
+  ``remove():`` método encargado de remover el arbol de componentes del DOM, esto incluye el script de lógica.
+
+  ``setProps():`` método que permite establecer las props globales en el arbol, esto con el propósito de poder inyectar props al momento de renderizar el arbol.
 
 #### __TreeLayoutComponent__
 ~~~typescript

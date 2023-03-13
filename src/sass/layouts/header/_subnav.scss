@@ -1,14 +1,14 @@
 @use '../../globals' as g;
 @use '../../util' as u;
 
-.subnav{
+.subnav_movies, .subnav_series{
   height: 40px;
   width: 100%;
   position: absolute;
   z-index: 12;
   bottom: -4px;
   font-family: g.$font;
-  font-size: .9rem;
+  font-size: .8rem;
   color: #aaa;
   background: linear-gradient(0, black, transparent,transparent);
 

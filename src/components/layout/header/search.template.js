@@ -1,14 +1,15 @@
-export const template = `
-<div class="search">
+export const searchTemplate = `
+<div class="search" id="100088">
   <input
-  list="epas" 
   placeholder="search" 
   class="search__input_text"
-  type="search" 
+  type="text" 
   autocomplete="off"
   >
   <span id="btn" class="search__logo material-symbols-rounded">
     search
   </span>
 </div>
-`
+`;
+
+export default searchTemplate;

@@ -1,27 +1,29 @@
 /*modal-----------------------*/
 @keyframes openModal {
-  from{
+  from {
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
   }
-  to{
+  to {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 @keyframes closeModal {
-  from{
+  from {
     clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
   }
-  to{
+  to {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
-.open_an, .close_an{
+.open_an,
+.close_an {
   animation-name: openModal;
-  animation-duration: .3s;
+  animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
 }
-.close_an{
+.close_an {
+  animation-duration: 0.3s;
   animation-name: closeModal;
   animation-direction: reverse;
 }
@@ -29,47 +31,65 @@
 /*items modal-----------------*/
 .coldDown_an {
   animation-name: coldDown;
-  animation-duration: .5s;
+  animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   /* animation-delay: .2s; */
 }
 @keyframes coldDown {
-  from{
+  from {
     opacity: 0;
     transform: translateY(-10px) scale(1.2);
   }
-  to{
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 @keyframes shake {
-    
-  0% { transform: translate(0, 0); transform: scale(.8); }
-  10%, 90% { transform: translate(-5px, 0); }
-  20%, 80% { transform: translate(5px, 0); }
-  30%, 50%, 70% { transform: translate(-5px, 0); }
-  40%, 60% { transform: translate(5px, 0); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+    transform: scale(0.8);
+  }
+  10%,
+  90% {
+    transform: translate(-5px, 0);
+  }
+  20%,
+  80% {
+    transform: translate(5px, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate(-5px, 0);
+  }
+  40%,
+  60% {
+    transform: translate(5px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
-.shake-an{
+.shake-an {
   animation-name: shake;
-  animation-duration: .7s;
+  animation-duration: 0.7s;
 }
-.bounce-a-in, .bounce-a-out {
+.bounce-a-in,
+.bounce-a-out {
   animation-name: bounce_in;
-  animation-timing-function: cubic-bezier(.8, .5, .2, 1.4);
-  animation-duration: .4s;
+  animation-timing-function: cubic-bezier(0.8, 0.5, 0.2, 1.4);
+  animation-duration: 0.4s;
   animation-fill-mode: forwards;
 }
 
 @keyframes bounce_in {
   from {
     visibility: hidden;
-    transform: scale(.1) translateY(-100px);
+    transform: scale(0.1) translateY(-100px);
   }
-    
+
   to {
     visibility: visible;
     transform: scale(1) translateY(0);
@@ -83,15 +103,15 @@
 @keyframes bounce_out {
   from {
     visibility: hidden;
-    transform: scale(.1) translateY(-100px);
+    transform: scale(0.1) translateY(-100px);
   }
   to {
     visibility: visible;
     transform: scale(1) translateY(0);
   }
-} 
-.underline-an-alternate{
-  animation-name: underlineAltern; 
+}
+.underline-an-alternate {
+  animation-name: underlineAltern;
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
@@ -104,49 +124,38 @@
   //   animation-iteration-count: unset;
 }
 @keyframes underlineAltern {
-  0%{
+  0% {
     clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   }
-  50%{
+  50% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
-  100%{
+  100% {
     clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
   }
 }
 @keyframes underlineOnce {
-  0%{
+  0% {
     clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   }
-  100%{
+  100% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
-@keyframes transPage2right {
-  0%{
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-    // clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+@keyframes loading {
+  from {
+    background-color: #fff2;
   }
-  25%{
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-  50%{
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    // clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-  75%{
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-  100%{
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  to {
+    background-color: #fff5;
   }
 }
 
-.transitionpage-an{
-  animation-name: transPage2right; 
-  animation-duration: 1.2s;
-  animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-  animation-fill-mode: forwards;
-  animation-iteration-count: unset;
+.loading-an {
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }

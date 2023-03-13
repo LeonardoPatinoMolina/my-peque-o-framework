@@ -6,9 +6,10 @@ function buildRoot(){
   return root
 }
 
-export const template = `
-<section class="movies">
+const movieTemplate = `
+<section class="cardwrapper">
   ${buildRoot()}
 </section>
 `;
 
+export default movieTemplate;

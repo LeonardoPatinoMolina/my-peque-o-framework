@@ -1,14 +1,14 @@
-import { MoviesProps } from "../../adapter/movies.js";
+import { ShowsProps } from "../../adapter/shows.js";
 import { Component, TreeComponent } from "../../lib/leoframe.js";
-import { POPULAR_MOVIES } from "../../lib/movies_data.js";
+import { POPULAR_TV } from "../../lib/tv_data.js";
 
 const rulesScript = document.createElement('script');
-rulesScript.src = 'src/pages/movies/rules/index.js';
+rulesScript.src = 'src/pages/shows/rules/index.js';
 rulesScript.type = 'module';
 rulesScript.defer = true;
 
-const PopularMovies = new TreeComponent({
-  name: 'popularmovies',
+const PopularShows = new TreeComponent({
+  name: 'popularshows',
   rulesScript,
   children: [
     new Component({
@@ -24,10 +24,10 @@ const PopularMovies = new TreeComponent({
               templatePath: 'components/cards/',
               rootNumber: i + 1,
               props: {
-                ...new MoviesProps(POPULAR_MOVIES[i]).data, 
-                filter: 'popular',
-                type: 'movie'
-              }
+                ...new ShowsProps(POPULAR_TV[i]).data,
+                 filter: 'popular',
+                 type: 'show'
+                }
             })
               .build({parent});
           }//end for
@@ -36,4 +36,4 @@ const PopularMovies = new TreeComponent({
   ]
 });
 
-export default PopularMovies;
+export default PopularShows;

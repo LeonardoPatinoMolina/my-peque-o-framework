@@ -11,8 +11,8 @@
   
   &__img{
     filter: drop-shadow(0 0 10px #f00000);
-    width: 60%;
-    height: 60%;
+    width: 30%;
+    height: 30%;
   }
   &__title{
     font-family: g.$font;
@@ -20,7 +20,16 @@
   &__paragraph{
     margin-top: 2rem;
     text-align: center;
-    font-size: 1rem;
+    font-size: .9rem;
     box-sizing: border-box;
+
+    & > em{
+      color: g.$primaryColor;
+      font-weight: 900;
+    }
+    & > span{
+      color: #ff7300;
+      font-weight: 900;
+    }
   }
 }

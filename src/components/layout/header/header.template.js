@@ -1,8 +1,16 @@
-export const template = `
+function setRoots(){
+  let root = `<div class="root1"></div>`;
+  for(let i=1; i < 5; i++ ){
+    root += `<div class="root${i}"></div>`;
+  }
+  return root;
+}
+
+const headerTemplate = `
 <header class="header">
   <h1 class="header__title">{title}</h1>
-  <div class="root1"></div>
-  <div class="root2"></div>
-  <div class="root3"></div>
+  ${setRoots()}
 </header>
 `;
+
+export default headerTemplate;

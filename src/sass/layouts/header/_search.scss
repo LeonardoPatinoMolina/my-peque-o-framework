@@ -1,60 +1,43 @@
 @use '../../globals' as g;
 @use '../../util' as u;
 
-
 .search{
-  $padre: &;
   min-height: 50px;
   padding: 0;
   width: min(40%, 250px);
-  background-color: #645e5f;
   border-radius: 16px;
   box-sizing: border-box;
+  box-shadow: 0 0 12px 2px #0003;
   @include g.mix-flex-aligment(center);
   @include u.breakpoint-down('small'){
     width:70%;
   }
-  box-shadow: 0 0 12px 2px #0003;
+  border: 1px solid #fff;
   
   &__input_text{
-    background: #353333;
     height: 50px;
     width: 100%;
     border-radius: 15px 0 0 15px;
     border: none;
+    background-color: transparent;
     margin: 0;
     display: flex;
     font-size: 1.1rem;
     padding-left: 1rem;
     color: #ffc4c4;
     
-    &:focus{
-      outline: 1px solid #b81546;
-    }
-    
     &::placeholder{
-      color: #0007;
+      color: rgba(255, 255, 255, 0.467);
       font-size: inherit;
+    }
+    &:focus{
+      outline: none;
     }
   }
 
   &__logo{
     padding: 10px;
-    color: #0008;
+    color: #fff;
     @include g.mix-flex-aligment(center);
   }
 }
-
-// sass/
-// │   ├── base/
-// │   │   ├── _base.sass
-// │   │   ├── _variables.sass
-// │   │   └── _mixins.sass
-// │   ├── components/
-// │   │   ├── _cards.sass
-// │   │   ├── _headers.sass
-// │   │   ├── _search.sass
-// │   │   └── _slides.sass
-// │   ├── layouts/
-// │   │   ├── _footer.sass
-// │   │   └── _section.sass

@@ -10,5 +10,11 @@ export const Router = new Pagination({
     popularmovies: 'movies/popularmovies.page.js',
     ratedmovies: 'movies/ratedmovies.page.js',
     upcomingmovies: 'movies/upcomingmovies.page.js',
+    popularshows: 'shows/popularshows.page.js',
+    ratedshows: 'shows/ratedshows.page.js',
+    onairshows: 'shows/onairshows.page.js',
+    about: 'about.page.js',
+    show: 'show.page.js',
+    movie: 'movie.page.js',
   }
 });

@@ -1,4 +1,4 @@
-export const template = `
+const navTemplate = `
 <nav class="nav">
   <ul class="nav__list">
     <li data-link="home" tabindex="-1" class="underline-an nav__list__item">Home</li>
@@ -8,3 +8,5 @@ export const template = `
   </ul>
 </nav>
 `;
+
+export default navTemplate;

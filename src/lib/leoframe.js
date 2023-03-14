@@ -42,14 +42,13 @@ export class Component {
   };
 
   create = async (externProps) => {
-    //importamos el script correspondiente
+    //importamos el script correspondiente y lo alamenarmos en una variable
     const moduleTemplate = await import(`../${this.templatePath}${this.name}.template.js`)
     let textComponent = moduleTemplate.default;
-
     /**
      * verificamos si hay props globales o
      * locales y las fucionamos, las reglas del framework 
-     * indican no puedenh aber props con key repetidas en
+     * indican no puedenh haber props con key repetidas en
      * todo el arbol.
      */
     let myProps = false;
@@ -59,13 +58,14 @@ export class Component {
     };
     else if(externProps) myProps = { ...externProps}
     else if(this.props) myProps = { ...this.props }
+
+    //procedemos a inyectar las props
     if(myProps){
       for (const [key, value] of Object.entries(myProps)){
         const regex = new RegExp(`{${key}}`, "g");
         textComponent = textComponent.replace(regex,`${value}`)
       }//end for
     }
-
     //convertimos el template a un nodo del DOM
     const componentNode = this.string2html(textComponent);
     this.body = componentNode;
@@ -81,7 +81,8 @@ export class Component {
       );
       const responsePromise = await Promise.all(childrenPromises);
     }
-  };
+  };//end method
+
   /**
    * Transforma un texto plano en nodos html
    * @param {string} str
@@ -95,18 +96,18 @@ export class Component {
 }
 
 export class TreeComponent {
-  componentsNodes = [];
+  children = [];
   root = new DocumentFragment();
   name;
   rulesScript;
   globalProps;
   /**
    *
-   * @param {{name: string, children: HTMLElement[], rulesScript: HTMLElement, props: {[string]: any}}} param0
+   * @param {{name: string, children: Component[], rulesScript: HTMLElement, props: {[string]: any}}} param0
    */
   constructor({name, children, rulesScript, globalProps = false }) {
     this.name = name;
-    this.componentsNodes.push(...children);
+    this.children = children;
     this.rulesScript = rulesScript;
     this.globalProps = globalProps;
   }
@@ -117,22 +118,25 @@ export class TreeComponent {
   }
 
   render = async () => {
-    const createdComp = this.componentsNodes.map(async (element) =>
+    //cremos tdps los componentes del arbol
+    const createdComp = this.children.map(async (element) =>
       element.create(this.globalProps)
     );
     const childrenNodes = await Promise.all(createdComp);
+    //ensamblamos el fragment 
     this.assemble();
+    //añadimos es script de reglas si existe
     if(this.rulesScript) {
       document.head.appendChild(this.rulesScript);
     };
   };
 
   assemble() {
-    this.componentsNodes.forEach((component) => {
+    this.children.forEach((component) => {
       if (component.children.length === 0) {
         this.root.appendChild(component.body);
       }else{
-        this.recurseAssemble(component.body, component);
+        this.recurseAssemble(component);
       }
 
       if(this.treeType === 'footer' || this.treeType === 'header'){
@@ -144,20 +148,19 @@ export class TreeComponent {
   }
   /**
    *
-   * @param {HTMLElement} parent
    * @param {Component} component
    */
-  recurseAssemble(parent, component) {
+  recurseAssemble(component) {
     for (const child of component.children) {
-      parent.replaceChild(
-        child.body, 
-        parent.querySelector(`.root${child.rootNumber}`)
-      );
+
+      const toReplace = component.body.querySelector(`.root${child.rootNumber}`);
+      toReplace.replaceWith(child.body)
+  
       if (child.children.length > 0){
-        this.recurseAssemble(child.body, child);
+        this.recurseAssemble(child);
       }
     } //end for
-    this.root.appendChild(parent);
+    this.root.appendChild(component.body);
   }
 
   remove(){
@@ -170,7 +173,6 @@ export class Pagination {
   currentPage;
   home;
   pages;
-
   /**
    * 
    * @param {{home: string, pages: string[]}} param0 
@@ -196,10 +198,10 @@ export class Pagination {
       await nextTree.default
         .setProps(props)
         .render()
-      }else{
-        await nextTree.default.render()
-      }
-      $('#placeholder').classList.remove('flex-align')
+    }else{
+      await nextTree.default.render()
+    }
+    $('#placeholder').classList.remove('flex-align')
     this.currentPage = nextTree.default;
   }
   /**
@@ -231,11 +233,11 @@ export class TreeLayoutComponent extends TreeComponent {
   
   //@override method
   assemble() {
-    this.componentsNodes.forEach((component) => {
+    this.children.forEach((component) => {
       if (component.children.length === 0) {
         this.root.appendChild(component.body);
       }else{
-        this.recurseAssemble(component.body, component);
+        this.recurseAssemble(component);
       }
       document.body.replaceChild(this.root, $(`#${this.name}`));
     });

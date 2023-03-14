@@ -18,8 +18,9 @@ export const Header = new TreeLayoutComponent({
       childBuilder: (parent) => {
         new Component({
           name: "search",
-          templatePath: 'components/layout/header/',
+          templatePath: 'components/layout/header/searchmodal/',
           rootNumber: 1,
+          props: {logo: 'search'}
         }).kinship({ parent });
         new Component({
           name: "nav",
@@ -36,8 +37,7 @@ export const Header = new TreeLayoutComponent({
             opction2: 'Mejores',
             opction3: 'Próximamente',
           },
-        })
-          .kinship({parent});
+        }).kinship({parent});
         new Component({
           name: 'subnav',
           templatePath: 'components/layout/header/',
@@ -48,8 +48,22 @@ export const Header = new TreeLayoutComponent({
             opction2: 'Mejores',
             opction3: 'Al aire',
           },
-        })
-          .kinship({parent});
+        }).kinship({parent});
+          new Component({
+            name: 'modal',
+            templatePath: 'components/layout/header/searchmodal/',
+            rootNumber: 5
+        }).kinship({
+          parent,
+          childBuilder: (parent)=>{
+            new Component({
+              name: 'search',
+              templatePath: 'components/layout/header/searchmodal/',
+              props: {logo: 'close'},
+              rootNumber: 1
+            }).kinship({parent});
+          }
+        });
       },
     }),
   ],

@@ -1,6 +1,6 @@
 function setRoots(){
   let root = `<div class="root1"></div>`;
-  for(let i=1; i < 5; i++ ){
+  for(let i=1; i < 6; i++ ){
     root += `<div class="root${i}"></div>`;
   }
   return root;

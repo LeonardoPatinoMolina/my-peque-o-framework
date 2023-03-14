@@ -1,5 +1,5 @@
 export const searchTemplate = `
-<div class="search" id="100088">
+<div class="search">
   <input
   placeholder="search" 
   class="search__input_text"
@@ -7,7 +7,7 @@ export const searchTemplate = `
   autocomplete="off"
   >
   <span id="btn" class="search__logo material-symbols-rounded">
-    search
+    {logo}
   </span>
 </div>
 `;

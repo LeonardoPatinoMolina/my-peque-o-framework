@@ -1,7 +1,7 @@
 import { Pagination } from "../lib/leoframe.js"; 
 
 /**
- * La ruta para declarar pages debe asumir como raiz al diectorio pages
+ * La ruta para declarar pages debe asumir como raiz al diectorio pages/
  */
 export const Router = new Pagination({
   home: 'home',
@@ -16,5 +16,5 @@ export const Router = new Pagination({
     about: 'about.page.js',
     show: 'show.page.js',
     movie: 'movie.page.js',
-  }
+  },
 });

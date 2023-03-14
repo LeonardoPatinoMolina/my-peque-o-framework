@@ -1,17 +1,16 @@
-@use '../../globals' as g;
-@use '../../util' as u;
+@use '../../../globals' as g;
+@use '../../../util' as u;
 
 .search{
   min-height: 50px;
   padding: 0;
-  width: min(40%, 250px);
+  flex: 1;
   border-radius: 16px;
   box-sizing: border-box;
   box-shadow: 0 0 12px 2px #0003;
   @include g.mix-flex-aligment(center);
-  @include u.breakpoint-down('small'){
-    width:70%;
-  }
+  // @include u.breakpoint-down('small'){
+  // }
   border: 1px solid #fff;
   
   &__input_text{
@@ -24,7 +23,7 @@
     display: flex;
     font-size: 1.1rem;
     padding-left: 1rem;
-    color: #ffc4c4;
+    color: #ebebeb;
     
     &::placeholder{
       color: rgba(255, 255, 255, 0.467);

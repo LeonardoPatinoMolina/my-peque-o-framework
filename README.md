@@ -79,7 +79,7 @@ export class Component {
 
 ``create():`` método encargado de crear completamente el componente. Como mencioné anteriormente cada componente está modularizado en su propio archivo HTML, en algún momento esta sintaxis debe ser acoplada a su respectivo árbol. Esta función se encarga de ello, debido a que es una operación asíncrona requiere de una administración especial la cual se realiza desde el árbol en sí
 
-``build():`` método encargado de ensamblar toda la estructura de su composición, si la composición establece un padre o hijo, este método los ubica en su lugar, es gracias a este pequeño método que pude dar orden a las relaciones de composición de mi pequeño framework, de su funcionalidad resulta una estructura compleja de componentes que facilita la jerarquía y cronología a la hora de renderizar el árbol.
+``kinship():``método encargado de generar relaciones de parentesco, es gracias a este pequeño método que pude dar orden a las relaciones de composición de mi pequeño framework, de su funcionalidad resulta una estructura compleja de componentes que facilita la jerarquía y cronología a la hora de renderizar el árbol.
 
 #### __TreeComponent__
 ~~~typescript

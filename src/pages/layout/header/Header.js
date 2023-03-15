@@ -1,70 +1,49 @@
-import { Component, TreeLayoutComponent } from '../../../lib/leoframe.js'
+import { Component, TreeLayoutComponent, VolatileComponent } from "../../../lib/leoframe.js";
 
-const rulesScript = document.createElement('script');
-rulesScript.src = 'src/pages/layout/header/rules/index.js';
-rulesScript.type = 'module';
+const rulesScript = document.createElement("script");
+rulesScript.src = "src/pages/layout/header/rules/index.js";
+rulesScript.type = "module";
 rulesScript.defer = true;
 
 export const Header = new TreeLayoutComponent({
-  name: 'header',
+  name: "header",
   rulesScript,
   children: [
     new Component({
-      props: {title: 'Movies'},
+      props: { title: "Movies" },
       name: "header",
-      templatePath: 'components/layout/header/',
-      rootNumber: false,
-    }).kinship({
-      childBuilder: (parent) => {
+      templatePath: "components/layout/header/",
+      children: [
         new Component({
           name: "search",
-          templatePath: 'components/layout/header/searchmodal/',
-          rootNumber: 1,
-          props: {logo: 'search'}
-        }).kinship({ parent });
+          templatePath: "components/layout/modal/",
+          props: { logo: "search", trigger: "open", disabled: "disabled" },
+        }),
         new Component({
           name: "nav",
-          templatePath: 'components/layout/header/',
-          rootNumber: 2,
-        }).kinship({ parent });
+          templatePath: "components/layout/header/",
+        }),
         new Component({
-          name: 'subnav',
-          templatePath: 'components/layout/header/',
-          rootNumber: 3,
+          name: "subnav",
+          templatePath: "components/layout/header/",
           props: {
             className: "subnav_movies",
-            opction1: 'Popular',
-            opction2: 'Mejores',
-            opction3: 'Próximamente',
+            opction1: "Popular",
+            opction2: "Mejores",
+            opction3: "Próximamente",
           },
-        }).kinship({parent});
+        }),
         new Component({
-          name: 'subnav',
-          templatePath: 'components/layout/header/',
-          rootNumber: 4,
+          name: "subnav",
+          templatePath: "components/layout/header/",
           props: {
             className: "subnav_series",
-            opction1: 'Popular',
-            opction2: 'Mejores',
-            opction3: 'Al aire',
+            opction1: "Popular",
+            opction2: "Mejores",
+            opction3: "Al aire",
           },
-        }).kinship({parent});
-          new Component({
-            name: 'modal',
-            templatePath: 'components/layout/header/searchmodal/',
-            rootNumber: 5
-        }).kinship({
-          parent,
-          childBuilder: (parent)=>{
-            new Component({
-              name: 'search',
-              templatePath: 'components/layout/header/searchmodal/',
-              props: {logo: 'close'},
-              rootNumber: 1
-            }).kinship({parent});
-          }
-        });
-      },
+        }),
+      ],
     }),
   ],
 });

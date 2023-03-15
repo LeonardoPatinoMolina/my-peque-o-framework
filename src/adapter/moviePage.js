@@ -12,16 +12,15 @@ export class MoviePropsPage{
     this.rate = movie.vote_average 
     this.stars = '⭐';
     let gen = '';
-    movie.genre_ids.forEach(g=> {
-      gen += ` ${GENRES_MOVIES[g]}`
+    movie.genres.forEach(g=> {
+      gen += ` ${GENRES_MOVIES[g.id]}`
     })
     this.genres = gen;
 
     this.data = {
       id: this.id,
       title: this.title,
-      date: this.
-      date,
+      date: this.date,
       subtitle: this.subtitle,
       img: this.img,
       description: this.description,

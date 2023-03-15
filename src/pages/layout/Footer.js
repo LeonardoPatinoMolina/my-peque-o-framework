@@ -7,7 +7,6 @@ export const Footer = new TreeLayoutComponent({
       props: {year: 2023},
       name: "footer",
       templatePath: 'components/layout/footer/',
-      rootNumber: false,
     })
   ],
 });

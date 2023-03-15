@@ -12,10 +12,11 @@ export class ShowPropsPage{
     this.rate = show.vote_average 
     this.stars = '⭐';
     let gen = '';
-    show.genre_ids.forEach(g=> {
-      gen += ` ${GENRES_TV[g]}`
+    show.genres.forEach(g=> {
+      gen += ` ${GENRES_TV[g.id]}`
     })
     this.genres = gen;
+    
     this.data = {
       id: this.id,
       title: this.title,

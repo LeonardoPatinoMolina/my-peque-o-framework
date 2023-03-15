@@ -1,26 +1,45 @@
 import { $, $$ } from "../../../../lib/utils.js";
 import { Router } from "../../../router.js";
 
+//titulo principal de encabezado
+const title = $(".header__title");
+//items de barra de navegación principal
+const principlaItemNav = $$(".nav__list__item");
+//items de barra de navegación oara peliculas
 const itemsSubNavMovies = $$(".subnav_movies__list__item");
+//items de barra de navegación oara series
 const itemsSubNavSeries = $$(".subnav_series__list__item");
-const itemsNav = $$(".nav__list__item");
+//trigger de respliegue y repliegue de modal
+const modalTriggers = $$('.btn_modal');
+//contenedor principal de modal
+const modalWrapper = $('.modal_wrapper');
+//contenido de modal
+const modal = $('.modal');
 
+title.addEventListener('click',()=>Router.comeHome());
 /**
  * Listeners de la barra de navegación pricipal,
- * su porpósito es dar rinteractibilidad a la barra,
- * entre algunas de susu funciones, desplegar una barra secundaria
+ * su porpósito es dar interactibilidad a la barra,
+ * entre algunas de sus funciones especificas: desplegar 
+ * la barra secundaria para peliculas y series
  * y gestionar sus opciones
  */
-  itemsNav.forEach((item) => {
+  principlaItemNav.forEach((item) => {
     item.addEventListener("click", () => {
+      
       if (item.dataset.link === "home") Router.comeHome();
+
+      //desplegamos la barra secundaria de peliculas si
       if (item.dataset.link !== "movies") {
         itemsSubNavMovies.forEach(deselect);
         if ($(".subnav_movies").classList.contains("open_an")) {
           $(".subnav_movies").classList.remove("open_an");
           $(".subnav_movies").classList.add("close_an");
         }
+      
+      
       }
+      //desplegamos la barra secundaria de series si
       if (item.dataset.link !== "series") {
         itemsSubNavMovies.forEach(deselect);
         if ($(".subnav_series").classList.contains("open_an")) {
@@ -28,7 +47,8 @@ const itemsNav = $$(".nav__list__item");
           $(".subnav_series").classList.add("close_an");
         }
       }
-      //items principales
+
+      //senencias de control de barras secundarias
       //movies
       if (item.dataset.link === "movies") {
         $(".subnav_movies").classList.toggle("open_an");
@@ -79,9 +99,9 @@ const itemsNav = $$(".nav__list__item");
   });
 
   //regla compartida
-  itemsNav.forEach((item) => {
+  principlaItemNav.forEach((item) => {
     item.addEventListener("click", () => {
-      itemsNav.forEach(deselect);
+      principlaItemNav.forEach(deselect);
       item.classList.add("selected");
     });
   });
@@ -90,3 +110,25 @@ const itemsNav = $$(".nav__list__item");
     item.classList.remove("selected");
   }
 
+  //regla para despliegue de modal
+  modalTriggers.forEach(trigger=>{
+    trigger.addEventListener('click',()=>{
+      if(trigger.dataset.trigger === 'open'){
+        modal.classList.add('coldDown_an')
+        modalWrapper.style.display = 'flex'
+      }
+      if(trigger.dataset.trigger === 'close'){
+        modal.classList.remove('coldDown_an')
+        modalWrapper.style.display = 'none'
+
+      }
+      // if(trigger.dataset.trigger === 'open'){
+      //   modalWrapper.classList.remove('bounce-a-out')
+      //   modalWrapper.classList.add('bounce-a-in')
+      // }
+      // if(trigger.dataset.trigger === 'close'){
+      //   modalWrapper.classList.remove('bounce-a-in')
+      //   modalWrapper.classList.add('bounce-a-out')
+      // }
+    })
+  })

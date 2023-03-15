@@ -4,7 +4,8 @@
   position: fixed;
   width: 100vw;
   @include g.mix-flex-aligment(center);
-  height: 100vh;
+  // display: none;
+  height: 100vh; 
   top: 0;
   left: 0;
   background-color: #0005;

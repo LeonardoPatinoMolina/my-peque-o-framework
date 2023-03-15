@@ -31,21 +31,26 @@
 /*items modal-----------------*/
 .coldDown_an {
   animation-name: coldDown;
-  animation-duration: 0.5s;
+  animation-duration: .4s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   /* animation-delay: .2s; */
 }
+
 @keyframes coldDown {
   from {
+    display: none;
     opacity: 0;
     transform: translateY(-10px) scale(1.2);
   }
   to {
+    display: flex;
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+
 @keyframes shake {
   0% {
     transform: translate(0, 0);
@@ -80,6 +85,7 @@
 .bounce-a-out {
   animation-name: bounce_in;
   animation-timing-function: cubic-bezier(0.8, 0.5, 0.2, 1.4);
+  animation-timing-function: ease-in-out;
   animation-duration: 0.4s;
   animation-fill-mode: forwards;
 }
@@ -87,7 +93,7 @@
 @keyframes bounce_in {
   from {
     visibility: hidden;
-    transform: scale(0.1) translateY(-100px);
+    transform: scale(0.1) translateY(-100vh);
   }
 
   to {
@@ -103,7 +109,7 @@
 @keyframes bounce_out {
   from {
     visibility: hidden;
-    transform: scale(0.1) translateY(-100px);
+    transform: scale(0.1) translateY(-100vh);
   }
   to {
     visibility: visible;

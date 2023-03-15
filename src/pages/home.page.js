@@ -5,7 +5,7 @@ const Home = new TreeComponent({
   children: [
     new Component({
       name: 'banner',
-      templatePath: 'components/banner/'
+      templatePath: 'components/banner/',
     })
   ]
 });

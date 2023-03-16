@@ -1,5 +1,6 @@
 import { $, $$ } from "../../../../lib/utils.js";
 import { Router } from "../../../router.js";
+import { Modal } from "../../modal/Modal.js";
 
 //titulo principal de encabezado
 const title = $(".header__title");
@@ -9,12 +10,9 @@ const principlaItemNav = $$(".nav__list__item");
 const itemsSubNavMovies = $$(".subnav_movies__list__item");
 //items de barra de navegación oara series
 const itemsSubNavSeries = $$(".subnav_series__list__item");
-//trigger de respliegue y repliegue de modal
-const modalTriggers = $$('.btn_modal');
-//contenedor principal de modal
-const modalWrapper = $('.modal_wrapper');
-//contenido de modal
-const modal = $('.modal');
+//trigger de respliegue de modal en header
+const headerModalTriggers = $('.header__boton');
+
 
 title.addEventListener('click',()=>Router.comeHome());
 /**
@@ -111,24 +109,9 @@ title.addEventListener('click',()=>Router.comeHome());
   }
 
   //regla para despliegue de modal
-  modalTriggers.forEach(trigger=>{
-    trigger.addEventListener('click',()=>{
-      if(trigger.dataset.trigger === 'open'){
-        modal.classList.add('coldDown_an')
-        modalWrapper.style.display = 'flex'
-      }
-      if(trigger.dataset.trigger === 'close'){
-        modal.classList.remove('coldDown_an')
-        modalWrapper.style.display = 'none'
-
-      }
-      // if(trigger.dataset.trigger === 'open'){
-      //   modalWrapper.classList.remove('bounce-a-out')
-      //   modalWrapper.classList.add('bounce-a-in')
-      // }
-      // if(trigger.dataset.trigger === 'close'){
-      //   modalWrapper.classList.remove('bounce-a-in')
-      //   modalWrapper.classList.add('bounce-a-out')
-      // }
+  headerModalTriggers.addEventListener('click',()=>{
+    Modal.render().then(()=>{
+      $('.modal').classList.add('coldDown_an');
+      $('.modal_wrapper').style.display = 'flex';
     })
   })

@@ -7,7 +7,7 @@
   margin:0;
   padding: 10px;
   box-sizing: border-box;
-  @include g.mix-flex-aligment(center);
+  @include g.mix-flex-aligment(space-between);
   flex-wrap: wrap;
   background: linear-gradient(180deg, black, transparent);
   border-radius: 3px solid #fff;
@@ -18,5 +18,24 @@
     width: 30%;
     box-sizing: border-box;
     text-align: center;
+  }
+
+  &__boton{
+    height: 45px;
+    background-color: g.$primaryColor;
+    border-radius: 1rem;
+    @include g.mix-flex-aligment(center);
+    padding: .5rem;
+    box-sizing: border-box;
+
+    &__title{
+      font-size: 1.1rem;
+      box-sizing: border-box;
+    }
+
+    &__logo{
+      box-sizing: border-box;
+      margin-left: 1rem;
+    }
   }
 }

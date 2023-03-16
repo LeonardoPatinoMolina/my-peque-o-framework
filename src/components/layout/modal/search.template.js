@@ -3,14 +3,17 @@ export const searchTemplate = `
   <input
   placeholder="search" 
   class="search__input_text"
-  type="text" 
+  type="search" 
   autocomplete="off"
   {disabled}
+  oninput="window.dispatchEvent(new CustomEvent('searching', { detail: this}))"
   >
-  <span data-trigger="{trigger}" class="btn_modal search__logo material-symbols-rounded">
-    {logo}
-  </span>
-  <div class="root0"></div>
+  <span 
+  onclick="window.dispatchEvent(new CustomEvent('modalclose', { detail: this}))"
+  class="btn_modal search__logo material-symbols-rounded"
+  >
+  {logo}
+</span>
 </div>
 `;
 

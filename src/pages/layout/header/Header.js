@@ -9,16 +9,11 @@ export const Header = new TreeLayoutComponent({
   name: "header",
   rulesScript,
   children: [
-    new Component({
+    new VolatileComponent({
       props: { title: "Movies" },
       name: "header",
       templatePath: "components/layout/header/",
       children: [
-        new Component({
-          name: "search",
-          templatePath: "components/layout/modal/",
-          props: { logo: "search", trigger: "open", disabled: "disabled" },
-        }),
         new Component({
           name: "nav",
           templatePath: "components/layout/header/",

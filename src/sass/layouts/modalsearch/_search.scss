@@ -1,5 +1,5 @@
-@use '../../../globals' as g;
-@use '../../../util' as u;
+@use '../../globals' as g;
+@use '../../util' as u;
 
 .search{
   min-height: 50px;
@@ -37,6 +37,10 @@
   &__logo{
     padding: 10px;
     color: #fff;
+    margin: 5px;
+    background-color: g.$primaryColor;
+    border-radius: 1rem;
+    cursor: pointer;
     @include g.mix-flex-aligment(center);
   }
 }

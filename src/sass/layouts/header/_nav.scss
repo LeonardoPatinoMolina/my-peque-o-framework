@@ -9,10 +9,13 @@
   border-radius: 10px;
   display: flex;
   font-size: .81rem;
+  box-sizing: border-box;
 
   &__list{
     width: inherit;
     @include g.mix-flex-aligment(space-evenly);
+    box-sizing: border-box;
+
     
     &__item{
       border-radius: 10px;

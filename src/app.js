@@ -6,7 +6,7 @@ import { Modal } from "./pages/layout/modal/Modal.js";
 
 //layout
 const App = async () => {
-  await Modal.render();
+  // await Modal.render();
   await Header.render();
   await Footer.render();
 

@@ -51,7 +51,12 @@
     @include g.mix-flex-aligment(center);
     flex-direction: column;
 
-    &__subtitle{  
+    &__subtitle, &__title{  
+      // padding-left: 1rem;
+      width: 90%;
+      box-sizing: border-box;
+    }
+    &__subtitle{
       color: #888;
     }
 

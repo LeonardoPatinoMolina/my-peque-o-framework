@@ -1,5 +1,5 @@
 "use strict";
-import { $ } from "./utils.js";
+import { $, string2html } from "./utils.js";
 
 /**
  * Clase de declaración de componente
@@ -8,25 +8,22 @@ export class Component {
   name;
   children = [];
   body;
-  rootNumber;
   templatePath;
   props;
   builder;
 
   /**
-   * @param {{name: string, templatePath: string, rootNumber: number | boolean, builder: boolean, props: {[string]: any}, children: [] | VolatileComponent, builder: (component: Component, treeProps: {[string]: any})=>Promise<void>}} args
+   * @param {{name: string, templatePath: string, builder: boolean, props: {[string]: any}, children: [] | VolatileComponent, builder: (component: Component, treeProps: {[string]: any})=>Promise<void>}} args
    */
   constructor({ 
     name, 
     templatePath, 
-    rootNumber = false, 
     props = false, 
     children = [], 
     builder = false,
   }) {
     this.name = name;
     this.templatePath = templatePath;
-    this.rootNumber = rootNumber;
     this.props = props;
     this.children = children;
     this.builder = builder;
@@ -64,7 +61,7 @@ export class Component {
       }//end for
     }
     //convertimos el template a un nodo del DOM
-    const componentNode = this.string2html(textComponent);
+    const componentNode = string2html(textComponent);
     this.body = componentNode;
 
     //
@@ -80,16 +77,24 @@ export class Component {
     }
   };//end method
 
-  /**
-   * Transforma un texto plano en nodos html
-   * @param {string} str
-   * @returns {HTMLElement}
-   */
-  string2html(str) {
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(str, "text/html");
-    return doc.body.children[0];
-  }
+  //actualiza el compoente
+  update = async ({newProps}) =>{
+    await this.create(newProps);
+
+    const fragment = new DocumentFragment();
+    this.children.forEach((child) => {
+      if (child.children.length === 0) {
+        fragment.appendChild(child.body);
+      }else{
+        this.recurseAssemble(child);
+        fragment.appendChild(child.body);
+      }
+    });
+    $(`.${this.body.classList[0]}`).innerHTML = '';
+    $(`.${this.body.classList[0]}`).appendChild(fragment);
+    // this.body.appendChild(fragment)
+  }//end method
+
 }
 
 export class Pagination {
@@ -153,15 +158,15 @@ export class Pagination {
 }
 
 export class TreeComponent {
-  children = [];
-  root = new DocumentFragment();
   name;
   rulesScript;
   globalProps;
+  children = [];
+  root = new DocumentFragment();
 
   /**
    *
-   * @param {{name: string, children: Component[], rulesScript: HTMLElement, props: {[string]: any}}} param0
+   * @param {{name: string, children: Component[], rulesScript: HTMLElement, globalProps: {[string]: any}}} param0
    */
   constructor({name, children, rulesScript, globalProps = false }) {
     this.name = name;
@@ -220,7 +225,6 @@ export class TreeComponent {
   }
 
   remove(){
-    if(this.rulesScript) document.head.removeChild(this.rulesScript);
     $('#root').innerHTML = ""
   }
 }
@@ -238,10 +242,19 @@ export class TreeLayoutComponent extends TreeComponent {
       }
       $(`#${this.name}`).appendChild(this.root)
     });
+  }//end mehtod
+  
+  //@override method
+  remove(){
+    // $('#root').innerHTML = ""
+    $(`#${this.name}`).innerHTML = ""
+
   }
 }
 
 export class VolatileComponent extends Component{
+    
+  //@override method
   create = async (externProps)=>{
      //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
     //props del árbol
@@ -277,7 +290,7 @@ export class VolatileComponent extends Component{
     //NEW begin --------------------------------------
     //injectamos las raices de los hijos
     if(this.children.length > 0){
-      let root = ''
+      let root = '';
       for (let i = 0; i < this.children.length; i++){
         root += `<div class="root${i}"></div>`
       }//end for
@@ -286,7 +299,7 @@ export class VolatileComponent extends Component{
     }
     //NEW end --------------------------------------
     //convertimos el template a un nodo del DOM
-    const componentNode = this.string2html(textComponent);
+    const componentNode = string2html(textComponent);
     this.body = componentNode;
 
     //
@@ -301,29 +314,6 @@ export class VolatileComponent extends Component{
       const responsePromise = await Promise.all(childrenPromises);
     }
   }
+
+  
 }
-
-// export class TreeVolatileComponent extends TreeComponent{
-//  render = async () => {
-//     //cremos tdps los componentes del arbol
-//     const createdComp = this.children.map(async (element) =>
-//       element.create(this.globalProps)
-//     );
-//     const childrenNodes = await Promise.all(createdComp);
-//     //ensamblamos el fragment 
-//     this.assemble();
-//     //añadimos es script de reglas si existe
-//     if(this.rulesScript) {
-//       document.head.appendChild(this.rulesScript);
-//     };
-//   };
-// }
-
-    // //injectamos las raices de los hijos
-    // if(this.children.length > 0){
-    //   let root = ''
-    //   for (let i = 0; i < this.children.length; i++){
-    //     root += `<div class="root${i}"></div>`
-    //   }//end for
-    //   textComponent = textComponent.replace('[volatile]', root);
-    // }

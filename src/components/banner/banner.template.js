@@ -1,4 +1,8 @@
-const BannerTemplate = `
+import { Component } from "../../lib/leoframe.js";
+
+export class BannerComponent extends Component{
+  name = "banner";
+  template = `
 <div class="banner">
   <h2 class="banner__title">Luces, cámara...</h2>
   <img class="banner__img"
@@ -9,5 +13,4 @@ const BannerTemplate = `
   <div class="root0"></div>
 </div>
 `;
-
-export  default BannerTemplate;
+}

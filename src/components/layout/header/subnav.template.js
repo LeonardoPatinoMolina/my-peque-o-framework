@@ -1,4 +1,8 @@
-const subnavTemplate = `
+import { Component } from "../../../lib/leoframe.js";
+
+export class SubnavComponent extends Component{
+  name = "subnav";
+  template = `
 <nav class="{className} close_an">
   <ul class="{className}__list">
     <li data-opction="{opction1}" class="{className}__list__item">
@@ -13,5 +17,4 @@ const subnavTemplate = `
   </ul>
 </nav>
 `;
-
-export default subnavTemplate;
+}

@@ -5,30 +5,47 @@ import { $, string2html } from "./utils.js";
  * Clase de declaración de componente
  */
 export class Component {
-  name;
-  children = [];
+  name = 'componente';
+  template = '<div>Hola mundo</div>';
   body;
-  templatePath;
+  children = [];
   props;
   builder;
 
   /**
-   * @param {{name: string, templatePath: string, builder: boolean, props: {[string]: any}, children: [] | VolatileComponent, builder: (component: Component, treeProps: {[string]: any})=>Promise<void>}} args
+   * @param {Component[]} children
+   * @param {(component: Component, treeProps: {[string]: any})=>Promise<void>} builder
    */
-  constructor({ 
-    name, 
-    templatePath, 
-    props = false, 
-    children = [], 
-    builder = false,
-  }) {
-    this.name = name;
-    this.templatePath = templatePath;
-    this.props = props;
+  constructor(children = [], builder = false) {
     this.children = children;
     this.builder = builder;
   }
 
+  /**
+   * 
+   * @param {{[string]:any}} props
+   * @returns {Component}
+   */
+  setProps(props){
+    this.props = props;
+    return this;
+  }
+  
+  /**
+   * 
+   * @param {Component[]} children
+   * @returns {Component}
+   */
+  setChildren(children){
+    this.children = children;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {{[string]:any}} externProps
+   * @returns {Promise<void>}
+   */
   create = async (externProps) => {
     //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
     //props del árbol
@@ -36,9 +53,6 @@ export class Component {
       await this.builder(this, externProps);
     };
     
-    //importamos el script correspondiente y lo alamenarmos en una variable
-    const moduleTemplate = await import(`../${this.templatePath}${this.name}.template.js`)
-    let textComponent = moduleTemplate.default;
     /**
      * verificamos si hay props globales o
      * locales y las fucionamos, las reglas del framework 
@@ -53,15 +67,16 @@ export class Component {
     else if(externProps) myProps = { ...externProps}
     else if(this.props) myProps = { ...this.props }
 
+    let templatetext = this.template;
     //procedemos a inyectar las props
     if(myProps){
       for (const [key, value] of Object.entries(myProps)){
         const regex = new RegExp(`{${key}}`, "g");
-        textComponent = textComponent.replace(regex,`${value}`)
+        templatetext = templatetext.replace(regex,`${value}`)
       }//end for
     }
     //convertimos el template a un nodo del DOM
-    const componentNode = string2html(textComponent);
+    const componentNode = string2html(templatetext);
     this.body = componentNode;
 
     //
@@ -118,10 +133,11 @@ export class Pagination {
    */
   async jumpToTree(treeName, props = false){
     if(this.currentPage.name === treeName) return;
-    const nextTree = await import(`../pages/${this.pages[treeName]}`)
-
     $('#placeholder').classList.add('flex-align')
     this.currentPage.remove();
+
+    const nextTree = await import(`../pages/${this.pages[treeName]}`)
+
     if(props){
       await nextTree.default
         .setProps(props)
@@ -151,9 +167,13 @@ export class Pagination {
    * Encargada de renderizar el arbol de componentes establecido como home
    */
   async init (){
+    $('#placeholder').classList.add('flex-align')
+
     const homeModule = await import(`../pages/${this.pages[this.home]}`)
     homeModule.default.render();
     this.currentPage = homeModule.default
+    $('#placeholder').classList.remove('flex-align')
+
   }
 }
 
@@ -166,7 +186,7 @@ export class TreeComponent {
 
   /**
    *
-   * @param {{name: string, children: Component[], rulesScript: HTMLElement, globalProps: {[string]: any}}} param0
+   * @param {{name: string, children: Component[], rulesScript: HTMLElement, globalProps: {[string]: any}}} args
    */
   constructor({name, children, rulesScript, globalProps = false }) {
     this.name = name;
@@ -213,7 +233,6 @@ export class TreeComponent {
     const {children, body} = component;
     let i = 0;
     for (const child of children) {
-    // for (let i = 0; i < epa.length; i++) {
       const toReplace = body.querySelector(`.root${i}`);
       toReplace.replaceWith(child.body)
   
@@ -262,9 +281,6 @@ export class VolatileComponent extends Component{
       await this.builder(this, externProps);
     };
 
-    //importamos el script correspondiente y lo alamenarmos en una variable
-    const moduleTemplate = await import(`../${this.templatePath}${this.name}.template.js`)
-    let textComponent = moduleTemplate.default;
     /**
      * verificamos si hay props globales o
      * locales y las fucionamos, las reglas del framework 
@@ -279,11 +295,12 @@ export class VolatileComponent extends Component{
     else if(externProps) myProps = { ...externProps}
     else if(this.props) myProps = { ...this.props }
 
+    let templatetext = this.template;
     //procedemos a inyectar las props
     if(myProps){
       for (const [key, value] of Object.entries(myProps)){
         const regex = new RegExp(`{${key}}`, "g");
-        textComponent = textComponent.replace(regex,`${value}`)
+        templatetext = templatetext.replace(regex,`${value}`)
       }//end for
     }
 
@@ -295,11 +312,11 @@ export class VolatileComponent extends Component{
         root += `<div class="root${i}"></div>`
       }//end for
       const regex = /\[volatile\]/g
-      textComponent = textComponent.replace(regex, root);
+      templatetext = templatetext.replace(regex, root);
     }
     //NEW end --------------------------------------
     //convertimos el template a un nodo del DOM
-    const componentNode = string2html(textComponent);
+    const componentNode = string2html(templatetext);
     this.body = componentNode;
 
     //
@@ -315,5 +332,4 @@ export class VolatileComponent extends Component{
     }
   }
 
-  
 }

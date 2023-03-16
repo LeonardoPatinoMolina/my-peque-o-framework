@@ -1,4 +1,8 @@
-const showTemplate = `
+import { Component } from "../../lib/leoframe.js";
+
+export class PageComponent extends Component {
+  name = 'page';
+  template = `
 <section class="page">
   <div class="page__aside">
     <h2 class="page__aside__title">{title}</h2>
@@ -17,4 +21,4 @@ const showTemplate = `
 </section>
 `;
 
-export default showTemplate;
+}

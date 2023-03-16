@@ -1,6 +1,6 @@
 import { $ } from "../../../../lib/utils.js";
 import { Router } from "../../../router.js";
-import { Modal, resultsVolatileComponent } from "../Modal.js";
+import { Modal } from "../Modal.js";
 
 //input de texto de busqueda de modal
 const inputSearch = $('.search__input_text');

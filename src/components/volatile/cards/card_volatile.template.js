@@ -1,4 +1,8 @@
-const cardvolatileTemplate = `
+import { Component } from "../../../lib/leoframe.js";
+
+export class CardVolatileComponent extends Component{
+  name = 'volatilecard';
+  template = `
 <div 
   id="{id}" 
   class="cardvolatile"
@@ -10,5 +14,4 @@ const cardvolatileTemplate = `
   <p class="cardvolatile__subtitle">{body}</p>
 </div>
 `;
-
-export default cardvolatileTemplate;
+}

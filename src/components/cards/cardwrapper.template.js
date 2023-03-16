@@ -1,7 +1,10 @@
-const movieTemplate = `
-<section class="cardwrapper">
-  [volatile]
-</section>
-`;
+import { VolatileComponent } from "../../lib/leoframe.js";
 
-export default movieTemplate;
+export class CardWrapperComponent extends VolatileComponent{
+  name = 'cardwrapper';
+  template = `
+  <section class="cardwrapper">
+    [volatile]
+  </section>
+  `;
+}

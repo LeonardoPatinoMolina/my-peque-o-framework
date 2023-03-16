@@ -1,12 +1,9 @@
-import { Component, TreeComponent } from "../lib/leoframe.js";
+import { AboutComponent } from "../components/about/about.template.js";
+import { TreeComponent } from "../lib/leoframe.js";
 
 const About = new TreeComponent({
-  name: 'about',
   children: [
-    new Component({
-      name: 'about',
-      templatePath: 'components/about/'
-    })
+    new AboutComponent()
   ]
 });
 

@@ -4,11 +4,6 @@ import { CardComponent } from "../../components/cards/card.template.js";
 import { CardWrapperComponent } from "../../components/cards/cardwrapper.template.js";
 import { TreeComponent } from "../../lib/leoframe.js";
 
-const rulesScript = document.createElement('script');
-rulesScript.src = 'src/pages/movies/rules/index.js';
-rulesScript.type = 'module';
-rulesScript.defer = true;
-
 const builder = async (component)=>{
   const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=es-ES&page=1`);
   const rjson = await response.json()
@@ -28,7 +23,6 @@ const builder = async (component)=>{
 
 const PopularMovies = new TreeComponent({
   name: 'popularmovies',
-  rulesScript,
   children: [
     new CardWrapperComponent([], builder),
   ]

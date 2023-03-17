@@ -6,37 +6,30 @@ import { CardVolatileComponent } from "../../../components/volatile/cards/card_v
 import { VolatileCardProps } from "../../../adapter/volatileCard.js";
 import { APIKEY } from "../../../../privateGlobal.js";
 
-const rulesScript = document.createElement('script');
-rulesScript.src = 'src/pages/layout/modal/rules/index.js';
-rulesScript.type = "module";
-rulesScript.defer =  true;
-
 const builder = async (component, treeProps)=>{
   component.children = [];
-
-  
   const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=es-ES&page=1`);
   const rjson = await response.json()
   const moviesP = rjson.results;
 
   for (const data of moviesP) {
     const propsData = new VolatileCardProps(data).data;
-    const comp = new CardVolatileComponent().setProps(propsData)
+    const comp = new CardVolatileComponent().setProps({type: 'movie', ...propsData})
     if(!component.children.find(co=>propsData.title === co.props.title)){
       component.children.push(comp)
     }
   }//end for
 }
+export const ResultsCards = new VolatileCardWrapperComponent([], builder);
 
 export const Modal = new TreeLayoutComponent({
   name: "modal",
-  globalProps: {query: 'spider'},
-  rulesScript,
+  globalProps: {query: 'a'},
   children: [
     new ModalSearchComponent()
       .setChildren([
         new SearchComponent(),
-        new VolatileCardWrapperComponent([], builder)
+        ResultsCards
       ])
   ],
 });

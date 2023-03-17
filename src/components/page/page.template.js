@@ -16,7 +16,11 @@ export class PageComponent extends Component {
   <p class="page__info__text">{date}</p>
   <p class="page__description" >{description}</p>
   <div tabindex="-1" class="page__watch">
-    <img class="page__watch__img" src="src/assets/play_btn.svg" alt="play button">
+    <img 
+      class="page__watch__img" 
+      src="src/assets/play_btn.svg" 
+      alt="play button"
+    >
   </div>
 </section>
 `;

@@ -1,10 +1,30 @@
 import { Component } from "../../lib/leoframe.js";
+import { $ } from "../../lib/utils.js";
+import { Router } from "../../pages/router.js"
+
+const handleClick = ({currentTarget}) =>{
+  if(currentTarget.dataset.type === 'movie'){
+    Router.jumpToTree("movie", {id: currentTarget.id});
+    window.scrollTo(0,0);
+  }
+  if(currentTarget.dataset.type === 'show'){
+    Router.jumpToTree("show", {id: currentTarget.id});
+    window.scrollTo(0,0);
+  }
+}
 
 export class CardComponent extends Component {
   name = 'card';
+
+  $didMount = async () => {
+    this.body.addEventListener("click", handleClick);
+  }
+  $didUnmount = async () => {
+    this.body.removeEventListener("click", handleClick);
+  }
+
   template = `
   <article 
-    onclick="window.dispatchEvent(new CustomEvent('cardclick', { detail: this}))" 
     class="card" 
     id="{id}" 
     data-filter="{filter}" 

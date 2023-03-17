@@ -10,17 +10,30 @@ export class Component {
   body;
   children = [];
   props;
-  builder;
-
+  $builder;
+  
   /**
    * @param {Component[]} children
    * @param {(component: Component, treeProps: {[string]: any})=>Promise<void>} builder
-   */
-  constructor(children = [], builder = false) {
-    this.children = children;
-    this.builder = builder;
+  */
+ constructor(children = [], builder = false) {
+   this.children = children;
+   this.$builder = builder;
   }
+  
+  /**
+   * Método especializado se jecuta al renderizar el componente
+   */
+  didMount = async ()=>{
+    console.log('component ready');
+  };
 
+  /**
+   * Método especializado se ejecuta al des-renderizar el componente
+   */
+  didUnmount = async ()=>{
+    console.log('component out');
+  };
   /**
    * 
    * @param {{[string]:any}} props
@@ -49,8 +62,8 @@ export class Component {
   create = async (externProps) => {
     //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
     //props del árbol
-    if(this.builder) {
-      await this.builder(this, externProps);
+    if(this.$builder) {
+      await this.$builder(this, externProps);
     };
     
     /**
@@ -212,6 +225,21 @@ export class TreeComponent {
     if(this.rulesScript) {
       document.head.appendChild(this.rulesScript);
     };
+    
+    //ejecutamos el método didMount de los componentes hijos
+    const recursiveMount = async (components)=>{
+      for(const component of components){
+        if(component.children.length > 0){
+          await recursiveMount(component.children);
+        }
+        await component.$didMount();
+      }
+    }
+    if(this.children.length > 0){
+      window.setTimeout(()=>{
+        recursiveMount(this.children);
+      },500)
+    }
   };
 
   assemble() {
@@ -243,8 +271,21 @@ export class TreeComponent {
     } //end for
   }
 
-  remove(){
-    $('#root').innerHTML = ""
+  remove = () => {
+    
+    //ejecutamos el método didUnmount de cada component
+    const recursiveUnmount = async (components)=>{
+      for(const component of components){
+        if(component.children.length > 0){
+          await recursiveUnmount(component.children);
+        }
+        await component.$didUnmount();
+      }
+    }
+    if(this.children.length > 0){
+      recursiveUnmount(this.children);
+    }
+    $('#root').innerHTML = "";
   }
 }
 
@@ -264,10 +305,21 @@ export class TreeLayoutComponent extends TreeComponent {
   }//end mehtod
   
   //@override method
-  remove(){
-    // $('#root').innerHTML = ""
-    $(`#${this.name}`).innerHTML = ""
-
+  remove = () => {
+    //ejecutamos el método didUnmount de cada component
+    const recursiveUnmount = async (components)=>{
+      for(const component of components){
+        if(component.children.length > 0){
+          await recursiveUnmount(component.children);
+        }
+        await component.$didUnmount();
+      }
+    }
+    if(this.children.length > 0){
+      recursiveUnmount(this.children);
+    }
+    // $(`#${this.name}`)
+    document.getElementById(`${this.name}`).innerHTML = ""
   }
 }
 
@@ -277,8 +329,8 @@ export class VolatileComponent extends Component{
   create = async (externProps)=>{
      //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
     //props del árbol
-    if(this.builder) {
-      await this.builder(this, externProps);
+    if(this.$builder) {
+      await this.$builder(this, externProps);
     };
 
     /**

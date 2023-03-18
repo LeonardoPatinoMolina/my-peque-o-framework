@@ -42,5 +42,8 @@
     border-radius: 1rem;
     cursor: pointer;
     @include g.mix-flex-aligment(center);
+    &:hover{
+      background-color: darken(g.$primaryColor, 10%);
+    }
   }
 }

@@ -9,7 +9,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  // background: radial-gradient();
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,7 +19,6 @@
 body{
   margin: 0;
   padding: 0;
-  // background: linear-gradient(45deg, #000, #090909, #191919);
   height: 100vh;
 }
 button {
@@ -64,7 +62,6 @@ button {
   &__img{
     width: 60%;
     height: 60%;
-    opacity: .4;
   }
 }
 .flex-align{

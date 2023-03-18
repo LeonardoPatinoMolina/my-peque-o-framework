@@ -10,12 +10,13 @@ const builder = async (component)=>{
   const showsP = rjson.results;
 
   for (let i = 0; i < 20; i++) {
-    const comp = new CardComponent()
-      .setProps({
+    const comp = new CardComponent({
+      props: {
         ...new ShowsProps(showsP[i]).data, 
         filter: 'onair',
         type: 'show'
-      })
+      }
+    })
     component.children.push(comp)
   }//end for
 }
@@ -23,7 +24,7 @@ const builder = async (component)=>{
 const OnAirShows = new TreeComponent({
   name: 'onairshows',
   children: [
-    new CardWrapperComponent([], builder),
+    new CardWrapperComponent({builder}),
   ]
 });
 

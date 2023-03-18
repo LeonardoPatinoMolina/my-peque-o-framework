@@ -15,7 +15,8 @@
 }
 .modal{
   background-color: #222;
-  width: 90%;
+  box-shadow: 4px 4px 10px 2px #0008;
+  width: max(280px, 52%);
   height: 500px;
   border-radius: 1rem;
   box-sizing: border-box;

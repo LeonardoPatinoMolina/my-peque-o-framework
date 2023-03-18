@@ -1,3 +1,5 @@
+const imgPlaceholder = 'https://lesarcs-filmfest.com/laff/photo/1-500x500/gallery/2022_com/TALENT%20VILLAGE/Juho-Kuosmanen-Cannes-17072021-kuva-Sami-Kuokkanen-2048x1365.jpg';
+
 export class MoviesProps{
   constructor(movie){
     this.id = movie.id
@@ -6,15 +8,16 @@ export class MoviesProps{
     this.release_date = movie.release_date;
     this.vote_average = movie.vote_average;
     this.stars = '⭐';
-    this.img = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
+    this.img = movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : imgPlaceholder;
+    
     this.data = {
-      id: movie.id,
-      title: movie.title,
-      original_title: movie.original_title,
-      release_date: movie.release_date,
-      vote_average: movie.vote_average,
-      stars: '⭐',
-      img: `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+      id: this.id,
+      title: this.title,
+      original_title: this.original_title,
+      release_date: this.release_date,
+      vote_average: this.vote_average,
+      stars: this.stars,
+      img: this.img
     }
   }
   }

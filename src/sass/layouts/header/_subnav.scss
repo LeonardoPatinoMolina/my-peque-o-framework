@@ -1,23 +1,47 @@
 @use '../../globals' as g;
 @use '../../util' as u;
 
-.subnav_movies, .subnav_series{
-  height: 40px;
+.subnav_movies, .subnav_shows{
+  height: 50px;
   width: 100%;
   position: absolute;
   z-index: 12;
-  bottom: -4px;
-  left: 0;
+  bottom: -14px;
+  right: 0;
   font-family: g.$font;
   font-size: .8rem;
   color: #aaa;
-  background: linear-gradient(0, black, transparent,transparent);
+  // background: linear-gradient(0, black, transparent,transparent);
+
+  @include u.breakpoint("large"){
+    // background-color: red;
+    width: 50%;
+    font-size: 1.1rem;
+  }
+  @include u.breakpoint-down("medium"){
+    // background-color: green;
+    width: 80%;
+    font-size: 1rem;
+  }
+  @include u.breakpoint-down("small"){
+    // background-color: blue;
+    width: 100%;
+  }
 
   &::after{
     position: absolute;
     height: 2px;
     width: 100%;
-    background-color: #ff9393;
+    background: g.$primaryColor;
+    background: linear-gradient(90deg, 
+      transparent,
+      g.$primaryColor,
+      g.$primaryColor,
+      g.$primaryColor,
+      g.$primaryColor,
+      g.$primaryColor,
+      transparent,
+      );
     box-shadow: 0 0 4px 2px #0002;
     display: flex;
     bottom: 0;
@@ -26,7 +50,7 @@
   }
   &__list{
     width: 100%;
-    @include g.mix-flex-aligment(space-evenly);
+    @include g.mix-flex-aligment(space-evenly, flex-end);
     height: 100%;
     box-sizing: border-box;
     padding-left: 1rem;
@@ -37,6 +61,7 @@
     &__item{
       height: 100%;
       margin: 0;
+      height: 80%;
       width: 100%;
       @include g.mix-flex-aligment(center);
       cursor: pointer;
@@ -47,7 +72,7 @@
       }
       &.selected{
         color: #fff;
-        background-color: #ff9393;
+        background-color: g.$primaryColor;
       }
     }
   }

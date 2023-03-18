@@ -14,13 +14,15 @@ const builder = async (component, treeProps)=>{
 
   for (const data of moviesP) {
     const propsData = new VolatileCardProps(data).data;
-    const comp = new CardVolatileComponent().setProps({type: 'movie', ...propsData})
+    const comp = new CardVolatileComponent({
+      props: {type: 'movie', ...propsData}
+    })
     if(!component.children.find(co=>propsData.title === co.props.title)){
       component.children.push(comp)
     }
   }//end for
 }
-export const ResultsCards = new VolatileCardWrapperComponent([], builder);
+export const ResultsCards = new VolatileCardWrapperComponent({builder, key: 'resultscardsModal'});
 
 export const Modal = new TreeLayoutComponent({
   name: "modal",

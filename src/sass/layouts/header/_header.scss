@@ -3,22 +3,38 @@
 
 .header{
   width: 100%;
-  height: 180px;
-  margin:0;
+  height: 150px;
+  margin:0 0 1.2rem 0;
   padding: 10px;
   box-sizing: border-box;
-  @include g.mix-flex-aligment(space-between);
-  flex-wrap: wrap;
+  display: flex, ;
+  flex-direction: column;
   background: linear-gradient(180deg, black, transparent);
   border-radius: 3px solid #fff;
   position: relative;
   
-  &__title{
-    font-size: min(1.7rem, 10vw);
+  @include g.mix-flex-aligment(space-between, flex-end);
+  @include u.breakpoint("medium"){
+    height: 160px
+  }
+  @include u.breakpoint("large"){
+    height: 170px
+  }
+  
+  .header__top{
+    @include g.mix-flex-aligment(space-between);
+    width: 100%;
+  }
+
+  &__title {
+    font-size: max(2.2rem, 5vw);
     width: 30%;
+    margin: 0;
+    font-family: g.$primaryFont;
     box-sizing: border-box;
     text-align: center;
   }
+
 
   &__boton{
     height: 45px;
@@ -27,15 +43,34 @@
     @include g.mix-flex-aligment(center);
     padding: .5rem;
     box-sizing: border-box;
-
-    &__title{
+    
+    &:hover{
+      cursor: pointer;
+      background-color: darken(g.$primaryColor, 10%);
+    }
+    
+    &__title, &__subtitle{
       font-size: 1.1rem;
       box-sizing: border-box;
+      @include u.breakpoint("large"){
+        font-size: 1.2rem;
+      }
+    }
+    &__subtitle{
+      display: none;
+      @include u.breakpoint("large"){
+        display: inline-block;
+      }
+      &::before{
+        content: " ";
+        position: relative;
+      }
     }
 
     &__logo{
       box-sizing: border-box;
       margin-left: 1rem;
+      
     }
   }
 }

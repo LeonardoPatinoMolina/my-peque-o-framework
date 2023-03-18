@@ -17,24 +17,25 @@ const handleClick = ({currentTarget})=>{
 export class CardVolatileComponent extends Component{
   name = 'volatilecard';
 
-  $didMount = async () => {
+  async didMount() {
     this.body.addEventListener("click", handleClick);
   }
 
-  $didUnmount = async () => {
+  async didUnmount() {
     this.body.removeEventListener("click", handleClick);
   }
 
-  template = `
-<div 
-  id="{id}" 
-  class="cardvolatile"
-  onclick="window.dispatchEvent(new CustomEvent('cardclick', { detail: this}))"
-  data-filter="popular"
-  data-type="{type}"
->
-  <h3 class="cardvolatile__title">{title}</h3>
-  <p class="cardvolatile__subtitle">{body}</p>
-</div>
-`;
+  template() {
+    return super.template(`
+    <div 
+      id="{id}" 
+      class="cardvolatile"
+      data-filter="popular"
+      data-type="{type}"
+    >
+      <h3 class="cardvolatile__title">{title}</h3>
+      <p class="cardvolatile__subtitle">{body}</p>
+    </div>
+    `)
+  }
 }

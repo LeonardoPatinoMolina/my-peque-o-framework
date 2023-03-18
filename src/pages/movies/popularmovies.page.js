@@ -10,12 +10,13 @@ const builder = async (component)=>{
   const moviesP = rjson.results;
 
   for (let i = 0; i < 20; i++) {
-    const comp = new CardComponent()
-      .setProps({
+    const comp = new CardComponent({
+      props: {
         ...new MoviesProps(moviesP[i]).data, 
         filter: 'popular',
         type: 'movie'
-      })
+      }
+    })
     component.children.push(comp);
   }//end for
 }
@@ -24,7 +25,7 @@ const builder = async (component)=>{
 const PopularMovies = new TreeComponent({
   name: 'popularmovies',
   children: [
-    new CardWrapperComponent([], builder),
+    new CardWrapperComponent({builder}),
   ]
 });
 

@@ -12,7 +12,7 @@ const builder = async (component, treeProps)=>{
 const Movie = new TreeComponent({
   name: 'movie',
   children: [
-    new PageComponent([], builder)
+    new PageComponent({builder})
   ]
 });
 

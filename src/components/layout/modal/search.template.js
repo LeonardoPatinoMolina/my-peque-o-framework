@@ -1,50 +1,29 @@
 import { Component } from "../../../lib/leoframe.js";
-import { Modal, ResultsCards } from "../../../pages/layout/modal/Modal.js"; 
-
-/**
- * timer de espera antes de cada consulta, la idea
- * es evitar saturar las consultas de forma que no se
- * disparen hasta que el usaurio haga una paua de 600 ms
- */
-let timer = setTimeout(()=>{},10)
-const whait = (input) => {
-  clearTimeout(timer)
-  timer = setTimeout(()=>{
-    ResultsCards.update({newProps:{query: input}})
-  }, 600)
-}
-
-const handleInput = ({currentTarget})=>{
-  if(currentTarget.value === '') return;
-  whait(currentTarget.value)
-}
-
-const handleBtnClick = ()=>{
-  Modal.remove();
-}
-
+import { SearchRule } from "../../../rules/search.rule.js";
 
 export class SearchComponent extends Component {
   name = 'search';
-  props = { logo: "close" };
+  props = { logo: "close", value: '' };
   
-  $didMount = async ()=> {
-    this.body.querySelector('.search__input_text').addEventListener('input', handleInput);
-
-    this.body.querySelector('#btn_close_modal').addEventListener('click', handleBtnClick);
+  didMount = async ()=> {
+    const { add } = SearchRule(this);
+    add.forEach(a=>{ a() });
   }
-  $didUnmount = async ()=> {
-    this.body.querySelector('.search__input_text').removeEventListener('input', handleInput);
-    
-    this.body.querySelector('#btn_close_modal').removeEventListener('click', handleBtnClick);
+  didUnmount = async ()=> {
+    const { remove } = SearchRule(this);
+    remove.forEach(r=>{ r() });
   }
   
-  template = `
-  <div class="search">
+  template() {
+  return super.template(`
+  <div data-key="${this.key}" class="search">
     <input
-      placeholder="search" 
+      placeholder="buscar..." 
+      type="search"
       class="search__input_text"
       autocomplete="off"
+      autofocus
+      value="{value}"
     >
     <span 
       id="btn_close_modal"
@@ -53,5 +32,6 @@ export class SearchComponent extends Component {
     {logo}
   </span>
   </div>
-  `;
+  `) 
+  }
 }

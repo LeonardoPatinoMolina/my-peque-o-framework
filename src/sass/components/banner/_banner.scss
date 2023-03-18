@@ -2,7 +2,7 @@
 @use '../../util' as u;
 
 .banner{
-  min-height: 50vh;
+  min-height: 60vh;
   margin: 0 0 3rem 0;
   padding: 20px;
   box-sizing: border-box;
@@ -10,12 +10,21 @@
   flex-direction: column;
   
   &__img{
-    filter: drop-shadow(0 0 10px #f00000);
+    filter: drop-shadow(0 0 10px #000000);
     width: 30%;
     height: 30%;
+    transform: rotate(-15deg);
+  }
+  &__img_wrapper{
+    @include g.mix-flex-aligment(space-evenly);
+    width: 100%;
+  }
+  &__subtitle{
+    font-family: g.$primaryFont;
   }
   &__title{
-    font-family: g.$font;
+    display: flex;
+    font-family: g.$primaryFont;
   }
   &__paragraph{
     margin-top: 2rem;

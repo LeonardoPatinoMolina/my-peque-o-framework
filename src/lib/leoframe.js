@@ -6,44 +6,60 @@ import { $, string2html } from "./utils.js";
  */
 export class Component {
   name = 'componente';
-  template = '<div>Hola mundo</div>';
+  templateComponent = '<div>Hola mundo</div>';
+  key;
   body;
   children = [];
-  props;
+  props = {};
   $builder;
   
   /**
-   * @param {Component[]} children
-   * @param {(component: Component, treeProps: {[string]: any})=>Promise<void>} builder
+   * @param {{key: string | number,children: Component[], builder: (component: Component, treeProps: {[string]: any})=>Promise<void>, props: {[string]:any}}} args
   */
- constructor(children = [], builder = false) {
-   this.children = children;
-   this.$builder = builder;
+ constructor(args) {
+    this.key = args?.key;
+    this.children = args?.children ?? [];
+    this.props = args?.props ?? {};
+    this.$builder = args?.builder;
   }
   
   /**
    * Método especializado se jecuta al renderizar el componente
    */
-  didMount = async ()=>{
-    console.log('component ready');
-  };
+  async didMount(){};
 
   /**
    * Método especializado se ejecuta al des-renderizar el componente
    */
-  didUnmount = async ()=>{
-    console.log('component out');
-  };
+  async didUnmount(){};
+
   /**
-   * 
-   * @param {{[string]:any}} props
-   * @returns {Component}
+   * Ensambla la la plantilla literal inyectando cada prop 
+   * y estableciendo cada raíz
+   * @param {string} template 
+   * @returns {string} plantilla de componente
    */
-  setProps(props){
-    this.props = props;
-    return this;
-  }
-  
+  template(template){
+    let templatetext = template.toString();
+    //procedemos a inyectar las props
+    if(this.props){
+      for (const [key, value] of Object.entries(this.props)){
+        const regex = new RegExp(`{${key}}`, "g");
+        templatetext = templatetext.replace(regex,`${value}`)
+      }//end for
+
+    }
+
+    //inyectamos las raices
+    if(this.children.length > 0){
+      for (let i = 0; i < this.children.length; i++){
+        templatetext = templatetext.replace(`[child${i}]`,`<div class="root${i}"></div>`)
+      }//end for
+    }
+    return templatetext;
+    
+  };//end method
+
   /**
    * 
    * @param {Component[]} children
@@ -59,7 +75,7 @@ export class Component {
    * @param {{[string]:any}} externProps
    * @returns {Promise<void>}
    */
-  create = async (externProps) => {
+  async create(externProps) {
     //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
     //props del árbol
     if(this.$builder) {
@@ -72,55 +88,55 @@ export class Component {
      * indican no puedenh haber props con key repetidas en
      * todo el arbol.
      */
-    let myProps = false;
-    if(externProps && this.props) myProps = {
-      ...externProps,
-      ...this.props
+    if(externProps) this.props = {
+      ...this.props,
+      ...externProps
     };
-    else if(externProps) myProps = { ...externProps}
-    else if(this.props) myProps = { ...this.props }
-
-    let templatetext = this.template;
-    //procedemos a inyectar las props
-    if(myProps){
-      for (const [key, value] of Object.entries(myProps)){
-        const regex = new RegExp(`{${key}}`, "g");
-        templatetext = templatetext.replace(regex,`${value}`)
-      }//end for
-    }
     //convertimos el template a un nodo del DOM
-    const componentNode = string2html(templatetext);
+    const componentNode = string2html(this.template());
     this.body = componentNode;
 
-    //
     /**
      * creamos de forma recursiva los hijo e inyectamos las props 
      * hacia dentro del arbol, es importante saber que las props de arbol deben navegar por todos los componentes, sea esta un false o datos válidos
      */
     if (this.children.length > 0){
       const childrenPromises = this.children.map(async (element) =>
-        element.create(myProps)
+        element.create(this.props)
       );
       const responsePromise = await Promise.all(childrenPromises);
     }
   };//end method
 
   //actualiza el compoente
-  update = async ({newProps}) =>{
-    await this.create(newProps);
-
+  async update(newProps = false) {
+    //avisamos que el componente ha sido desmontado y esperamos a que el método termine.
+    await this.didUnmount();
+    if(newProps){
+      await this.create({...this.props, ...newProps});
+    }else{
+      await this.create(this.props);
+    }
+    
     const fragment = new DocumentFragment();
-    this.children.forEach((child) => {
-      if (child.children.length === 0) {
-        fragment.appendChild(child.body);
-      }else{
-        this.recurseAssemble(child);
-        fragment.appendChild(child.body);
-      }
-    });
-    $(`.${this.body.classList[0]}`).innerHTML = '';
-    $(`.${this.body.classList[0]}`).appendChild(fragment);
-    // this.body.appendChild(fragment)
+    if(this.children.length > 0){
+      this.children.forEach((child) => {
+        if (child.children.length === 0) {
+          fragment.appendChild(child.body);
+        }else{
+          this.recurseAssemble(child);
+          fragment.appendChild(child.body);
+        }
+      });
+      $(`[data-key="${this.body.dataset.key}"]`).innerHTML = '';
+      $(`[data-key="${this.body.dataset.key}"]`).appendChild(fragment);
+    }
+    else{
+      $(`[data-key="${this.body.dataset.key}"]`).replaceWith(this.body)
+    }
+    //avisamos que el componente ha sido montado, en este caso no es relevante esperar su ejecución completa
+    this.didMount();
+
   }//end method
 
 }
@@ -145,7 +161,7 @@ export class Pagination {
    * @returns {Promise<void>}
    */
   async jumpToTree(treeName, props = false){
-    if(this.currentPage.name === treeName) return;
+    if(this.currentPage.name === treeName && !props) return;
     $('#placeholder').classList.add('flex-align')
     this.currentPage.remove();
 
@@ -213,10 +229,10 @@ export class TreeComponent {
     return this;
   }
 
-  render = async () => {
+  async render() {
     //cremos tdps los componentes del arbol
     const createdComp = this.children.map(async (element) =>
-      element.create(this.globalProps)
+    element.create(this.globalProps)
     );
     const childrenNodes = await Promise.all(createdComp);
     //ensamblamos el fragment 
@@ -232,7 +248,7 @@ export class TreeComponent {
         if(component.children.length > 0){
           await recursiveMount(component.children);
         }
-        await component.$didMount();
+        await component.didMount();
       }
     }
     if(this.children.length > 0){
@@ -271,7 +287,7 @@ export class TreeComponent {
     } //end for
   }
 
-  remove = () => {
+  remove() {
     
     //ejecutamos el método didUnmount de cada component
     const recursiveUnmount = async (components)=>{
@@ -279,7 +295,7 @@ export class TreeComponent {
         if(component.children.length > 0){
           await recursiveUnmount(component.children);
         }
-        await component.$didUnmount();
+        await component.didUnmount();
       }
     }
     if(this.children.length > 0){
@@ -305,83 +321,54 @@ export class TreeLayoutComponent extends TreeComponent {
   }//end mehtod
   
   //@override method
-  remove = () => {
+  remove() {
     //ejecutamos el método didUnmount de cada component
     const recursiveUnmount = async (components)=>{
       for(const component of components){
         if(component.children.length > 0){
           await recursiveUnmount(component.children);
         }
-        await component.$didUnmount();
+        await component.didUnmount();
       }
     }
     if(this.children.length > 0){
       recursiveUnmount(this.children);
     }
-    // $(`#${this.name}`)
-    document.getElementById(`${this.name}`).innerHTML = ""
+    $(`#${this.name}`).innerHTML = "";
+    // document.getElementById(`${this.name}`).innerHTML = ""
   }
 }
 
 export class VolatileComponent extends Component{
     
-  //@override method
-  create = async (externProps)=>{
-     //en caso de tener una creación programada de hijos en el método kinship, ejecutarla injectandole los 
-    //props del árbol
-    if(this.$builder) {
-      await this.$builder(this, externProps);
-    };
+  /**
+   * Ensambla la la plantilla literal inyectando cada prop 
+   * y estableciendo cada raíz
+   * @param {string} template 
+   * @returns {string} plantilla de componente
+   */
+  template(template){
+    let templatetext = template.toString();
 
-    /**
-     * verificamos si hay props globales o
-     * locales y las fucionamos, las reglas del framework 
-     * indican no puedenh haber props con key repetidas en
-     * todo el arbol.
-     */
-    let myProps = false;
-    if(externProps && this.props) myProps = {
-      ...externProps,
-      ...this.props
-    };
-    else if(externProps) myProps = { ...externProps}
-    else if(this.props) myProps = { ...this.props }
-
-    let templatetext = this.template;
     //procedemos a inyectar las props
-    if(myProps){
-      for (const [key, value] of Object.entries(myProps)){
-        const regex = new RegExp(`{${key}}`, "g");
-        templatetext = templatetext.replace(regex,`${value}`)
-      }//end for
-    }
+    if(this.props){
+     for (const [key, value] of Object.entries(this.props)){
+       const regex = new RegExp(`{${key}}`, "g");
+       templatetext = templatetext.replace(regex,`${value}`)
+     }//end for
 
-    //NEW begin --------------------------------------
-    //injectamos las raices de los hijos
-    if(this.children.length > 0){
-      let root = '';
-      for (let i = 0; i < this.children.length; i++){
-        root += `<div class="root${i}"></div>`
-      }//end for
-      const regex = /\[volatile\]/g
-      templatetext = templatetext.replace(regex, root);
-    }
-    //NEW end --------------------------------------
-    //convertimos el template a un nodo del DOM
-    const componentNode = string2html(templatetext);
-    this.body = componentNode;
-
-    //
-    /**
-     * creamos de forma recursiva los hijo e inyectamos las props 
-     * hacia dentro del arbol, es importante saber que las props de arbol deben navegar por todos los componentes, sea esta un false o datos válidos
-     */
-    if (this.children.length > 0){
-      const childrenPromises = this.children.map(async (element) =>
-        element.create(myProps)
-      );
-      const responsePromise = await Promise.all(childrenPromises);
-    }
+   }
+   //NEW begin --------------------------------------
+   //inyectamos las raices de los hijos
+   if(this.children.length > 0){
+     let root = '';
+     for (let i = 0; i < this.children.length; i++){
+       root += `<div class="root${i}"></div>`
+     }//end for
+     const regex = /\[volatile\]/g
+     templatetext = templatetext.replace(regex, root);
+   }
+   //NEW end --------------------------------------
+   return templatetext;
   }
-
 }

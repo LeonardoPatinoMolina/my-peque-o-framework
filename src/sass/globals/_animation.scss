@@ -1,3 +1,4 @@
+@use '../globals/variables' as v;
 /*modal-----------------------*/
 @keyframes openModal {
   from {
@@ -151,16 +152,19 @@
 
 @keyframes loading {
   from {
-    background-color: #fff2;
+    // fill: red;
+    opacity: 1;
   }
   to {
-    background-color: #fff5;
+    opacity: .3;
+    // fill: blue;
+    // background-color: #fff5;
   }
 }
 
 .loading-an {
   animation-name: loading;
-  animation-duration: 1s;
+  animation-duration: .6s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;

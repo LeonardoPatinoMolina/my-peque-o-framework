@@ -1,7 +1,13 @@
+import { Rule } from "../lib/leoframe.js";
 import { $ } from "../lib/utils.js";
 import { Modal } from "../pages/layout/modal/Modal.js";
 import { Router } from "../pages/router.js";
 
+/**
+ * 
+ * @param {Component} component 
+ * @returns {Rule}
+ */
 export const HeaderRule = (component)=>{
 
   const addTitleListener = () =>{
@@ -43,21 +49,18 @@ export const HeaderRule = (component)=>{
     });
   }
 
-  const addListenersManagment = [
-    addTitleListener,
-    addItemsNav,
-    addTriggerModalListener
-  ]
-  const removeListenersManagment = [
-    removeTitleListener,
-    removeItemsNav,
-    removeTriggerModalListener
-  ]
-  return {
-    add: addListenersManagment.forEach(a=>{ a() }),
-    remove: removeListenersManagment.forEach(r=>{ r() })
-  }
-
+  return new Rule({
+    adders: [
+      addTitleListener,
+      addItemsNav,
+      addTriggerModalListener
+    ], 
+    removers: [
+      removeTitleListener,
+      removeItemsNav,
+      removeTriggerModalListener
+    ]
+  });
 }
 
 //utils

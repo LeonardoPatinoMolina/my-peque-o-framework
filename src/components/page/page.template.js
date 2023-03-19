@@ -6,16 +6,16 @@ export class PageComponent extends Component {
     return super.template(`
     <section class="page">
       <div class="page__aside">
-        <h2 class="page__aside__title">{title}</h2>
-        <h3 class="page__aside__subtitle">{subtitle}</h3>
-        <img draggable="false" class="page__aside__img" src="{img}" alt="picture">
+        <h2 class="page__aside__title">${this.props.title}</h2>
+        <h3 class="page__aside__subtitle">${this.props.subtitle}</h3>
+        <img draggable="false" class="page__aside__img" src="${this.props.img}" alt="picture">
         <div class="page__aside__info">
-          <p class="page__aside__info__text">{rate}{stars}</p>
-          <p class="page__aside__info__text">{genres}</p>
+          <p class="page__aside__info__text">${this.props.rate}${this.props.stars}</p>
+          <p class="page__aside__info__text">${this.props.genres}</p>
         </div>
       </div>
-      <p class="page__info__text">{date}</p>
-      <p class="page__description" >{description}</p>
+      <p class="page__info__text">${this.props.date}</p>
+      <p class="page__description" >${this.props.description}</p>
       <div tabindex="-1" class="page__watch">
         <img 
           class="page__watch__img" 

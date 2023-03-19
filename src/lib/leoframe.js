@@ -6,7 +6,6 @@ import { $, string2html } from "./utils.js";
  */
 export class Component {
   name = 'componente';
-  templateComponent = '<div>Hola mundo</div>';
   key;
   body;
   children = [];
@@ -41,14 +40,6 @@ export class Component {
    */
   template(template){
     let templatetext = template.toString();
-    //procedemos a inyectar las props
-    if(this.props){
-      for (const [key, value] of Object.entries(this.props)){
-        const regex = new RegExp(`{${key}}`, "g");
-        templatetext = templatetext.replace(regex,`${value}`)
-      }//end for
-
-    }
 
     //inyectamos las raices
     if(this.children.length > 0){
@@ -350,14 +341,6 @@ export class VolatileComponent extends Component{
   template(template){
     let templatetext = template.toString();
 
-    //procedemos a inyectar las props
-    if(this.props){
-     for (const [key, value] of Object.entries(this.props)){
-       const regex = new RegExp(`{${key}}`, "g");
-       templatetext = templatetext.replace(regex,`${value}`)
-     }//end for
-
-   }
    //NEW begin --------------------------------------
    //inyectamos las raices de los hijos
    if(this.children.length > 0){
@@ -370,5 +353,39 @@ export class VolatileComponent extends Component{
    }
    //NEW end --------------------------------------
    return templatetext;
+  }
+}
+
+/**
+ * clase encargada de 
+ */
+export class Rule {
+  adders;
+  removers;
+  /**
+   * 
+   * @param {{adders: Array<()=>void>, removers: Array<()=>void>}} args 
+   */
+  constructor(args){
+    this.adders = args?.adders;
+    this.removers = args?.removers;
+  }
+  
+  /**
+   * Ejecuta uno a uno cada regla addEventListener
+   * @returns {Rule}
+  */
+ add(){
+   this.adders.forEach(add=>{ add() });
+   return this;
+  }
+  
+  /**
+   * Ejecuta uno a uno cada regla removeEventListener
+   * @returns {Rule}
+  */
+ remove(){
+   this.removers.forEach(remove=>{ remove() })
+   return this;
   }
 }

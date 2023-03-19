@@ -1,3 +1,4 @@
+import { Rule } from "../lib/leoframe.js";
 import { $, $$ } from "../lib/utils.js";
 import { Router } from "../pages/router.js";
 
@@ -18,10 +19,14 @@ export const NavRule = (component)=>{
     });
   }
   
-  return {
-    add: [addItemsListener],
-    remove: [removeItemsListener]
-  };
+  return new Rule({
+    adders: [
+      addItemsListener
+    ],
+    removers: [
+      removeItemsListener
+    ]
+  });
 } 
 
 //utils-----------------------------------------------

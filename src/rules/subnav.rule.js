@@ -1,3 +1,4 @@
+import { Rule } from "../lib/leoframe.js";
 import { Router } from "../pages/router.js";
 
 export const SubNavRule = (component)=>{
@@ -29,16 +30,16 @@ export const SubNavRule = (component)=>{
     });
   }
 
-  return {
-    add: [
+  return new Rule({
+    adders: [
       addMoviesListener, 
       addShowsListener
-    ], 
-    remove: [
+    ],
+    removers: [
       removeMoviesListener, 
       removeShowsListener
     ]
-  };
+  });
 }
 
 //utils---------------------------------------------------

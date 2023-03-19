@@ -6,12 +6,10 @@ export class NavComponent extends Component{
   name = "nav";
   
   didMount = async ()=>{
-    const { add } = NavRule(this);
-    add.forEach(a => { a() });
+    NavRule(this).add()
   }
   didUnmount = async ()=>{
-    const {remove} = NavRule(this);
-    remove.forEach(r => { r() });
+    NavRule(this).remove();
   }
 
   template(){

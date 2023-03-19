@@ -15,8 +15,6 @@ export class BannerComponent extends Component{
   template(){
     return super.template(`
     <div class="banner">
-
-
       <p class="banner__paragraph">
         <span>¡Bienvenido a nuestro sitio de películas!</span> Aquí, encontrarás una amplia selección de obras de todo el mundo, organizadas en categorías fáciles de navegar. Nuestro catálogo incluye una gran variedad de entregas, desde dramas y comedias hasta películas de terror y acción, para satisfacer todos los gustos.
       </p>

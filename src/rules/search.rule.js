@@ -1,3 +1,4 @@
+import { Rule } from "../lib/leoframe.js";
 import { Modal, ResultsCards } from "../pages/layout/modal/Modal.js";
 
 export const SearchRule =(component)=>{
@@ -28,16 +29,16 @@ export const SearchRule =(component)=>{
     btn.removeEventListener('click', (e)=> handleBtnClick(e, component));
   }
 
-  return {
-    add: [
+  return new Rule({
+    adders: [
       addInputListener,
       addBtnCloseListener
     ],
-    remove: [
+    removers: [
       removeInputListener,
       removeBtnCloseListener
     ]
-  }
+  });
 }
 
 //utils---------------------------------------------

@@ -6,12 +6,10 @@ export class SearchComponent extends Component {
   props = { logo: "close", value: '' };
   
   didMount = async ()=> {
-    const { add } = SearchRule(this);
-    add.forEach(a=>{ a() });
+    SearchRule(this).add()
   }
   didUnmount = async ()=> {
-    const { remove } = SearchRule(this);
-    remove.forEach(r=>{ r() });
+    SearchRule(this).remove()
   }
   
   template() {
@@ -23,13 +21,13 @@ export class SearchComponent extends Component {
       class="search__input_text"
       autocomplete="off"
       autofocus
-      value="{value}"
+      value="${this.props.value}"
     >
     <span 
       id="btn_close_modal"
       class="btn_modal search__logo material-symbols-rounded"
     >
-    {logo}
+    ${this.props.logo}
   </span>
   </div>
   `) 

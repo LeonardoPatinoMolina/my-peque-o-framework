@@ -5,27 +5,25 @@ export class SubnavComponent extends Component{
   name = "subnav";
 
   didMount = async ()=> {
-    const { add } = SubNavRule(this);
-    add.forEach(a=>{ a() });
+    SubNavRule(this).add();
   }
   
   didUnmount = async ()=> {
-    const { remove } = SubNavRule(this);
-    remove.forEach(r=>{ r() });
+    SubNavRule(this).remove();
   }
 
   template() {
     return super.template(`
-    <nav class="{className} close_an">
-      <ul class="{className}__list">
-        <li data-opction="{opction1}" class="{className}__list__item">
-          {opction1}
+    <nav class="${this.props.className} close_an">
+      <ul class="${this.props.className}__list">
+        <li data-opction="${this.props.opction1}" class="${this.props.className}__list__item">
+          ${this.props.opction1}
         </li>
-        <li data-opction="{opction2}" class="{className}__list__item">
-          {opction2}
+        <li data-opction="${this.props.opction2}" class="${this.props.className}__list__item">
+          ${this.props.opction2}
         </li>
-        <li data-opction="{opction3}" class="{className}__list__item">
-          {opction3}
+        <li data-opction="${this.props.opction3}" class="${this.props.className}__list__item">
+          ${this.props.opction3}
         </li>
       </ul>
     </nav>

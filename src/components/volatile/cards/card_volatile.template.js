@@ -28,13 +28,13 @@ export class CardVolatileComponent extends Component{
   template() {
     return super.template(`
     <div 
-      id="{id}" 
+      id="${this.props.id}" 
       class="cardvolatile"
       data-filter="popular"
-      data-type="{type}"
+      data-type="${this.props.type}"
     >
-      <h3 class="cardvolatile__title">{title}</h3>
-      <p class="cardvolatile__subtitle">{body}</p>
+      <h3 class="cardvolatile__title">${this.props.title}</h3>
+      <p class="cardvolatile__subtitle">${this.props.body}</p>
     </div>
     `)
   }

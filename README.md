@@ -1,57 +1,76 @@
 # __Mi pequeño framework font-end__
 ## __My Movie__
-El presente ejercicio tiene como finalidad poner en práctica conocimientos aprendidos en __JavaScript__, __HTML__ y __scss__, para esto me he propuesto crear mi propio framework en JS, la idea es crear una página estática, pero manteniendo un desarrollo modular con componentes.
+El presente ejercicio tiene como finalidad poner en práctica conocimientos aprendidos en __JavaScript__, __HTML__ y __Scss__, para esto me he propuesto crear mi propio framework front end en JS, la idea es enfocar el desarrollo en diseño por composicióin, razón por la que modularizé la interfaz en ``componentes`` declarados y administrados con js, estos poseen un ciclo de vida, estados y la capacidad de re renderizarse por demanda.
+
+> __Nota__: Pensé inicialmente en imitar caracteristicas interesantes como la _reactividad_ o el renderizado condicional en sintaxis tal y como se encuentran en frameworks actuales, pero la complejidad necesaria para ello excedía el propósito de este ejercicio, el cual no pretende ser más que un repaso a ciertos aspectos de tecnologías fundamentales.
 
 ## __Sobre el framework__
-Consiste en un conjunto de lineamientos, técnicas y herramientas que diseñé para construir la interfaz de la página por composición, para ello separé cada fragmento de las etiquetas ``HTML`` en su propio fichero, es decir, modularicé cada parte de la vista en componentes. 
-### __Reglas y estructura__
-Mi framework mantiene el enfoque de página única _SPA_, esto implica que requiere de un archivo __index.html__ en la raíz de la aplicación, este debe tener como mínimo una etiqueta raíz la cual debe poseer un id _"root"_ ejemplo:
+Consiste en un conjunto de lineamientos, técnicas y herramientas que diseñé para construir la interfaz de la página por composición, para ello separé cada fragmento de las etiquetas ``HTML`` en clases de Javascript equipadas con la lógica necesaria para montar, desmontar o actualizar cada fragmento según se requiera, con el propósito de tener un mayor control en la implementación de funcionalidades más complejas en la vista. 
+
+Mucho de lo desarrollado está inspirado en la funcionalidad o diseño de variadas tecnologías con las que he tenido oportunidad de interactuar.
+### __Lineamientos y estructura__
+Mi pequeño framework mantiene el enfoque de página única _SPA_, esto implica que requiere de un archivo __index.html__ en la raíz de la aplicación, este debe tener como mínimo una etiqueta raíz la cual debe poseer un id _"root"_ ejemplo:
 ~~~html
 <div id="root"></div>
 ~~~
 El contenido de esta etiqueta raíz será el administrado desde _JavaScript_, es decir, esta será la raíz de todos los árboles de componentes abiertos al cambio.
 
-Además, este framework permite establecer una estructura `fija` para algunos árboles de componentes, a esto le llamé __Layout__, son aquellos que cuentan con una raíz exclusiva y no están sujeto a mucho cambio, sin embargo, su principal carácteristica es que están disponibles siempre en la aplicación, en código es represntado por la clase __TreeLayoutComponent__ la etiqueta raíz de estos árboles está identificada por el nombre del árbol, generalmente se trata de partes típicas de la página, como los _header_ o _footer_ ejemplo:
+Se permite tambien establecer una estructura `fija` para algunos árboles de componentes, a esto le __TreeLayout__, son aquellos que cuentan con una raíz exclusiva y no están sujetos a mucho cambio, sin embargo, su principal carácteristica es que están disponibles siempre en la aplicación, en código es representado por la clase __TreeLayoutComponent__ la etiqueta raíz de estos árboles está identificada por el nombre del árbol, generalmente se trata de partes típicas de la página, como el _header_ o _footer_, ejemplo:
 ~~~html
 <div id="header"></div>
 ~~~
-#### Coponentes
-Por su parte, los componetes se dividen en dos clases __Component__ y __VolaitileComponent__, El primero es el componente común, tiene la tarea de representar estructuralmente un fragmento de la página, para ello se vale de plantillas de ``html`` para la declaración de sintáxis. Los componentes pueden tener en su estructura componentes hijos, los cuales pueden ser cualquiera de los dos previamente mencionados. El componente volatil realiza las mismas tareas que un componente comun pero guarda dos diferencias fundamentales: 
+#### __Componentes__
+Por su parte, los componetes se dividen en dos clases __Component__ y __VolaitileComponent__, El primero es el componente común, tiene la tarea de representar estructuralmente un fragmento de la página, para ello se vale de __plantillas literales__ que contienen las sintaxis de ``html`` para la declaración de la vista. 
+
+Los componentes pueden tener en su estructura ``componentes hijos``, los cuales pueden ser cualquiera de los dos previamente mencionados. El componente volatil realiza las mismas tareas que un componente común, pero guarda sus diferencias: 
 
 |Caracteristica|Component|VolatileComponent|
 |---|---|---|
 |Hijos|La cantidad de hijos se conoce en todo momento. Una véz declarados no puede cambiar.|La cantidad de hijos es desconocida, arbitraria y dinámica.|
 |Raices|todas las raices deben estar declaradas previamente de forma explicita en la plantilla| Las raices son generadas dinámicamente en base a la cantidad actual de hijos|
 |Ventajas|El lugar que ocupará un hijo en la estructura puede definirse claramente, permitiendo un acoplamiento complejo de componentes hijos|La cantidad de hijos es dinámica, no hace falta preocuparse por una declaración explicita de todas las raices|
-|desventajas|La cantidad de hijos no varía en el tiempo, el acoplamiento al componente padre suele ser especifico y estático.| Es imposible acoplar hijos en distintos lugares del padre ya que todas las raices son generadas en un solo lugar, no es muy util para diseños de acoplamiento de hijos muy complejo.
+|desventajas|La cantidad de hijos no varía en el tiempo, el acoplamiento al componente padre suele ser especifico y estático.| Es imposible acoplar hijos en distintos lugares del padre ya que todas las raices son generadas en un solo lugar, no es muy util para diseños de acoplamiento complejo de hijos.
 
 Encontramos más detalles diferenciadores en las raices de componentes: 
-#### Raíz relativa
+#### __Raíz relativa__
 Una _raíz relativa_ , pertenece a un componente especifico que cumple el rol de __padre__, si un componente desea tener componentes __hijos__, debe poseer de forma explícita las raices de los mismos. Mi pequeño framework tiene como restricción que a cada hijo le corresponde su propia raíz y cuenta con la siguiente sintaxis:
 ~~~html
-<div class="root1"></div>
-<div class="root2"></div>
+`<main class="parent">
+  [child0]
+  <div>
+    [child1]
+  </div>
+</main>`
 ~~~
-La sintaxis difiere de las anteriores en que esta posee una _clase_ en lugar de _id_ además que la palabra root está acompañada con un ``número``, este es necesario para diferenciarla de las otras raíces de otros hijos. En ese caso hay dos raíces, es decir, habrá dos hijos.
-El componente con rol de __padre__ necesita tener en su sintaxis estas etiquetas de raíz ya que es el punto de referencia del componente hijo para acoplarse; una vez llegado el momento, la raíz será reemplazada por el componente dejando una estrucutura limpia.
+SU composición consta de la palabra _"child"_ acompañada de un número entero que empieza desde el 0 hasta N (según se requiera), este corresponde a la indexasión del componente hijo en el atributo array ``children`` del componente padre. Luego de ensamblar el componente esta sintaxis será remplazada por una etiqueta de __HTML5__ que pueda ser entendida por el __DOM__:
+~~~HTML
+`<main class="parent">
+    <div class="root0"></div>
+  <div>
+    <div class="root1"></div>
+  </div>
+</main>`
+~~~
+La sintaxis difiere de la principal en que esta posee una _clase_ en lugar de un _id_. En ese caso hay dos raíces, es decir, habrá dos hijos.
+El componente con rol de __padre__ necesita tener en su sintaxis estas etiquetas de raíz ya que es el punto de referencia del componente hijo para acoplarse; una vez llegado el momento, la raíz será reemplazada por el componente dejando una estructura limpia.
 
-#### Raíz volatil
+#### __Raíz volatil__
 la raíz volatil Es una declaración abstracta de lo que será el lugar de origen en el cual serán generadas las __raices relativas__ dinámicamente, esto por supuesto es algo propio de un ``componente volatil``, su sintaxis es la siguiente:
 ~~~HTML
-<div class="parent">
+`<div class="parent">
   [volatil]
-</div>
+</div>`
 ~~~
 
-### Props y globalProps
-La _props_ son datos puntuales de iterés para el componete o el árbol que las posee, consisten en un objeto con __datos premitivos__ que serán eventualmente injectados en el comonente, la forma para declararlo en la pnatilla es con el nombre de la porp encerrada en llaves ``"{}"``, ejemplo:
+### __Props y globalProps__
+La _props_ son datos puntuales de iterés para el componete o el árbol que las posee, consisten en un objeto con __datos primitivos__ que serán eventualmente utilizadas en el comonente, estas son inyectadas directamente en la platilla, ejemplo:
 ~~~HTML
-<div>
-  {name}
-  <div>
-    {email}
-  </div>
-</div>
+`<div>
+  <ul>
+    <li>${this.props.name}</li>
+    <li>${this.props.email}</li>
+  </ul>
+</div>`
 ~~~
 Esto establece la ubicación de cada prop injectada en el momento de renderizar el componente.
 
@@ -95,7 +114,7 @@ export class Component {
 }
 ~~~
 
-  #### <u>estructura</u>
+  ### <u>Estructura</u>
   ``name:`` nombre del componente, este debe ser el mismo del fichero donde está almacenada la plantilla HTML.
 
   ``body:`` elemento HTML del componente, es decir, el nodo que representa.
@@ -106,17 +125,20 @@ export class Component {
 
   ``$builder:`` este atributo cuenta con un __$__ en su nomenclatura, decidí que este signo refiera a los atributos _callback_ de la clase con miras a la posible añadidura de más atributos de esta naturaleza. Este es ejecutado internamente en la clase Component y en dicho contexto recibe por inyección sus los parámetros, su objetivo es construir algunos aspectos del componente, en su _scope_ hay acceso a una referencia del componente mismo, y con él podemos inyectar props, o hijos; ya ejemplificaré un uso práctico para este atributo.
 
-  ``didMount():`` este método se ejecuta automáticamente una vez que el componente a sido renderizado, claramente es inspiración de __React.js__ :). El propósito general de este método es añadir eventos escucha e iniciar cualquier asunto de interés para el componente
-  
-  ``didUnount():`` este método se ejecuta automáticamente una vez que el componente a sido des-renderizado, claramente es inspiración de __React.js__ :). El propósito general de este método es remover culaquier _EventListener_ o resolver cualquier asunto que se encuentre vigente y no se requiera en otro lugar.
-
-  ``template():`` método encargado de ensamblar aspectos relevantes de la plantilla como pueden ser la inyeccion de props y raices, este método es reescrito en cada componente que extienda las clases __Component__ o __VolatileComponent__, para declarar su prpopia plantilla, la cual consiste en una plantilla literal que contiene toda la sintaxis html necesaria para montar el componente.
+  ``template():`` método encargado de ensamblar la plantilla del componente, para ello inyecta las raices y lo transforma la reeferencia de las props en datos primitivos, este método es reescrito en cada componente que extienda las clases __Component__ o __VolatileComponent__, para declarar su prpopia vista, la cual consiste en una plantilla literal que contiene toda la sintaxis _html_ necesaria para montar el componente.
 
 ``create():`` método encargado de crear completamente el componente. Como mencioné anteriormente cada componente representa un nodo _HTML_ a través de su __template__, en algún momento esta sintaxis debe ser acoplada al _DOM_. Esta función se encarga de ello. Debido a que es una operación asíncrona requiere de una administración especial la cual se realiza desde el árbol en sí.
 
 ``setChildren()``: método encargado de establecer los componentes hijos, de esta forma el componente podrá recibir props al momento de ser invocado
 
 ``update():`` método especial encargado de re-renderizar un componente específico, el componente que use este metodo realizará nuevaente el proceso de creación y ensamble, sin embargo, posee limitaciones: el componente estará aislado de las props globales del árbol, en su defecto el método admite como parametro props nuevas, las cuales, estarán accesibles en todo el componente incluyendo sus hijos.
+
+  ### <u>Ciclo de vida</u>
+De momento el ciclo de vida de cada componente se resume en un par de métodos que realizan un seguimiento de dos instancias de la vida del componente, al ser renderizado: __didMount()__ y al ser desrenderizado: __didUnmount__, esto ha sido de mucha ayuda en la administración de los escucha de eventos en compoentes susceptibles a desrendereizarse y son parte fundamental en las reglas de componente __Rules__; efecivamente estpa inspirado e __React.js__:
+
+  ``didMount():`` este método se ejecuta automáticamente una vez que el componente a sido renderizado. El propósito general de este método es añadir eventos escucha e iniciar cualquier asunto de interés para el componente
+  
+  ``didUnount():`` este método se ejecuta automáticamente una vez que el componente a sido des-renderizado. El propósito general de este método es remover culaquier _EventListener_ o resolver cualquier asunto que se encuentre vigente y no se requiera en otro lugar.
 
 #### __VolatileComponent__
 Esta clase extiende, es decir, hereda de la clase _Component_ cuenta exactamente con las mismas características con una diferencia: implementa el método _template()_ de forma ligeramente distinta, mientras que el método en la clase Component inyecta los hijos del componente en raices prestablecidas, este primero las genera para poder inyectar una cantidad arbitraria, en otras palabras, las raices volatiles "[volatile]" requieren un trato distinto a las raices relativas directas "[child0]".
@@ -157,7 +179,7 @@ class TreeComponent {
   public remove(): void;
 }
 ~~~
-  #### <u>estructura</u>
+  ### <u>Estructura</u>
   ``name:`` nombre de árbol de componentes, este nombre es relevante ya que la paginación lo utiliza como referencia.
   
   ``children:`` componentes nodo del árbol, hace referencia a la estructura compleja de componentes que representan el árbol, en esencia se trata un arreglo de componentes.
@@ -184,7 +206,7 @@ class TreeLayoutComponent extends TreeComponent {
   private remove(): void;
 }
 ~~~
-  #### <u>estructura</u>
+  ### <u>Estructura</u>
   La estructura es exactamente la misma que su clase padre con una diferencia: la hora de ensamblar y remover el árbol apunta a una raíz distinta ya que pertenece a la estructura Layout, por ello se ensambla en una raíz especifica previamente quedó manifiesta la diferencia entre ellas; por esta razón sobrescribimos el método _assemble()_ y el _remove()_.
 
 #### __Pagination__
@@ -209,7 +231,7 @@ class Pagination {
   init(): Promise<void>
 }
 ~~~
-  #### <u>estructura</u>
+  ### <u>Estructura</u>
 ``currentPage:`` hace referencia al árbol de componentes que está renderizado.
 
 ``home:`` nombre del arbol de componentes predeterminado como renderizado inicial.
@@ -229,20 +251,35 @@ Entre algunos aspectos a resaltar están una serie de directorios que son requer
 |__pages__|src/pages/|Encargado de alojar los árboles de componentes: _TreeComponent_, esto hace parte de la paginación, el nombre de los archivos deben finalizar con: _".page.js"_|
 |__rules__|src/rules/|Encargado de alojar las reglas de cada componente, lel nombre de los archivos dee finalizar con: _".rule.js"_|
 
-
 ### __Rules__
-la rules son las reglas que cada compoente puede declarar para su funcionalidad intrínseca, son en esencia funcionalidades a base de _eventListeners_, esta estructura converge con la implementación de los métodos del siclo de vida del componente: _didMount()_ y _didUnmount()_.
+~~~Typescript
+class Rule {
+  adders;
+  removers;
+
+  constructor(args: {
+    adders: Array<()=>void, 
+    removers: Array<()=>void
+  });
+
+  //method
+  add(): Rule;
+  //method
+  remove(): Rule;
+
+}
+
+~~~
+la rules son las reglas que cada compoente puede declarar para su funcionalidad intrínseca, son en esencia funcionalidades a base de _eventListeners_, esta estructura converge con la implementación de los métodos del ciclo de vida del componente: _didMount()_ y _didUnmount()_.
 
 La estructura base de su implementación en un componente es la siguiente: 
 ~~~Javascript
   didMount = async ()=>{
-    const { add } = HeaderRule(this);
-    add();
+    HeaderRule(this).add();
   }
   
   didUnmount = async ()=>{
-    const { remove } = HeaderRule(this);
-    remove()
+    HeaderRule(this).remove()
   }
 ~~~
 
@@ -262,16 +299,16 @@ export class PageComponent extends Component {
     return super.template(`
     <section class="page">
       <div class="page__aside">
-        <h2 class="page__aside__title">{title}</h2>
-        <h3 class="page__aside__subtitle">{subtitle}</h3>
-        <img draggable="false" class="page__aside__img" src="{img}" alt="picture">
+        <h2 class="page__aside__title">${this.props.title}</h2>
+        <h3 class="page__aside__subtitle">${this.props.subtitle}</h3>
+        <img draggable="false" class="page__aside__img" src="${this.props.img}" alt="picture">
         <div class="page__aside__info">
-          <p class="page__aside__info__text">{rate}{stars}</p>
-          <p class="page__aside__info__text">{genres}</p>
+          <p class="page__aside__info__text">${this.props.rate}${this.props.stars}</p>
+          <p class="page__aside__info__text">${this.props.genres}</p>
         </div>
       </div>
-      <p class="page__info__text">{date}</p>
-      <p class="page__description" >{description}</p>
+      <p class="page__info__text">${this.props.date}</p>
+      <p class="page__description" >${this.props.description}</p>
       <div tabindex="-1" class="page__watch">
         <img 
           class="page__watch__img" 
@@ -284,9 +321,9 @@ export class PageComponent extends Component {
   }
 }
 ~~~
-Desde arriba hacia bajo se puede observar: la importación de la clase __Component__, en este caso no cuenta con hijos, pero estos pueden ser inyectados en cualquier momento con su mpetodo _setChildren()_, sin embargo, en la plantilla no hay declarada ningun raíz relativa ni tampoco una raíz volatil, este componente no tiene ni planea tener hijos.
+Desde arriba se puede observar: la importación de la clase __Component__, en este caso no cuenta con hijos, pero estos pueden ser inyectados en cualquier momento con su mpetodo _setChildren()_, sin embargo, en la plantilla no hay declarada ningun raíz relativa ni tampoco una raíz volatil, este componente no tiene ni planea tener hijos.
 
-Lo que sí se puede apreciar es la presencia de __props__, en concreto 8, ya que estas no se encuentran declaradas en el cuerpo de la clase, probablemente serán inyectadas de forma externa por el método constructor de forma externa.
+Lo que sí se puede apreciar es la presencia de __props__, en concreto 8, ya que estas no se encuentran declaradas en el cuerpo de la clase, probablemente serán inyectadas de forma externa por el método constructor.
 
 Otro aspecto importante es la implementación del método _template()_ el cual está siendo sobre escrito y utilizado desde la propiedad __super__, este patrón permite ocultar mucha lógica de la implementación y a su véz distribuye las responsabilidades en __clase principlal__.
 

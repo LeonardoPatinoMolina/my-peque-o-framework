@@ -3,9 +3,14 @@ import { ShowsProps } from "../../adapter/shows.js";
 import { CardComponent } from "../../components/cards/card.template.js";
 import { CardWrapperComponent } from "../../components/cards/cardwrapper.template.js";
 import { TreeComponent } from "../../lib/leoframe.js";
+import { fetchCacheInterceptor } from "../../lib/utils.js";
 
 const builder = async (component)=>{
-  const response = await fetch(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${APIKEY}&language=es-ES&page=1`);
+  const url = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${APIKEY}&language=es-ES&page=1`;
+  const response = await fetchCacheInterceptor(url,{
+    cacheName: 'cards_shows',
+    revalidate: 120//dos horas
+  });
   const rjson = await response.json()
   const showsP = rjson.results;
 

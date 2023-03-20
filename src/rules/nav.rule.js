@@ -34,7 +34,16 @@ function handleClickItem(item){
   const subnavShowsCls = $(".subnav_shows").classList;
   const subnavMoviesCls = $(".subnav_movies").classList;
   
-  if (item.dataset.link === "home") Router.comeHome();
+  if (item.dataset.link === "home" || item.dataset.link === "about") {
+    console.log(1);
+      subnavShowsCls.remove("open_an");
+      subnavShowsCls.add("close_an");
+
+      subnavMoviesCls.remove("open_an");
+      subnavMoviesCls.add("close_an");
+      
+    Router.jumpToTree(item.dataset.link);
+  }
   //desplegamos la barra secundaria de peliculas si
   if (item.dataset.link === "movies") {
     const itemsSubNavMovies = $$(".subnav_movies__list__item");
@@ -65,10 +74,14 @@ function handleClickItem(item){
     subnavShowsCls.toggle("close_an");
   }
 
-  //about
-  if (item.dataset.link === "about") {
-    Router.jumpToTree("about");
-  }
+  // //about
+  // if (item.dataset.link === "about") {
+  //   Router.jumpToTree("about");
+  //   if (subnavShowsCls.contains("open_an")) {
+  //     subnavShowsCls.remove("open_an");
+  //     subnavShowsCls.add("close_an");
+  //   }
+  // }
 }//end handle
 
 function deselect(item) {

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx sass --watch src/sass:public/css --style compressed",
-    "start": "npx live-server",
-    "build": "npx sass src/sass:public/css --style compressed"
+    "start": "npx live-server"
   },
   "keywords": [],
   "author": "",

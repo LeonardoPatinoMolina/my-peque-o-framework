@@ -35,7 +35,6 @@ function handleClickItem(item){
   const subnavMoviesCls = $(".subnav_movies").classList;
   
   if (item.dataset.link === "home" || item.dataset.link === "about") {
-    console.log(1);
       subnavShowsCls.remove("open_an");
       subnavShowsCls.add("close_an");
 

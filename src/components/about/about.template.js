@@ -15,7 +15,7 @@ export class AboutComponent extends Component{
           <img
             id="html_logo"
             class="main_about__list__item__logo"
-            src="assets/html.svg"
+            src="src/assets/html.svg"
             alt="html logo"
             />
           </li>
@@ -24,7 +24,7 @@ export class AboutComponent extends Component{
             <img
             id="css_logo"
             class="main_about__list__item__logo"
-            src="assets/scss.svg"
+            src="src/assets/scss.svg"
             alt="css logo"
           />
         </li>
@@ -33,7 +33,7 @@ export class AboutComponent extends Component{
           <img
             id="js_logo"
             class="main_about__list__item__logo"
-            src="assets/js.svg"
+            src="src/assets/js.svg"
             alt="javascript logo"
           />
         </li>

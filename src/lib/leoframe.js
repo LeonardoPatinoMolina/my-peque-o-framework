@@ -94,11 +94,7 @@ export class Component {
    * @returns {Component}
    */
   setChildren(children){
-    if(this.children.length > 0){
-      this.children.push(...children);
-    }else{
-      this.children = children;
-    }
+    this.children = children;
     return this;
   }
 

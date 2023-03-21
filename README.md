@@ -161,7 +161,7 @@ export class Component {
 
 ``create():`` método encargado de crear completamente el componente. Como mencioné anteriormente cada componente representa un nodo _HTML_ a través de su __template__, en algún momento esta sintaxis debe ser acoplada al _DOM_. Esta función se encarga de ello. Debido a que es una operación asíncrona requiere de una administración especial la cual se realiza desde el árbol en sí.
 
-``setChildren()``: método encargado de establecer los componentes hijos, de esta forma el componente podrá recibir props al momento de ser invocado
+``setChildren()``: método encargado de establecer componentes hijos, esta es un alternativa al atributo del constructor ``args.children``, ambas opciones asignarán hijos, sin embargo, no son combinables, es decir, si se usan ambas, la asignación por este método tendrá prioridad.
 
 ``update():`` método especial encargado de re-renderizar un componente específico, el componente que use este metodo realizará nuevaente el proceso de creación y ensamble, sin embargo, posee limitaciones: el componente estará aislado de las props globales del árbol, en su defecto el método admite como parametro props nuevas, las cuales, estarán accesibles en todo el componente incluyendo sus hijos.
 

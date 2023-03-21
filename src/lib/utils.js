@@ -76,6 +76,7 @@ export const fetchCacheInterceptor = async (urlResponse, {cacheName, revalidate}
 /**realizamos la apertura de la base de datos asegurandonos 
  * que esté lista para cualquier transacción
  * @param {string} name
+ * @param {string} storeName
  * @returns {Promise<IDBDatabase>}
  */
 export const dbReady = async (name, storeName)=>{
@@ -177,8 +178,8 @@ export const fetchPersistenceInterceptor = async (urlResponse, {storeName, reval
     })
   }
 
-    const db = await dbReady('my_movies');
-    const resultGet = await dbTransactionGet(db, urlResponse);
+    const db = await dbReady('my_movies', storeName);
+      const resultGet = await dbTransactionGet(db, urlResponse);
     
   if(!resultGet || isOutTime){
     window.localStorage

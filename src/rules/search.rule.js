@@ -1,5 +1,5 @@
 import { Rule } from "../lib/leoframe.js";
-import { Modal, ResultsCards } from "../pages/layout/modal/Modal.js";
+import { Modal, ResultsCards, FiltersComponent0 } from "../pages/layout/modal/Modal.js";
 
 export const SearchRule =(component)=>{
   
@@ -43,11 +43,10 @@ export const SearchRule =(component)=>{
 
 //utils---------------------------------------------
 function handleInput(e,component) {
-  //if(currentTarget.value.length < 2) return;
-  //if(currentTarget.value === " ") return;
-  //whait(currentTarget.value)
-    component.update({value: e.currentTarget.value})
-  
+  if(e.currentTarget.value.length < 2) return;
+  if(e.currentTarget.value === " " || e.currentTarget.value === "" ) return;
+  whait(e.currentTarget.value)
+  component.update({value: e.currentTarget.value})
 }
 /**
  * timer de espera antes de cada consulta, la idea
@@ -58,7 +57,10 @@ let timer = setTimeout(()=>{},10)
 function whait(input) {
   clearTimeout(timer)
   timer = setTimeout(()=>{
-    ResultsCards.update({query: input})
+    ResultsCards.update({
+      ...FiltersComponent0.props,
+      query: input
+    })
   }, 600)
 }
 

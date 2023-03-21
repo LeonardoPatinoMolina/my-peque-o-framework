@@ -1,25 +1,38 @@
 import { CardVolatileComponent } from "../../../components/volatile/cards/card_volatile.template.js";
 import { VolatileCardProps } from "../../../adapter/volatileCard.js";
-import { APIKEY } from "../../../../privateGlobal.js";
-import { fetchCacheInterceptor } from "../../../lib/utils.js";
+import { fetchPersistenceInterceptor } from "../../../lib/utils.js";
+import { URLs } from "../../../lib/endpoints.js";
 
 export const modalBuilder = async (component, treeProps)=>{
-  // treeProps.query
   component.children = [];
-  const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIKEY}&language=es-ES&page=1`;
-  const response = await fetchCacheInterceptor(url, {
-    cacheName: 'modal_cards', 
+  //el endpoint se decide en base al filtro que se encuentre
+  //seleccionado en ese momento
+  const url = URLs[treeProps.primary][treeProps.secondary]
+  const response = await fetchPersistenceInterceptor(url, {
+    storeName: 'modal_cards',
     revalidate: 120//dos horas
   });
-  const moviesP = response.results;
+  const { results } = response;
+"".startsWith()
 
-  for (const data of moviesP) {
-    const propsData = new VolatileCardProps(data).data;
-    const comp = new CardVolatileComponent({
-      props: {type: 'movie', ...propsData}
-    })
-    if(!component.children.find(co=>propsData.title === co.props.title)){
-      component.children.push(comp)
-    }
-  }//end for
+  let newResults;
+  if(treeProps.primary === 'movies') {
+    newResults= results.filter(movie=> movie.title.toLowerCase().startsWith(treeProps?.query))
+  }
+  else{
+    newResults= results.filter(show=> show.name.toLowerCase().startsWith(treeProps?.query))
+  }
+  //el tipo es el filtro primary en singular
+  const typeN =  treeProps.primary.slice(0, treeProps.primary.length - 1);
+  if(newResults.length > 0) {
+    for (const data of newResults) {
+      const propsData = new VolatileCardProps(data).data;
+      const comp = new CardVolatileComponent({
+        props: {type: typeN, ...propsData}
+      })
+      if(!component.children.find(co=>propsData.title === co.props.title)){
+        component.children.push(comp)
+      }
+    }//end for
+  }
 }

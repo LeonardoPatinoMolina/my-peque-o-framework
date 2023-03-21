@@ -12,6 +12,7 @@
   @include u.breakpoint("large"){
     // background-color: red;
     width: 50%;
+
     font-size: 1.1rem;
   }
   @include u.breakpoint-down("medium"){

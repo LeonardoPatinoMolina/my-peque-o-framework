@@ -4,18 +4,8 @@ import { FiltersRules } from "../../../rules/filters.rule.js";
 export class FiltersComponent extends Component {
   name = 'filters';
   props = {
-    primary: {
-      movies: "active",
-      shows: "",
-    },
-    secondary: {
-      popular: "active",
-      rated: "",
-      upcoming: "",
-      onair: "",
-    },
-    movies: "flex",
-    shows: "none"
+    primary: "movies",
+    secondary: "popular",
     }
 
   /**
@@ -28,28 +18,9 @@ export class FiltersComponent extends Component {
    * @returns {Component} componente princicpal
    */
   filterActivate(filterName, args){
-    for(let [key, value] of Object.entries(this.props[args.type])){
-      this.props[args.type][key] = ""
-    }
-    this.props[args.type][filterName] = "active";
+    this.props[args.type] = filterName;
 
     if(!args?.whait)super.update()
-    return this;
-  }
-
-  /**
-   * Método encargado de mostrar la lista de filtros
-   * según corresponda
-   * @param {string} filterName nombre de lista de filtros
-   * @param {{whait?: boolean}} args determina si el componente debe actualizarse o esperar una próxima invocación
-   * @returns {Component} componente princicpal
-   */
-  showFilters(filterName, args){
-    this.props.movies = "none";
-    this.props.shows = "none";
-
-    this.props[filterName] = "flex";
-    if(!args?.whait) super.update()
     return this;
   }
   
@@ -61,22 +32,24 @@ export class FiltersComponent extends Component {
   }
   
   template() {
-  return super.template(`
+    const P = this.props;
+
+    return super.template(`
   <aside data-key="${this.key}" class="filters">
   <ul class="filters__list_filter">
-    <li data-type="movies" class="filters__list_filter__item ${this.props.primary.movies}">Peliculas</li>
-    <li data-type="shows" class="filters__list_filter__item ${this.props.primary.shows}">Series</li>
+    <li data-type="movies" class="filters__list_filter__item ${P.primary === "movies" && "active"}">Peliculas</li>
+    <li data-type="shows" class="filters__list_filter__item ${P.primary === "shows" && "active"}">Series</li>
     <span tabindex="-1" class="filters__logo material-symbols-rounded">info</span>
   </ul>
-  <ul style="display: ${this.props.movies};" class="filters__list_subfilter">
-    <li data-tag="popular" class="filters__list_subfilter__item ${this.props.secondary.popular}">Populares</li>
-    <li data-tag="rated" class="filters__list_subfilter__item ${this.props.secondary.rated}">Mejores</li>
-    <li data-tag="upcoming" class="filters__list_subfilter__item ${this.props.secondary.upcoming}">Próximas</li>
+  <ul style="display: ${P.primary === "movies" ? "flex" : "none"};" class="filters__list_subfilter">
+    <li data-tag="popular" class="filters__list_subfilter__item ${P.secondary === "popular" && "active"}">Populares</li>
+    <li data-tag="rated" class="filters__list_subfilter__item ${P.secondary === "rated" && "active"}">Mejores</li>
+    <li data-tag="upcoming" class="filters__list_subfilter__item ${P.secondary === "upcoming" && "active"}">Próximas</li>
   </ul>
-  <ul style="display: ${this.props.shows};" class="filters__list_subfilter">
-    <li data-tag="popular" class="filters__list_subfilter__item ${this.props.secondary.popular}">Populares</li>
-    <li data-tag="rated" class="filters__list_subfilter__item ${this.props.secondary.rated}">Mejores</li>
-    <li data-tag="onair" class="filters__list_subfilter__item ${this.props.secondary.onair}">Al aire</li>
+  <ul style="display: ${P.primary === "shows" ? "flex" : "none"};" class="filters__list_subfilter">
+    <li data-tag="popular" class="filters__list_subfilter__item ${P.secondary === "popular" && "active"}">Populares</li>
+    <li data-tag="rated" class="filters__list_subfilter__item ${P.secondary === "rated" && "active"}">Mejores</li>
+    <li data-tag="onair" class="filters__list_subfilter__item ${P.secondary === "onair" && "active"}">Al aire</li>
   </ul>
 </aside>
   `) 

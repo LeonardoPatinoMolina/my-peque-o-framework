@@ -2,8 +2,8 @@ export class VolatileCardProps{
   constructor(data){
     this.data = {
       id: data.id,
-      title: data.title,
-      body: data.original_title
+      title: data?.title ?? data?.name,
+      body: data?.original_title ?? data?.original_name
     }
   }
 }

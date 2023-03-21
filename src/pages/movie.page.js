@@ -1,12 +1,15 @@
-import { APIKEY } from '../../privateGlobal.js';
 import { MoviePropsPage } from '../adapter/moviePage.js';
 import { PageComponent } from '../components/page/page.template.js';
+import { getDetailUrl } from '../lib/endpoints.js';
 import {TreeComponent} from '../lib/leoframe.js';
+import { fetchCacheInterceptor } from '../lib/utils.js';
 
 const builder = async (component, treeProps)=>{
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${treeProps.id}?api_key=${APIKEY}&language=es-ES`);
-  const movieDetail = await response.json()
-  component.props = new MoviePropsPage(movieDetail).data
+  const response = await fetchCacheInterceptor(getDetailUrl('movie', treeProps.id),{
+    cacheName: 'movie_page',
+    revalidate: 120//2 horas
+  });
+  component.props = new MoviePropsPage(response).data
 }
 
 const Movie = new TreeComponent({

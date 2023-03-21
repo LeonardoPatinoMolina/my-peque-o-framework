@@ -5,11 +5,36 @@ import { $, string2html } from "./utils.js";
  * Clase de declaración de componente
  */
 export class Component {
+  /** Nombre principal del componente
+   * @type {string}
+   */
   name = 'componente';
+  
+  /** LLave unica que identifica el componente en caso
+   * tal que este  mutable
+   * @type {string}
+   */
   key;
+  
+  /** Nodo al que corresponde el presente componente
+   * @type {HTMLElement}
+   */
   body;
+
+  /** Componentes hijos
+   * @type {Component[] | VolatileComponent[]}
+   */
   children = [];
+
+  /** Propiedades de componente, estas estarán disponibles para todos
+   *  sus hijos y posteriores
+   * @type {{[string]: any}}
+   */
   props = {};
+
+  /**
+   * @type {(component: Component, treeProps: {[string]:any})=>Promise<void>}
+   */
   $builder;
   
   /**
@@ -25,12 +50,24 @@ export class Component {
   /**
    * Método especializado se jecuta al renderizar el componente
    */
-  async didMount(){};
-
+  async didMount(){
+    if(this.children.length > 0){
+      for (const child of this.children) {
+        child.didMount();
+      }
+    }
+  };
+  
   /**
    * Método especializado se ejecuta al des-renderizar el componente
-   */
-  async didUnmount(){};
+  */
+ async didUnmount(){
+   if(this.children.length > 0){
+     for (const child of this.children) {
+       child.didUnmount();
+     }
+    }
+  };
 
   /**
    * Ensambla la la plantilla literal inyectando cada prop 
@@ -57,12 +94,17 @@ export class Component {
    * @returns {Component}
    */
   setChildren(children){
-    this.children = children;
+    if(this.children.length > 0){
+      this.children.push(...children);
+    }else{
+      this.children = children;
+    }
     return this;
   }
 
   /**
-   * 
+   * Encargada de construir el componente generando el 
+   * nodo HTML, estableciendo las props, y a cada uno de los posibles hijos
    * @param {{[string]:any}} externProps
    * @returns {Promise<void>}
    */
@@ -99,7 +141,11 @@ export class Component {
     }
   };//end method
 
-  //actualiza el compoente
+  /**
+   * Método encargado de actualizar un componente que lo requiera,
+   * es decir, un componente mutable
+   * @param {newProps: boolean | {[string]:any}} newProps 
+   */
   async update(newProps = false) {
     //avisamos que el componente ha sido desmontado y esperamos a que el método termine.
     await this.didUnmount();
@@ -133,16 +179,27 @@ export class Component {
 }
 
 export class Pagination {
+  /** Árbol establecido como el actualmente renderizado
+   * @type {TreeComponent}
+   */
   currentPage;
+
+  /** Ábol establecido para ser renderizado en el inicio
+   * @type {TreeComponent}
+   */
   home;
+
+  /** Objeto encargado de enlistar los árboles de componentes 
+   * prestos a la paginación básica
+   * @type {{[string]:any}}
+   */
   pages;
   /**
-   * 
-   * @param {{home: string, pages: string[]}} param0 
+   * @param {{home: string, pages: {[string]:any}}} args 
    */
-  constructor({home, pages}){
-    this.pages = pages;
-    this.home = home;
+  constructor(args){
+    this.pages = args.pages;
+    this.home = args.home;
   }
   /**
    * Encargada de renderizar el arbol que se le indique siempre
@@ -153,6 +210,7 @@ export class Pagination {
    */
   async jumpToTree(treeName, props = false){
     if(this.currentPage.name === treeName && !props) return;
+    //mostramos el placeholder mientras cargamos la nueva página
     $('#placeholder').classList.add('flex-align')
     this.currentPage.remove();
 
@@ -198,28 +256,52 @@ export class Pagination {
 }
 
 export class TreeComponent {
+  /** Nombre principal del árbol de componentes
+   * @type {string}
+   */
   name;
-  rulesScript;
+
+  /** Props globales del árbol de componentes, estas
+   * estarán disponibles n todos los compentes hijos
+   * @type {{[string]:any}}
+   */
   globalProps;
-  children = [];
-  root = new DocumentFragment();
+
+  /** Componentes hijos del árbol
+   * @type {Component[]}}
+   */
+  children;
+
+  /** Raiz principal que contendrá cada nodo correspondiente al árbol
+   * @type {DocumentFragment}}
+   */
+  root;
 
   /**
-   *
-   * @param {{name: string, children: Component[], rulesScript: HTMLElement, globalProps: {[string]: any}}} args
+   * @param {{name: string, children: Component[], globalProps?: {[string]: any}}} args
    */
-  constructor({name, children, rulesScript, globalProps = false }) {
-    this.name = name;
-    this.children = children;
-    this.rulesScript = rulesScript;
-    this.globalProps = globalProps;
+  constructor(args) {
+    this.name = args.name;
+    this.children = args?.children ?? [];
+    this.globalProps = args?.globalProps ?? {};
+    this.root = new DocumentFragment();
   }
 
+  /**
+   * Método encargado de añadir hijos al árbol una vez que sea instanciado
+   * @param {{[string]:any}} props 
+   * @returns {TreeComponent}
+   */
   setProps(props){
-    this.globalProps = props;
+    this.globalProps = {...this.globalProps, ...props};
     return this;
   }
 
+  /**
+   * Método encargado de renderizars, es decir, añadir los
+   * nodos del árbol al DOM
+   * @returns {Promise<void>}
+   */
   async render() {
     //cremos tdps los componentes del arbol
     const createdComp = this.children.map(async (element) =>
@@ -228,10 +310,6 @@ export class TreeComponent {
     const childrenNodes = await Promise.all(createdComp);
     //ensamblamos el fragment 
     this.assemble();
-    //añadimos es script de reglas si existe
-    if(this.rulesScript) {
-      document.head.appendChild(this.rulesScript);
-    };
     
     //ejecutamos el método didMount de los componentes hijos
     const recursiveMount = async (components)=>{
@@ -245,10 +323,14 @@ export class TreeComponent {
     if(this.children.length > 0){
       window.setTimeout(()=>{
         recursiveMount(this.children);
-      },500)
+      },100)
     }
   };
 
+  /**
+   * Método encargado de coplar cada nodo de los componente hijo a la raíz 
+   * prncipal
+   */
   assemble() {
     this.children.forEach((component) => {
       if (component.children.length === 0) {
@@ -261,7 +343,8 @@ export class TreeComponent {
     });
   }
   /**
-   *
+   * Ensambla cada componente hijo en su respectivo nodo del
+   * DOM de forma recursiva
    * @param {Component} component
    */
   recurseAssemble(component) {
@@ -278,8 +361,10 @@ export class TreeComponent {
     } //end for
   }
 
+  /**
+   * Desmonta el arból y avida a cada componente hijo
+   */
   remove() {
-    
     //ejecutamos el método didUnmount de cada component
     const recursiveUnmount = async (components)=>{
       for(const component of components){
@@ -332,24 +417,23 @@ export class TreeLayoutComponent extends TreeComponent {
 
 export class VolatileComponent extends Component{
     
-  /**
-   * Ensambla la la plantilla literal inyectando cada prop 
-   * y estableciendo cada raíz
-   * @param {string} template 
-   * @returns {string} plantilla de componente
-   */
+  //override method
   template(template){
     let templatetext = template.toString();
 
    //NEW begin --------------------------------------
    //inyectamos las raices de los hijos
+   const regex = /\[volatile\]/g
    if(this.children.length > 0){
      let root = '';
      for (let i = 0; i < this.children.length; i++){
        root += `<div class="root${i}"></div>`
-     }//end for
-     const regex = /\[volatile\]/g
-     templatetext = templatetext.replace(regex, root);
+      }//end for
+      templatetext = templatetext.replace(regex, root);
+    }
+    //si no hay hijos, removemos la declaracion de la raiz
+    else if(templatetext.indexOf('[volatile]')){
+     templatetext = templatetext.replace(regex, '');
    }
    //NEW end --------------------------------------
    return templatetext;
@@ -360,10 +444,18 @@ export class VolatileComponent extends Component{
  * clase encargada de 
  */
 export class Rule {
+  /**
+   * Funciones encargadas de añadir nuevas reglas
+   * @type {Array<()=>void>}
+  */
   adders;
+  
+  /**
+   * Funciones encargadas de remover las reglas en vigor
+   * @type {Array<()=>void>}
+   */
   removers;
   /**
-   * 
    * @param {{adders: Array<()=>void>, removers: Array<()=>void>}} args 
    */
   constructor(args){

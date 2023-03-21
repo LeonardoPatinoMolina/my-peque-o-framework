@@ -1,19 +1,16 @@
-import { APIKEY } from "../../../privateGlobal.js";
 import { ShowsProps } from "../../adapter/shows.js";
 import { CardComponent } from "../../components/cards/card.template.js";
 import { CardWrapperComponent } from "../../components/cards/cardwrapper.template.js";
+import { URLs } from "../../lib/endpoints.js";
 import { TreeComponent } from "../../lib/leoframe.js";
 import { fetchCacheInterceptor } from "../../lib/utils.js";
 
 const builder = async (component)=>{
-  const url = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${APIKEY}&language=es-ES&page=1`;
-  const response = await fetchCacheInterceptor(url,{
+  const response = await fetchCacheInterceptor(URLs.shows.onair,{
     cacheName: 'cards_shows',
     revalidate: 120//dos horas
   });
-  const rjson = await response.json()
-  const showsP = rjson.results;
-
+  const showsP = response.results;
   for (let i = 0; i < 20; i++) {
     const comp = new CardComponent({
       props: {

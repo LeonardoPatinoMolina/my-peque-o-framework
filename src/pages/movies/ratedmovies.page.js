@@ -1,13 +1,12 @@
-import { APIKEY } from "../../../privateGlobal.js";
 import { MoviesProps } from "../../adapter/movies.js";
 import { CardComponent } from "../../components/cards/card.template.js";
 import { CardWrapperComponent } from "../../components/cards/cardwrapper.template.js";
+import { URLs } from "../../lib/endpoints.js";
 import { TreeComponent } from "../../lib/leoframe.js";
 import { fetchCacheInterceptor } from "../../lib/utils.js";
 
 const builder = async (component)=>{
-  const url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${APIKEY}&language=es-ES&page=1`;
-  const response = await fetchCacheInterceptor(url,{
+  const response = await fetchCacheInterceptor(URLs.movies.rated,{
     cacheName: 'cards_movies',
     revalidate: 120//dos horas
   });

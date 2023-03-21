@@ -4,6 +4,7 @@ import { Modal } from "../../../pages/layout/modal/Modal.js"
 
 const handleClick = ({currentTarget})=>{
   if(currentTarget.dataset.type === 'movie'){
+    console.log('ep');
     Router.jumpToTree("movie", {id: currentTarget.id});
     window.scrollTo(0,0);
   }
@@ -17,11 +18,11 @@ const handleClick = ({currentTarget})=>{
 export class CardVolatileComponent extends Component{
   name = 'volatilecard';
 
-  async didMount() {
+  didMount = async () => {
     this.body.addEventListener("click", handleClick);
   }
-
-  async didUnmount() {
+  
+  didUnmount = async () => {
     this.body.removeEventListener("click", handleClick);
   }
 

@@ -1,5 +1,4 @@
 # __Mi pequeño framework font-end__
-## __My Movie__
 El presente ejercicio tiene como finalidad poner en práctica conocimientos aprendidos en __JavaScript__, __HTML__ y __Scss__, para esto me he propuesto crear mi propio framework front end en JS, la idea es enfocar el desarrollo en diseño por composicióin, razón por la que modularizé la interfaz en ``componentes`` declarados y administrados con js, estos poseen un ciclo de vida, estados y la capacidad de re renderizarse por demanda.
 
 > __Nota__: Pensé inicialmente en imitar caracteristicas interesantes como la _reactividad_ o el renderizado condicional en sintaxis tal y como se encuentran en frameworks actuales, pero la complejidad necesaria para ello excedía el propósito de este ejercicio, el cual no pretende ser más que un repaso a ciertos aspectos de tecnologías fundamentales.
@@ -19,7 +18,7 @@ Se permite tambien establecer una estructura `fija` para algunos árboles de com
 ~~~html
 <div id="header"></div>
 ~~~
-#### __Componentes__
+### __Componentes__
 Por su parte, los componetes se dividen en dos clases __Component__ y __VolaitileComponent__, El primero es el componente común, tiene la tarea de representar estructuralmente un fragmento de la página, para ello se vale de __plantillas literales__ que contienen las sintaxis de ``html`` para la declaración de la vista. 
 
 Los componentes pueden tener en su estructura ``componentes hijos``, los cuales pueden ser cualquiera de los dos previamente mencionados. El componente volatil realiza las mismas tareas que un componente común, pero guarda sus diferencias: 
@@ -32,7 +31,7 @@ Los componentes pueden tener en su estructura ``componentes hijos``, los cuales 
 |desventajas|La cantidad de hijos no varía en el tiempo, el acoplamiento al componente padre suele ser especifico y estático.| Es imposible acoplar hijos en distintos lugares del padre ya que todas las raices son generadas en un solo lugar, no es muy util para diseños de acoplamiento complejo de hijos.
 
 Encontramos más detalles diferenciadores en las raices de componentes: 
-#### __Raíz relativa__
+### __Raíz relativa__
 Una _raíz relativa_ , pertenece a un componente especifico que cumple el rol de __padre__, si un componente desea tener componentes __hijos__, debe poseer de forma explícita las raices de los mismos. Mi pequeño framework tiene como restricción que a cada hijo le corresponde su propia raíz y cuenta con la siguiente sintaxis:
 ~~~html
 `<main class="parent">
@@ -54,11 +53,11 @@ SU composición consta de la palabra _"child"_ acompañada de un número entero 
 La sintaxis difiere de la principal en que esta posee una _clase_ en lugar de un _id_. En ese caso hay dos raíces, es decir, habrá dos hijos.
 El componente con rol de __padre__ necesita tener en su sintaxis estas etiquetas de raíz ya que es el punto de referencia del componente hijo para acoplarse; una vez llegado el momento, la raíz será reemplazada por el componente dejando una estructura limpia.
 
-#### __Raíz volatil__
+### __Raíz volatil__
 la raíz volatil Es una declaración abstracta de lo que será el lugar de origen en el cual serán generadas las __raices relativas__ dinámicamente, esto por supuesto es algo propio de un ``componente volatil``, su sintaxis es la siguiente:
 ~~~HTML
 `<div class="parent">
-  [volatil]
+  [volatile]
 </div>`
 ~~~
 
@@ -74,43 +73,76 @@ La _props_ son datos puntuales de iterés para el componete o el árbol que las 
 ~~~
 Esto establece la ubicación de cada prop injectada en el momento de renderizar el componente.
 
-### __Herramientas__
+## __Herramientas__
 
 Para manipular los componentes, los cuales consisten en fragmentos de HTML separados en __templates__, diseñé unas cuantas clases que permiten darle un contexto y relacionarlos en una sintaxis de tenga sentido, estas son:
-#### __Component__
+### __Component__
 La clase _Component_ es la encargada de abstraer las funcionalidades y propiedades de cada componente, el enfoque que tomé fue el de componentes de clase, de modo que cada nuevo componente debe heredar de esta clase para su implementación.
-~~~typescript
+~~~Javascript
 export class Component {
-  public readonly name: string = 'componente';
-  public body: HTMLElement;
-  public children: Component[] = [];
-  public $builder: (
-    component: Component, 
-    treeProps: {[string]:any})=>Promise<void>;
-  constructor(args: { 
-    key?: string | number,
-    children?: Component[],
-    props?: {[string]:any},
-    builder?: (
-        component: Component, 
-        treeProps: {[string]:any}
-      )=>Promise<void>} 
-    })
+  /** Nombre principal del componente
+   * @type {string}
+   */
+  name = 'componente';
+  
+  /** 
+   * @type {string}
+   */
+  key;
+  
+  /** 
+   * @type {HTMLElement}
+   */
+  body;
 
-  //method
-  public didMount: ()=>Promise<void>
-  //method
-  public didUnmount: ()=>Promise<void>
-  //method
-  public template: (template: string)=> string;
-  //method
-  public setProps(props: {[string]:any}): Component
-  //method
-  public setChildren(children: Component[]): Component
-  //method
-  public create(externProps: {[string]:any}): Promise<void>
-  //method
-  public update({newProps}:{[string]:any}): Promise<void>
+  /** 
+   * @type {Component[] | VolatileComponent[]}
+   */
+  children = [];
+
+  /** 
+   * @type {{[string]: any}}
+   */
+  props = {};
+
+  /**
+   * @type {(component: Component, treeProps: {[string]:any})=>Promise<void>}
+   */
+  $builder;
+  
+  /**
+   * @param {{key: string | number,children: Component[], builder: (component: Component, treeProps: {[string]: any})=>Promise<void>, props: {[string]:any}}} args
+  */
+ constructor(args) {}
+
+  /**
+   * @returns {Promise<void>}
+   */
+  didMount = async  ()=>{}
+  /**
+   * @returns {Promise<void>}
+   */
+  didUnmount = async ()=>{}
+  /**
+   * @param {string} template 
+   * @returns {string}
+   */
+  template = (template)=>{}
+  /**
+   * @param {Component[]} children
+   * @returns {Component}
+   */
+  setChildren(children){}
+  /**
+   * @param {{[string]:any}} externProps
+   * @returns {Promise<void>}
+   */
+  async create(externProps){}
+  /**
+   * @param {boolean | {[string]:any}} newProps 
+   * @returns {Promise<void>}
+   */
+  async update(newProps){}
 }
 ~~~
 
@@ -140,43 +172,63 @@ De momento el ciclo de vida de cada componente se resume en un par de métodos q
   
   ``didUnount():`` este método se ejecuta automáticamente una vez que el componente a sido des-renderizado. El propósito general de este método es remover culaquier _EventListener_ o resolver cualquier asunto que se encuentre vigente y no se requiera en otro lugar.
 
-#### __VolatileComponent__
+### __VolatileComponent__
 Esta clase extiende, es decir, hereda de la clase _Component_ cuenta exactamente con las mismas características con una diferencia: implementa el método _template()_ de forma ligeramente distinta, mientras que el método en la clase Component inyecta los hijos del componente en raices prestablecidas, este primero las genera para poder inyectar una cantidad arbitraria, en otras palabras, las raices volatiles "[volatile]" requieren un trato distinto a las raices relativas directas "[child0]".
-~~~Typescript
+~~~Javascript
 class VolatileComponent extends Component{
-  //override method
-  public template(template: string): string;
+    /**
+   * @param {string} template 
+   * @returns {string}
+   */
+  template(template){}
 }
 ~~~
 
-#### __TreeComponent__
+### __TreeComponent__
 La clase _TreeComponent_ abstrae las funcionalidades y propiedades de un árbol de componentes. Su finalidad establecer una raíz a cada componente, es decir, es la clase que ensambla cada árbol de componentes, igualmente es responsable de renderizar el árbol en el DOM.
-~~~typescript
+~~~Javascript
 class TreeComponent {
-  public readonly name: string;
-  public readonly globalProps: {[string]:any};
-  private children: Component[] = [];
-  private root: DocumentFragment = new DocumentFragment();
-  constructor({
-    name, 
-    children,
-    rulesScript,
-    globalProps}:{
-      name: string, 
-      globalProps?: {[string]:any}
-      children: Component[],
-      rulesScript: HTMLElement,
-    });
+  /** 
+   * @type {string}
+   */
+  name;
+
+  /** 
+   * @type {{[string]:any}}
+   */
+  globalProps;
+
+  /** 
+   * @type {Component[]}}
+   */
+  children;
+
+  /** 
+   * @type {DocumentFragment}}
+   */
+  root;
+
+  /**
+   * @param {{name: string, children: Component[], globalProps?: {[string]: any}}} args
+   */
+  constructor(args) {}
+  /**
+   * @param {{[string]:any}} props 
+   * @returns {TreeComponent}
+   */
+  setProps(props){}
+  /**
+   * @returns {Promise<void>}
+   */
+  async render(){}
   //method
-  public setProps(props: {[string]:any}): TreeComponent;
+  assemble(){}
+  /**
+   * @param {Component} component
+   */
+  recurseAssemble(component){}
   //method
-  public render(): Promise<void>
-  //method
-  private assemble(): void
-  //method
-  private recurseAssemble(component: Component): void;
-  //method
-  public remove(): void;
+  remove(): void;
 }
 ~~~
   ### <u>Estructura</u>
@@ -198,12 +250,12 @@ class TreeComponent {
 
 #### __TreeLayoutComponent__
   Esta clase tiene exactamente las mismas funcionalidades que __TreeComponent__, esto debido a que extiende de ella, es una clase hija.
-~~~typescript
+~~~Javascript
 class TreeLayoutComponent extends TreeComponent {
   //override method
-  private assemble(): void;
+  assemble(){}
   //override method
-  private remove(): void;
+  remove(){}
 }
 ~~~
   ### <u>Estructura</u>
@@ -211,24 +263,38 @@ class TreeLayoutComponent extends TreeComponent {
 
 #### __Pagination__
 Esta clase es encargada de manipular el contenido de la etiqueta raíz de los TreeConponent. Ya que se trata del contenido principal de la página, le atribuí a esta clase el decoroso nombre de __paginación__ y su implementación se asemeja a un sistema de enrutamiento, pero por supuesta para nada sofisticado.
-~~~typescript
+~~~Javascript
 //sintaxis en typescript con fines descriptivos
 //la sintaxis originas está escrita en JavaScript 
 class Pagination {
-  private currentPage: TreeComponent;
-  private home: string;
-  private pages: {[string]: any};
-  constructor({
-    home, 
-    pages}:{
-      home: string, 
-      pages: {[string]: any}});
+  /**
+   * @type {TreeComponent}
+   */
+  currentPage;
+  /** 
+   * @type {TreeComponent}
+   */
+  home;
+  /** 
+   * @type {{[string]:any}}
+   */
+  pages;
+    /**
+   * @param {{home: string, pages: {[string]:any}}} args 
+   */
+  constructor(args){}
+  /**
+   * @param {string} treeName 
+   * @param {boolean | {[string]: any}} props 
+   * @returns {Promise<void>}
+   */
+  async jumpToTree(treeName, props){}
+  /**
+   * @returns {Promise<void>}
+   */
+  async comeHome(){}
   //method
-  jumpToTree(treeName: string): Promise<void>;
-  //method
-  comeHome(): Promise<void>;
-  //method
-  init(): Promise<void>
+  async init(){}
 }
 ~~~
   ### <u>Estructura</u>
@@ -252,21 +318,29 @@ Entre algunos aspectos a resaltar están una serie de directorios que son requer
 |__rules__|src/rules/|Encargado de alojar las reglas de cada componente, lel nombre de los archivos dee finalizar con: _".rule.js"_|
 
 ### __Rules__
-~~~Typescript
+~~~Javascript
 class Rule {
+  /**
+   * @type {Array<()=>void>}
+  */
   adders;
+  
+  /**
+   * @type {Array<()=>void>}
+   */
   removers;
-
-  constructor(args: {
-    adders: Array<()=>void, 
-    removers: Array<()=>void
-  });
-
-  //method
-  add(): Rule;
-  //method
-  remove(): Rule;
-
+  /**
+   * @param {{adders: Array<()=>void>, removers: Array<()=>void>}} args 
+   */
+  constructor(args){}
+  /**
+   * @returns {Rule}
+  */
+ add(){}
+  /**
+   * @returns {Rule}
+  */
+  remove(){}
 }
 
 ~~~
@@ -284,9 +358,7 @@ La estructura base de su implementación en un componente es la siguiente:
 ~~~
 
 ### __Sintaxis__
-Toda las declaraciones de clase que se ha expuesto hasta ahora están escritas con typescript solo con fines descriptivos, el presente proyecto originalmente solo utiliza javascript, en un futuro próximo planeo migrar esta lógica de forma más rigurosa a typescript.
-
-La sintaxis que diseñé para maquetar el árbol de componentes está inspirada en los árboles de Widgets de __flutter__, aquí un pequeño ejemplo de un árbol de componentes en mi pequeño framework:
+Para ejemplificar la sintaxis típica de un componente en my pequeño framework, he aqui uyn ejemplo:
 
 #### <u>Component</u>
 
@@ -328,6 +400,9 @@ Lo que sí se puede apreciar es la presencia de __props__, en concreto 8, ya que
 Otro aspecto importante es la implementación del método _template()_ el cual está siendo sobre escrito y utilizado desde la propiedad __super__, este patrón permite ocultar mucha lógica de la implementación y a su véz distribuye las responsabilidades en __clase principlal__.
 
 #### <u>Layout</u>
+
+La sintaxis que diseñé para maquetar árboles de componentes está inspirada en los árboles de Widgets de __flutter__, aquí un pequeño ejemplo:
+
 ~~~Javascript
 import { HeaderComponent } from "/components/layout/header/header.template.js";
 import { NavComponent } from "/components/layout/header/nav.template.js";
@@ -364,15 +439,18 @@ En este caso se puede apreciar desde arriba: Las importaciones de la clase _Tree
 
 __TreeComponent__
 ~~~javascript
-import { APIKEY } from 'privateGlobal.js';
-import { MoviePropsPage } from '../adapter/moviePage.js';
-import { PageComponent } from 'components/page/page.template.js';
+import { MoviePropsPage } from './adapter/moviePage.js';
+import { PageComponent } from './components/page/page.template.js';
+import { getDetailUrl } from './lib/endpoints.js';
 import { TreeComponent } from 'my_framework';
+import { fetchCacheInterceptor } from './lib/utils.js';
 
 const builder = async (component, treeProps)=>{
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${treeProps.id}?api_key=${APIKEY}&language=es-ES`);
-  const movieDetail = await response.json()
-  component.props = new MoviePropsPage(movieDetail).data
+  const response = await fetchCacheInterceptor(getDetailUrl('movie', treeProps.id),{
+    cacheName: 'movie_page',
+    revalidate: 120 //2 horas
+  });
+  component.props = new MoviePropsPage(response).data
 }
 
 const Movie = new TreeComponent({
@@ -384,8 +462,12 @@ const Movie = new TreeComponent({
 
 export default Movie;
 ~~~
-En este caso particular se da uso del atributo __$builder__, este ejemplo muestra desde arriba: las importaciones necesarias de la clase TreeComponent, los componentes del árbol y algunos datos de interes para la consulta, posteriormente se declara una función __builder__ la cual hace referencia al atributo del componente, en este ejemplo podemos apreciar un uso prático para ese atributo, nos ayuda a establecer _props_ en el componente cuando provienen de un servicio externo _api Restful_.
-Algo a resaltar es que el arbol está siendo exportado por __default__, esto es necesario en todo _TreeComponent_ que busque participar de la navegación, es decir, la clase __Pagination__ exige este tipo de declaración para funcionar.
+En este caso particular se da uso del atributo __$builder__, este ejemplo muestra desde arriba: 
+- las importaciones necesarias de la clase TreeComponent, los componentes del árbol y algunos datos de interes para la consulta.
+- posteriormente se declara una función __builder__ la cual será pasada al atributo del componente con el mismo nombre.
+- Vemos superficialmente la implementación de un interseptor de peticiones HTTP a cache del cual proviene la información que será provista a las props del componente, este es un uso prático para el atributo $builder de la clase, en este casi nos ayuda a establecer _props_ en el componente cuando provienen de un servicio externo _api Restful_ o de la cache respectivamente.
+
+- Algo a resaltar es que el arbol está siendo exportado por __default__, esto es necesario en todo _TreeComponent_ que busque participar de la navegación, es decir, la clase __Pagination__ exige este tipo de declaración para funcionar.
 
 __paginación__
 ~~~JavaScript

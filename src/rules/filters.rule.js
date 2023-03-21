@@ -37,7 +37,6 @@ export const FiltersRules = (component)=>{
     const subFilterItems = component.body.querySelectorAll('.filters__list_subfilter__item');
     
     subFilterItems.forEach(item=>{
-      console.log(0);
       item.removeEventListener('click',handleItemSubFilterClick);
     })
   }
@@ -51,10 +50,10 @@ export const FiltersRules = (component)=>{
 //Utils-----------------------------------------------
 function handleItemFilterClick({currentTarget}){
   const { type } = currentTarget.dataset;
+
   //actualizamos el componente Filters para mostrar
   //menú de filtro según corresponda el click
   FiltersComponent0
-  .showFilters(type, {whait: true})
   .filterActivate(type, {type: 'primary'});
 }
 

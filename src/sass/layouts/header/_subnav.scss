@@ -13,8 +13,8 @@
   color: #aaa;
   // background: linear-gradient(0, black, transparent,transparent);
 
+  // background-color: red;
   @include u.breakpoint("large"){
-    // background-color: red;
     width: 50%;
     font-size: 1.1rem;
   }
@@ -25,6 +25,7 @@
   }
   @include u.breakpoint-down("small"){
     // background-color: blue;
+    font-size: .8rem;
     width: 100%;
   }
 

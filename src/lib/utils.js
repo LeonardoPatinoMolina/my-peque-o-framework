@@ -135,12 +135,13 @@ export const fetchPersistenceInterceptor = async (urlResponse, {storeName, reval
    * @returns {any}
    */
   const dbTransactionGet = async (db, key) =>{
+    console.log(storeName)
     return new Promise((resolve, reject)=>{
       const transaction = db.transaction([storeName],'readwrite');
       const store = transaction.objectStore(storeName);
       const getRequest = store.get(key);
       getRequest.onerror = (err)=>{
-        reject(`error en oeticion get: ${err}`)
+        reject(`error en peticion get: ${err}`)
       }
       getRequest.onsuccess = () =>{
 

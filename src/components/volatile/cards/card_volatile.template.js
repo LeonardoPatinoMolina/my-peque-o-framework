@@ -4,7 +4,6 @@ import { Modal } from "../../../pages/layout/modal/Modal.js"
 
 const handleClick = ({currentTarget})=>{
   if(currentTarget.dataset.type === 'movie'){
-    console.log('ep');
     Router.jumpToTree("movie", {id: currentTarget.id});
     window.scrollTo(0,0);
   }
@@ -34,8 +33,15 @@ export class CardVolatileComponent extends Component{
       data-filter="popular"
       data-type="${this.props.type}"
     >
+    <img 
+      src=${this.props.imgUrl} 
+      class="cardvolatile__img"
+      alt="image of media result" 
+    >
+    <div class="cardvolatile__details">
       <h3 class="cardvolatile__title">${this.props.title}</h3>
       <p class="cardvolatile__subtitle">${this.props.body}</p>
+    </div>
     </div>
     `)
   }

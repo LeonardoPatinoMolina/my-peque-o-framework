@@ -26,9 +26,21 @@ export class FiltersComponent extends Component {
   
   didMount = async ()=> {
     FiltersRules(this).add();
+    const logo = this.body.querySelector('.filters__logo')
+    let timer;
+    logo.addEventListener('focus',()=>{
+      clearTimeout(timer);
+      timer = setTimeout(()=>{ logo.blur() }, 3000)
+    })
   }
   didUnmount = async ()=> {
     FiltersRules(this).remove();
+    let timer;
+    const logo = this.body.querySelector('.filters__logo')
+    logo.removeEventListener('focus',()=>{
+      clearTimeout(timer);
+      timer = setTimeout(()=>{ logo.blur() }, 3000)
+    })
   }
   
   template() {

@@ -1,13 +1,18 @@
-import { BASE_URL_THUMDNAIL } from "../lib/globals.js";
-import { GENRES_TV } from "../lib/tv_data.js";
+import { BASE_URL_THUMDNAIL_500, imgPLACEHOLDER, GENRES_TV } from "../lib/globals.js";
 
 export class ShowPropsPage{
   constructor(show){
+    let imgUrl
+    if(show?.backdrop_path){
+      imgUrl = `${BASE_URL_THUMDNAIL_500}${show.backdrop_path}`
+    }else{
+      imgUrl = imgPLACEHOLDER
+    }
     this.id = show.id;
     this.title = show.name;
     this.date = show.first_air_date;
     this.subtitle = show.original_name;
-    this.img = `${BASE_URL_THUMDNAIL}${show.poster_path}`; 
+    this.img = imgUrl;
     this.description = show.overview;
     this.rate = show.vote_average 
     this.stars = '⭐';

@@ -16,18 +16,18 @@
     &:hover{
       background-color: darken(g.$primaryColor, 12%);
     }
-    &:active::after{
+    &:focus::after{
       touch-action: none;
       font-family: g.$font;
       background-color: lighten(g.$primaryColor, 1%);
       color: white;
-      content: "Esta funcionalidad es \Aprovisional";
+      content: "las consultas se realizan \A 0.6 segundos despues \A de escribir";
       position: absolute;
       top: 20px;
       display: inline-block; 
-      right: 100%;
+      right: 9%;
       border-radius: 1rem;
-      font-size: .9rem;
+      font-size: .8rem;
       box-shadow: 0 0 10px 2px #0007;
       width: 150px;
       padding: 1rem;

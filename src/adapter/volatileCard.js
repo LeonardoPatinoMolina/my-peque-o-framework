@@ -1,7 +1,16 @@
+import { BASE_URL_THUMDNAIL_300, imgPLACEHOLDER } from "../lib/globals.js"
+
 export class VolatileCardProps{
   constructor(data){
+    let imgUrl
+    if(data?.poster_path){
+      imgUrl = `${BASE_URL_THUMDNAIL_300}${data.poster_path}`
+    }else{
+      imgUrl = imgPLACEHOLDER
+    }
     this.data = {
       id: data.id,
+      imgUrl,
       title: data?.title ?? data?.name,
       body: data?.original_title ?? data?.original_name
     }

@@ -1,16 +1,37 @@
+@use '../../globals' as g;
+@use '../../util/' as u;
+
 .cardvolatile{
   border-radius: .5rem;
   background-color: #111;
   box-sizing: border-box;
   padding: .5rem;
+  @include g.mix-flex-aligment(space-between);
   margin-bottom: .5rem;
-
-  &__title{
-    font-size: 1rem;
+  gap: 1rem;
+  transition: outline .3s;
+  
+  &:hover{
+    outline: .5px solid g.$primaryColor;
+    cursor: pointer;
   }
 
-  &__subtitle{
+  &__img{
+    width: auto;
+    height: 50px;
+    border-radius: .4rem;
+  }
+
+  &__details{
+    flex-grow: 1;
+  }
+  &__title{
     font-size: .8rem;
+  }
+
+
+  &__subtitle{
+    font-size: .74rem;
     color: #555;
   }
 }

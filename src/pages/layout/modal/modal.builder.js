@@ -2,6 +2,7 @@ import { CardVolatileComponent } from "../../../components/volatile/cards/card_v
 import { VolatileCardProps } from "../../../adapter/volatileCard.js";
 import { fetchPersistenceInterceptor } from "../../../lib/utils.js";
 import { URLs } from "../../../lib/endpoints.js";
+import { NOtDataComponent } from "../../../components/volatile/cards/not_data.template.js";
 
 export const modalBuilder = async (component, treeProps)=>{
   component.children = [];
@@ -28,11 +29,15 @@ export const modalBuilder = async (component, treeProps)=>{
     for (const data of newResults) {
       const propsData = new VolatileCardProps(data).data;
       const comp = new CardVolatileComponent({
-        props: {type: typeN, ...propsData}
+        props: {
+          type: typeN, 
+          ...propsData}
       })
       if(!component.children.find(co=>propsData.title === co.props.title)){
         component.children.push(comp)
       }
     }//end for
+  }else{
+    component.children.push(new NOtDataComponent())
   }
 }

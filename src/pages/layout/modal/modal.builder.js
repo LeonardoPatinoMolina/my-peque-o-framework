@@ -17,11 +17,12 @@ export const modalBuilder = async (component, treeProps)=>{
 "".startsWith()
 
   let newResults;
+  //realizamos la busqueda
   if(treeProps.primary === 'movies') {
-    newResults= results.filter(movie=> movie.title.toLowerCase().startsWith(treeProps?.query))
+    newResults= results.filter(movie=> movie.title.toLowerCase().startsWith(treeProps?.query) || movie.original_title.toLowerCase().startsWith(treeProps?.query))
   }
   else{
-    newResults= results.filter(show=> show.name.toLowerCase().startsWith(treeProps?.query))
+    newResults= results.filter(show=> show.name.toLowerCase().startsWith(treeProps?.query) || show.original_name.toLowerCase().startsWith(treeProps?.query))
   }
   //el tipo es el filtro primary en singular
   const typeN =  treeProps.primary.slice(0, treeProps.primary.length - 1);

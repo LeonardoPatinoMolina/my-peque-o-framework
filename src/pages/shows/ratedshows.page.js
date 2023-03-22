@@ -12,6 +12,7 @@ const builder = async (component)=>{
   });
   const showsP = response.results;
 
+  let newShows = [];
   for (let i = 0; i < 20; i++) {
     const comp = new CardComponent({
       props: {
@@ -20,8 +21,9 @@ const builder = async (component)=>{
         type: 'show'
       }
     })
-    component.children.push(comp)
+    newShows.push(comp)
   }//end for
+  component.setChildren(newShows)
 }
 
 const RatedShows = new TreeComponent({

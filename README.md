@@ -1,7 +1,7 @@
 # __Mi pequeño framework font-end__
-El presente ejercicio tiene como finalidad poner en práctica conocimientos aprendidos en __JavaScript__, __HTML__ y __Scss__, para esto me he propuesto crear mi propio framework front end en JS, la idea es enfocar el desarrollo en diseño por composicióin, razón por la que modularizé la interfaz en ``componentes`` declarados y administrados con js, estos poseen un ciclo de vida, estados y la capacidad de re renderizarse por demanda.
+El presente ejercicio tiene como finalidad poner en práctica conocimientos aprendidos en __JavaScript__, __HTML__ y __Scss__, para esto me he propuesto crear mi propio framework front-end en JS, la idea es enfocar el desarrollo en el diseño por composición trabajando con ``componentes`` declarados y administrados con javascript, estos poseen un ciclo de vida, estado, componentes hijos y la capacidad de re renderizarse por demanda.
 
-> __Nota__: Pensé inicialmente en imitar caracteristicas interesantes como la _reactividad_ o el renderizado condicional en sintaxis tal y como se encuentran en frameworks actuales, pero la complejidad necesaria para ello excedía el propósito de este ejercicio, el cual no pretende ser más que un repaso a ciertos aspectos de tecnologías fundamentales.
+> __Nota__: Pensé inicialmente en imitar caracteristicas interesantes como la _reactividad_ o el renderizado condicional en sintaxis tal y como se encuentran en frameworks actuales, pero la complejidad necesaria para ello excedía el propósito de este ejercicio, el cual no pretende ser más que un repaso a ciertos aspectos de tecnologías fundamentales. Otro aspecto que no se tocó fue el enrutamiento por url y registros de estado en el historial de navegación.
 
 ## __Sobre el framework__
 Consiste en un conjunto de lineamientos, técnicas y herramientas que diseñé para construir la interfaz de la página por composición, para ello separé cada fragmento de las etiquetas ``HTML`` en clases de Javascript equipadas con la lógica necesaria para montar, desmontar o actualizar cada fragmento según se requiera, con el propósito de tener un mayor control en la implementación de funcionalidades más complejas en la vista. 
@@ -344,7 +344,7 @@ class Rule {
 }
 
 ~~~
-la rules son las reglas que cada compoente puede declarar para su funcionalidad intrínseca, son en esencia funcionalidades a base de _eventListeners_, esta estructura converge con la implementación de los métodos del ciclo de vida del componente: _didMount()_ y _didUnmount()_.
+la __rules__ son las reglas que cada compoente puede declarar para su funcionalidad intrínseca, son en esencia funcionalidades a base de _eventListeners_, esta estructura converge con la implementación de los métodos del ciclo de vida del componente: _didMount()_ y _didUnmount()_.
 
 La estructura base de su implementación en un componente es la siguiente: 
 ~~~Javascript
@@ -358,7 +358,7 @@ La estructura base de su implementación en un componente es la siguiente:
 ~~~
 
 ### __Sintaxis__
-Para ejemplificar la sintaxis típica de un componente en my pequeño framework, he aqui uyn ejemplo:
+Para ejemplificar la sintaxis típica de un componente en mi pequeño framework, he aqui un ejemplo:
 
 #### <u>Component</u>
 
@@ -480,4 +480,4 @@ export const Router = new Pagination({
   }
 })
 ~~~
-En la sintaxis de _paginación_ podemos apreciar como el atributo ``pages`` contiene en la "key" el nombre de arbol de componentes y en su "value" la ruta, esta ruta tiene por supuesto que el directorio que los contiene es: __pages/__, y como se mencionó previamente, todos estos son árboles que están siendo exportados por default en sus respectivos scripts.
+En la sintaxis de _paginación_ podemos apreciar como el atributo ``pages`` contiene en la "key" el nombre de arbol de componentes y en su "value" la ruta, esta ruta tiene por supuesto que el directorio que los contiene es: __pages/__, y como se mencionó previamente, todos estos son árboles que están siendo exportados por default en sus respectivos ficheros.

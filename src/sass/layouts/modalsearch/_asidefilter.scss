@@ -21,18 +21,19 @@
       font-family: g.$font;
       background-color: lighten(g.$primaryColor, 1%);
       color: white;
-      content: "las consultas se realizan \A 0.6 segundos despues \A de escribir";
+      content: attr(data-info);
       position: absolute;
       top: 20px;
-      display: inline-block; 
+      display: block; 
+      white-space: normal;
       right: 9%;
       border-radius: 1rem;
       font-size: .8rem;
       box-shadow: 0 0 10px 2px #0007;
-      width: 150px;
+      width: 180px;
       padding: 1rem;
-      height: 100%;
-      white-space: pre;
+      line-height: 1.1rem;
+      height: auto;
     }
 
   }

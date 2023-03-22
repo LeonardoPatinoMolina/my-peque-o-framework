@@ -11,7 +11,7 @@ const builder = async (component)=>{
     revalidate: 120//dos horas
   });
   const moviesP = response.results;
-
+  let newMovies = [];
   for (let i = 0; i < 20; i++) {
     const comp = new CardComponent({
       props: {
@@ -20,8 +20,9 @@ const builder = async (component)=>{
         type: 'movie'
       }
     })
-    component.children.push(comp);
+    newMovies.push(comp);
   }//end for
+  component.setChildren(newMovies);
 }
 
 

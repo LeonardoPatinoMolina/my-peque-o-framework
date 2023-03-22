@@ -89,7 +89,7 @@ export class Component {
   };//end method
 
   /**
-   * 
+   * Método encargado de asignar los componentes hijos
    * @param {Component[]} children
    * @returns {Component}
    */

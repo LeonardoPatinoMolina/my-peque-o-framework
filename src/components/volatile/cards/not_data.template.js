@@ -5,9 +5,12 @@ export class NOtDataComponent extends Component {
 
   template(){
     return super.template(`
-    <div 
-    style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
-    >No hay datos...</div>
+    <div class="not_data">
+      <span class="not_data__logo material-symbols-rounded">
+        manage_search
+      </span>
+      <p class="not_data__text">No encontrado...</p>
+    </div>
     `)
   }
 }

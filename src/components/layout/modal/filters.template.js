@@ -30,7 +30,7 @@ export class FiltersComponent extends Component {
     let timer;
     logo.addEventListener('focus',()=>{
       clearTimeout(timer);
-      timer = setTimeout(()=>{ logo.blur() }, 3000)
+      timer = setTimeout(()=>{ logo.blur() }, 4000)
     })
   }
   didUnmount = async ()=> {
@@ -39,7 +39,7 @@ export class FiltersComponent extends Component {
     const logo = this.body.querySelector('.filters__logo')
     logo.removeEventListener('focus',()=>{
       clearTimeout(timer);
-      timer = setTimeout(()=>{ logo.blur() }, 3000)
+      timer = setTimeout(()=>{ logo.blur() }, 4000)
     })
   }
   
@@ -49,9 +49,10 @@ export class FiltersComponent extends Component {
     return super.template(`
   <aside data-key="${this.key}" class="filters">
   <ul class="filters__list_filter">
+  <li class="filters__list_filter__name">Filtros: </li>
     <li data-type="movies" class="filters__list_filter__item ${P.primary === "movies" && "active"}">Peliculas</li>
     <li data-type="shows" class="filters__list_filter__item ${P.primary === "shows" && "active"}">Series</li>
-    <span tabindex="-1" class="filters__logo material-symbols-rounded">info</span>
+    <span data-info="La consultas se realizan 0.6 segundos luego de escribir. Use los subfiltros para busquedas puntuales" tabindex="-1" class="filters__logo material-symbols-rounded">info</span>
   </ul>
   <ul style="display: ${P.primary === "movies" ? "flex" : "none"};" class="filters__list_subfilter">
     <li data-tag="popular" class="filters__list_subfilter__item ${P.secondary === "popular" && "active"}">Populares</li>

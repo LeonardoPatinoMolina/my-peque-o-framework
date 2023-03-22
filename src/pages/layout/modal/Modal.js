@@ -11,7 +11,7 @@ export const FiltersComponent0 = new FiltersComponent({key: 'filterscomponent1'}
 
 export const Modal = new TreeLayoutComponent({
   name: "modal",
-  globalProps: {...FiltersComponent0.props, query: 'a'},
+  globalProps: {...FiltersComponent0.props, query: ''},
   children: [
     new ModalSearchComponent()
       .setChildren([

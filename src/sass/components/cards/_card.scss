@@ -1,26 +1,29 @@
 @use '../../globals' as g;
 
 .card{
-  background-color: #1f1f1f;
   border-radius: 10px;
   @include g.mix-flex-aligment(space-between);
   flex-direction: column;
   box-sizing: border-box;
-  box-shadow: 0 0 4px 1px #0009;
-
+  overflow: hidden;
+  transition: transform .2s, background-color .2s;
   position: relative;
+  
+  &:hover{
+    background-color: #1f1f1f;
+    box-shadow: 0 0 4px 1px #0009;
+    transform: scale(1.01);
+    cursor: pointer;
+  }
 
   &__img{
-    border-radius: 10px 10px 0 0;
-    width: 100%;
-    height: 210px;
+    border-radius: 10px;
+    width: auto;
+    height: 250px;
     object-fit: cover;
     position: relative;
-    top: 0;
-
-    &:hover{
-      cursor: pointer;
-    }
+    box-shadow: 0 0 6px 2px #0007;
+    top: .5rem;
   }
 
   &__title, 
@@ -40,28 +43,4 @@
     margin: 1rem 0 .5rem 0;
   }
 
-  &__data_list{
-    position: relative;
-    @include g.mix-flex-aligment(flex-start);
-    margin: 0;
-    padding: 0 0 0 .5rem;
-    box-sizing: border-box;
-    font-size: .8rem;
-    // background-color: #0005;
-    border-radius: 10px;
-  background: linear-gradient(180deg, black, transparent);
-
-    border-radius: 5px 5px 0 0;
-    width: 100%;
-    font-size: 1rem;
-    position: absolute;
-    top: 0;
-
-    &__item{
-      @include g.mix-flex-aligment(unset);
-      flex-direction: column;
-      height: fit-content;
-    }
-  }
 }
-//⭐

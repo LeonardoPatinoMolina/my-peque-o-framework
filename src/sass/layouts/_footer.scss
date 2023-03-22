@@ -2,36 +2,51 @@
 @use '../globals/' as g;
 
 .footer{
-  // background-color: #f00000;
-  background: linear-gradient(0deg,black, transparent);
-  background: #0006;
-  height: u.f-pixel2em(90);
+  background: url("https://i.postimg.cc/XYrTkT2b/asientos-de-cine.png");
+  background-position: bottom;
+  filter: saturate(50%);
+  height: u.f-pixel2em(140);
   color: #ffffff;
-  width: 100%;
+  width: 100%; 
   box-sizing: border-box;
   margin-top: 1rem;
-  @include g.mix-flex-aligment(none);
+  position: relative;
+  @include g.mix-flex-aligment(none, flex-end);
+
   &__list{
     width: 100%;
-    margin: 0;
-    height: 100%;
+    margin: 0 0 .5rem 0;
+    height: 70%;
     list-style-type: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
     @include g.mix-flex-aligment(space-evenly);
+    flex-wrap: wrap;
+
     &__item{
-      & a {
-        color: #fff;
-      }
       font-family: g.$font;
       font-size: min(1rem, 4vw);
       width: fit-content;
-      @include g.mix-flex-aligment(center);
       padding: 4px;
-      margin: 0 1rem 0 1rem;
+      margin: 0 1rem;
       position: relative;
+      
+      &::before{
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: -10px;
+        padding: 0 10px;
+        background-color: #000000;
+        filter: blur(6px);
+        border-radius: 1em;
+        z-index: -1;
+      }
 
+      & a {
+        color: #fff;
+      }
       &:last-child:after{
         position: absolute;
         height: 3px;

@@ -47,7 +47,7 @@ button {
   top: 0;
   left: 0;
   height: 100vh;
-  z-index: -1;
+  z-index: -10;
 
   @include u.breakpoint-down(small){
     width: 100vw;

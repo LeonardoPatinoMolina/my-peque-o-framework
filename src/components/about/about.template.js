@@ -5,7 +5,7 @@ export class AboutComponent extends Component{
   template(){
     return super.template(`
     <main class="main_about">
-      <h2>Mi pequeño framework</h2>
+      <h2 class="main_about__title">Mi pequeño framework</h2>
       <p class="main_about__paragraph">
         Práctica de tecnologías:
       </p>
@@ -41,7 +41,7 @@ export class AboutComponent extends Component{
       <p class="main_about__paragraph">
         En esta oportunidad emprendí la tarea de diseñar un mini <em>framework</em> desde los cimientos, se trata de una serie de lineamientos, herramientas y estructura de proyecto, en los cuales cuales vertí gran parte de los conocimientos adquiridos durante mi formación como aprendiz en desarrollo <span>Web</span>.
       </p>
-      <h2>¿En qué consiste?</h2>
+      <h2 class="main_about__title">¿En qué consiste?</h2>
       <p class="main_about__paragraph">
         Cada pagina sigue un enfoque de composición, es decir, estan cosntruidas por <em>componentes</em>. Estos componentes son plantillas literales son inyectadas al DOM por medio de clases en javascript capaces de hilar árboles de componentes y definir relaciones de <span>padre</span> e <span>hijo</span> en base a una serie de reglas pre-establecidas. 
       </p>

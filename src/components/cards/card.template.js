@@ -33,10 +33,6 @@ export class CardComponent extends Component {
       <img class="card__img" src="${this.props.img}" alt="card picture">
       <h2 class="card__title">${this.props.title}</h2>
       <h4 class="card__subtitle">${this.props.original_title}</h3>
-        <ul class="card__data_list">
-          <li class="card__data_list__item">${this.props.vote_average}</li>
-          <li class="card__data_list__item">${this.props.stars}</li>
-        </ul>
     </article>
     `)
   }

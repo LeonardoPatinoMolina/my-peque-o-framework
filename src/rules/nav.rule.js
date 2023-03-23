@@ -35,52 +35,50 @@ function handleClickItem(item){
   const subnavMoviesCls = $(".subnav_movies").classList;
   
   if (item.dataset.link === "home" || item.dataset.link === "about") {
+    if(subnavShowsCls.contains("open_an")){
       subnavShowsCls.remove("open_an");
       subnavShowsCls.add("close_an");
-
+    }
+    if(subnavMoviesCls.contains("open_an")){
       subnavMoviesCls.remove("open_an");
       subnavMoviesCls.add("close_an");
-      
+    }
     Router.jumpToTree(item.dataset.link);
   }
   //desplegamos la barra secundaria de peliculas si
   if (item.dataset.link === "movies") {
-    const itemsSubNavMovies = $$(".subnav_movies__list__item");
-    //deseleccionamos cualquier opcion previamente sleccioanda
-    itemsSubNavMovies.forEach(deselect);
+
     //cerramos la subnav anterior
     if (subnavShowsCls.contains("open_an")) {
       subnavShowsCls.remove("open_an");
       subnavShowsCls.add("close_an");
     }
     //cerramos porcedemos a cerrar o abrir respectivamente
-    subnavMoviesCls.toggle("open_an");
-    subnavMoviesCls.toggle("close_an");
+    if (subnavMoviesCls.contains("open_an")) {
+      subnavMoviesCls.remove("open_an");
+      subnavMoviesCls.add("close_an");
+    }else{
+      subnavMoviesCls.remove("close_an");
+      subnavMoviesCls.add("open_an");
+    }
   }
   
   //desplegamos la barra secundaria de series si
   if (item.dataset.link === "shows") {
-    const itemsSubNavShows = $$(".subnav_shows__list__item");
-    //deseleccionamos cualquier opcion previamente sleccioanda
-    itemsSubNavShows.forEach(deselect);
-    //cerramos la subnav anterior
     if (subnavMoviesCls.contains("open_an")) {
       subnavMoviesCls.remove("open_an");
       subnavMoviesCls.add("close_an");
     }
     //cerramos porcedemos a cerrar o abrir respectivamente
-    subnavShowsCls.toggle("open_an");
-    subnavShowsCls.toggle("close_an");
+    if (subnavShowsCls.contains("open_an")) {
+      subnavShowsCls.remove("open_an");
+      subnavShowsCls.add("close_an");
+    }else{
+      subnavShowsCls.remove("close_an");
+      subnavShowsCls.add("open_an");
+    }
   }
 
-  // //about
-  // if (item.dataset.link === "about") {
-  //   Router.jumpToTree("about");
-  //   if (subnavShowsCls.contains("open_an")) {
-  //     subnavShowsCls.remove("open_an");
-  //     subnavShowsCls.add("close_an");
-  //   }
-  // }
 }//end handle
 
 function deselect(item) {

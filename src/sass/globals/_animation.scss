@@ -16,18 +16,6 @@
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 }
-.open_an,
-.close_an {
-  animation-name: openModal;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
-}
-.close_an {
-  animation-duration: 0.3s;
-  animation-name: closeModal;
-  animation-direction: reverse;
-}
 
 /*items modal-----------------*/
 .coldDown_an {
@@ -161,11 +149,84 @@
     // background-color: #fff5;
   }
 }
-
 .loading-an {
   animation-name: loading;
   animation-duration: .6s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+// 0%{
+//   background: v.$primaryColor;
+//   background: linear-gradient(90deg, v.$primaryColor, #111, #111, #111, v.$primaryColor);
+// }
+// 25%{
+//   background: linear-gradient(90deg, #111, v.$primaryColor, #111, #111,#111);
+  
+// }
+// 50% {
+//   background: linear-gradient(90deg, #111, #111, v.$primaryColor, #111, #111);
+//   // background: #111;
+// }
+// 75%{
+//   background: linear-gradient(90deg, #111, #111,#111, v.$primaryColor, #111);
+// }
+// 100%{
+//   background: linear-gradient(90deg, #111, #111,#111, #111, v.$primaryColor);
+// }
+@keyframes loading_img {
+  from{
+    background-position: left;
+  }
+  to{
+    background-position: right;
+  }
+}
+
+.loading_img-an {
+  background: linear-gradient(90deg, 
+    #111, 
+    #111, 
+    darken(v.$primaryColor, 10%), 
+    #111, 
+    #111);
+  background-size: 500% 100%;
+  animation-name: loading_img;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  // animation-direction: alternate;
+}
+
+
+$height-menu: 50px;
+@keyframes showMenu {
+  from{
+    height: 0;
+  }
+  to{
+    height: $height-menu;
+  }
+}
+
+@keyframes closeMenu {
+  from{
+    height: 0;
+  }
+  to{
+    height: $height-menu;
+  }
+}
+
+.open_an,
+.close_an {
+  animation-name: showMenu;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+.close_an {
+  animation-duration: 0.3s;
+  animation-name: closeMenu;
+  animation-direction: reverse;
 }

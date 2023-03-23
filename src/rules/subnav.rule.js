@@ -1,4 +1,5 @@
 import { Rule } from "../lib/leoframe.js";
+import { $$, $ } from "../lib/utils.js";
 import { Router } from "../pages/router.js";
 
 export const SubNavRule = (component)=>{
@@ -44,7 +45,14 @@ export const SubNavRule = (component)=>{
 
 //utils---------------------------------------------------
 function handleClickItem({item, items, type}){
+  $$(".nav__list__item").forEach((it)=>{
+    if(it.dataset.link === type){
+      it.classList.add("selected")
+    }else it.classList.remove("selected")
+  })
   if (type === 'movies') {
+      const itemsSubNavShows = $$(".subnav_shows__list__item");
+      itemsSubNavShows.forEach(deselect);
       if (item.dataset.opction === "Popular") {
         Router.jumpToTree("popularmovies");
       } else if (item.dataset.opction === "Mejores") {
@@ -57,6 +65,8 @@ function handleClickItem({item, items, type}){
       item.classList.add("selected");
   }
   if(type === 'shows'){
+      const itemsSubNavMovies = $$(".subnav_shows__list__item");
+      itemsSubNavMovies.forEach(deselect);
       if (item.dataset.opction === "Popular") {
         Router.jumpToTree("popularshows");
       } else if (item.dataset.opction === "Mejores") {

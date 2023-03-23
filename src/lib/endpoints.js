@@ -21,7 +21,8 @@ export const URLs = {
 }
 
 /**
- * 
+ * Función encargada de proveer la ruta de consulta
+ * para los detalles de un show o movie
  * @param {"show" | "movie"} type 
  * @param {number | string} id 
  * @returns 

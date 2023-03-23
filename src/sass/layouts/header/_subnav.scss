@@ -2,25 +2,28 @@
 @use '../../util' as u;
 
 .subnav_movies, .subnav_shows{
-  height: 50px;
-  width: 100%;
-  position: absolute;
-  z-index: 12;
-  bottom: -14px;
-  right: 0;
+  height: 0;
+  background-color: #0007;
   font-family: g.$font;
   font-size: .8rem;
   color: #aaa;
-  // background: linear-gradient(0, black, transparent,transparent);
+  border-radius: .4rem;
+  overflow: hidden;
+  transition: all .3s;
+  z-index: 2;
+  grid-column: 1/4;
 
   // background-color: red;
-  @include u.breakpoint("large"){
+  @include u.breakpoint("medium"){
     width: 50%;
+    margin: 0 auto;
     font-size: 1.1rem;
   }
   @include u.breakpoint-down("medium"){
     // background-color: green;
     width: 80%;
+    margin: 0 auto;
+
     font-size: 1rem;
   }
   @include u.breakpoint-down("small"){
@@ -54,19 +57,16 @@
     @include g.mix-flex-aligment(space-evenly, flex-end);
     height: 100%;
     box-sizing: border-box;
-    padding-left: 1rem;
-    padding-right: 1rem;
     margin: 0;
     
     
     &__item{
       height: 100%;
       margin: 0;
-      height: 80%;
       width: 100%;
       @include g.mix-flex-aligment(center);
       cursor: pointer;
-      border-radius: 5px 5px 0 0;
+      border-radius: 5px;
       z-index: 2;
       &:hover{
         color: #fff;

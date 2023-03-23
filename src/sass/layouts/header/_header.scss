@@ -1,76 +1,76 @@
 @use '../../util' as u;
 @use '../../globals' as g;
 
+#header{
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
 .header{
   width: 100%;
-  height: 130px;
-  margin:0 0 1.2rem 0;
-  padding: 10px;
+  min-height: 70px;
+  margin:0 0 1.2rem;
+  padding: 8px;
   box-sizing: border-box;
-  display: flex, ;
-  flex-direction: column;
-  background: linear-gradient(180deg, #000,#0009,#0008, transparent);
-  border-radius: 3px solid #fff;
-  position: relative;
+  display: grid;
+  grid-template-columns: min-content auto 120px;
+  grid-template-rows: 70px min-content min-content;
+  align-items: center;
+  background-color: #252525;
+  box-shadow: 0 0 12px 2px #0009;
   
-  @include g.mix-flex-aligment(space-between, flex-end);
-  @include u.breakpoint("medium"){
-    height: 160px
-  }
-  @include u.breakpoint("large"){
-    height: 170px
-  }
-  
-  .header__top{
-    @include g.mix-flex-aligment(space-between);
-    width: 100%;
-  }
-
   &__title {
-    font-size: max(2.2rem, 5vw);
-    width: 30%;
+    font-size: max(2.2rem, 3vw);
+    display: inline-block;
+    width: fit-content;
     margin: 0;
     font-family: g.$primaryFont;
     box-sizing: border-box;
     text-align: center;
+    cursor: pointer;
   }
-
 
   &__boton{
     height: 45px;
-    background-color: g.$primaryColor;
     border-radius: 1rem;
     @include g.mix-flex-aligment(center);
     padding: .5rem;
     box-sizing: border-box;
+    background-color: g.$primaryColor;
     
     &:hover{
       cursor: pointer;
       background-color: darken(g.$primaryColor, 10%);
     }
     
-    &__title, &__subtitle{
+    &__title{
       font-size: 1.1rem;
       box-sizing: border-box;
-      @include u.breakpoint("large"){
+
+      @include u.breakpoint("medium"){
         font-size: 1.2rem;
-      }
-    }
-    &__subtitle{
-      display: none;
-      @include u.breakpoint("large"){
-        display: inline-block;
-      }
-      &::before{
-        content: " ";
-        position: relative;
       }
     }
 
     &__logo{
       box-sizing: border-box;
       margin-left: 1rem;
-      
     }
+  }
+
+  @include u.breakpoint-down("small"){
+    grid-template-columns: auto auto 120px;
+    grid-template-rows: 70px min-content min-content min-content;
+
+    &__boton{ 
+      grid-row: 1/2;
+      grid-column: 3/4;
+    }
+    &__title {
+      grid-column: 1/3;
+      grid-row: 1/2;
+    }
+
   }
 }

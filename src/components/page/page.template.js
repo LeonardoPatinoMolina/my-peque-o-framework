@@ -3,6 +3,10 @@ import { Component } from "../../lib/leoframe.js";
 export class PageComponent extends Component {
   name = 'page';
   template(){
+    let Allgenres = '';
+    this.props.genres.forEach(gen=>{
+      Allgenres += `<p class="page__aside__info__genres__genre">${gen}</p>`;
+    });
     return super.template(`
     <section class="page">
       <div class="page__aside">
@@ -10,19 +14,21 @@ export class PageComponent extends Component {
           <h2 class="page__aside__titles__title">${this.props.title}</h2>
           <h3 class="page__aside__titles__subtitle">${this.props.subtitle}</h3>
         </div>
-        <div class="page__aside__graphic">
+        <div class="page__aside__img_wrapper">
           <img 
             draggable="false" 
-            class="page__aside__graphic__img" src="${this.props.img}" alt="imagen de página"
+            class="page__aside__img_wrapper__img loading_img-an" src="${this.props.img}" alt="imagen de página"
           >
-          <div class="page__aside__graphic__info">
-            <p class="page__aside__graphic__info__text">${this.props.rate}${this.props.stars}</p>
-            <p class="page__aside__graphic__info__text">${this.props.genres}</p>
+          <p class="page__aside__img_wrapper__text">${this.props.date.slice(0,4)}</p>
+        </div>
+        <div class="page__aside__info">
+          <p class="page__aside__info__rate">${this.props.rate}${this.props.stars}</p>
+          <div class="page__aside__info__genres">
+            ${Allgenres}
           </div>
         </div>
+        <p class="page__aside__description" >${this.props.description}</p>
       </div>
-      <p class="page__info__text">${this.props.date}</p>
-      <p class="page__description" >${this.props.description}</p>
       <div tabindex="-1" class="page__watch">
         <img 
           class="page__watch__img" 

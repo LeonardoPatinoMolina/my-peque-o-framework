@@ -14,7 +14,7 @@ export class SubnavComponent extends Component{
 
   template() {
     return super.template(`
-    <nav class="${this.props.className} close_an">
+    <nav class="${this.props.className}">
       <ul class="${this.props.className}__list">
         <li data-opction="${this.props.opction1}" class="${this.props.className}__list__item">
           ${this.props.opction1}

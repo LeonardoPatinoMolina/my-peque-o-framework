@@ -3,31 +3,16 @@
 
 .nav{
   height: 60px;
+  width: 100%;
+  $parent-w: width;
+
   display: flex;
   position: relative;
   font-family: g.$font;
-  border-radius: 10px;
   box-sizing: border-box;
-  
-  @include u.breakpoint("large"){
-    // background-color: red;
-    width: 50%;
-
-    font-size: 1.1rem;
-  }
-  @include u.breakpoint-down("medium"){
-    // background-color: green;
-    width: 80%;
-    font-size: 1rem;
-  }
-  @include u.breakpoint-down("small"){
-    // background-color: blue;
-    font-size: .81rem;
-    width: 100%;
-  }
 
   &__list{
-    margin-top: 0;
+    margin: 0;
     width: 100%;
     @include g.mix-flex-aligment(space-evenly);
     box-sizing: border-box;
@@ -36,13 +21,14 @@
     &__item{
       border-radius: 10px;
       position: relative;
-      cursor: pointer;
       user-select: none;
       padding: 10px;
-      &:focus::after{
-        content: "";
+      cursor: pointer;
+
+      &.selected{
+        color: g.$primaryColor;
       }
-      &::after, &.selected::after{
+      &::after{
         position: absolute;
         height: 3px;
         width: 100%;
@@ -50,7 +36,9 @@
         box-shadow: 0 0 4px 2px #0002;
         bottom: 3px;
         left: 0;
+        transition: all .3s;
       }
+      
       &:hover::after{
         content: "";
         animation-name: underlineOnce; 
@@ -60,5 +48,20 @@
         animation-iteration-count: unset;
       }
     }
+  }
+
+  @include u.breakpoint("medium"){
+    // background-color: rgba(255, 0, 0, 0.521);
+    font-size: 1.1rem;
+  }
+  @include u.breakpoint-down("medium"){
+    // background-color: rgba(0, 128, 0, 0.425);
+    font-size: 1rem;
+  }
+  @include u.breakpoint-down("small"){
+    // background-color: rgba(0, 0, 255, 0.397);
+    grid-column: 1/4;
+    grid-row: 2/3;
+    font-size: .81rem;
   }
 }

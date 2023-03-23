@@ -1,7 +1,7 @@
-import { VolatileComponent } from "../../../lib/leoframe.js";
+import { Component } from "../../../lib/leoframe.js";
 import { HeaderRule } from '../../../rules/header.rule.js';
 
-export class HeaderComponent extends VolatileComponent{
+export class HeaderComponent extends Component{
   props = { title: "Movies" };
   name = "header";
 
@@ -16,16 +16,16 @@ export class HeaderComponent extends VolatileComponent{
     template(){
     return super.template(`
     <header class="header">
-    <div class="header__top">
       <h2 class="header__title">${this.props.title}</h2>
+      [child0]
       <div class="header__boton">
-        <h4 class="header__boton__title">Buscar <span class="header__boton__subtitle">+ contenido</span></h4>
+        <h4 class="header__boton__title">Buscar</h4>
         <span class="header__boton__logo material-symbols-rounded">
           search
         </span>
       </div>
-    </div>
-      [volatile]
+      [child1]
+      [child2]
     </header>
     `)}
 }

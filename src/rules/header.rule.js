@@ -41,6 +41,7 @@ export const HeaderRule = (component)=>{
       item.addEventListener('click', ()=> handleCLickItem(item, items))
     });
   }
+
   const removeItemsNav = () =>{
     const items = component.body.querySelectorAll('.nav__list__item');
 
@@ -72,6 +73,7 @@ function handleModal() {
 }
 
 function handleCLickItem(item, items) {
+  if(item.dataset.link === 'movies' || item.dataset.link === 'shows' ) return;
   items.forEach(deselect);
   item.classList.add("selected");
 }

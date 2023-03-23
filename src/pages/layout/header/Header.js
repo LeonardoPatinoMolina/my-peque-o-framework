@@ -11,6 +11,7 @@ export const Header = new TreeLayoutComponent({
         new NavComponent(),
         new SubnavComponent({
           props: {
+            height: "0",
             className: "subnav_movies",
             opction1: "Popular",
             opction2: "Mejores",
@@ -19,6 +20,7 @@ export const Header = new TreeLayoutComponent({
         }),
           new SubnavComponent({
             props: {
+              height: "0",
               className: "subnav_shows",
               opction1: "Popular",
               opction2: "Mejores",

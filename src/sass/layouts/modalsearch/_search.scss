@@ -4,13 +4,10 @@
 .search{
   min-height: 50px;
   padding: 0;
-  flex: 1;
   border-radius: 16px;
   box-sizing: border-box;
   box-shadow: 0 0 12px 2px #0003;
   @include g.mix-flex-aligment(center);
-  // @include u.breakpoint-down('small'){
-  // }
   border: 1px solid #fff;
   
   &__input_text{
@@ -26,13 +23,13 @@
     color: #ebebeb;
     
     &::placeholder{
-      color: rgba(255, 255, 255, 0.467);
+      color: #ffffff77;
       font-size: inherit;
     }
     &:focus{
       outline: none;
     }
-  }
+  }//end input_text
 
   &__logo{
     padding: 10px;
@@ -42,8 +39,9 @@
     border-radius: 1rem;
     cursor: pointer;
     @include g.mix-flex-aligment(center);
+    
     &:hover{
       background-color: darken(g.$primaryColor, 10%);
     }
-  }
-}
+  }//end logo
+}//end search

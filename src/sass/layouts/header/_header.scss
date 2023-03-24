@@ -6,38 +6,55 @@
   top: 0;
   z-index: 3;
 }
-
+.header, .header > *{
+  box-sizing: border-box;
+}
 .header{
   width: 100%;
-  min-height: 70px;
+  min-height: 60px;
   margin:0 0 1.2rem;
   padding: 8px;
-  box-sizing: border-box;
   display: grid;
   grid-template-columns: min-content auto 120px;
   grid-template-rows: 70px min-content min-content;
   align-items: center;
   background-color: #252525;
   box-shadow: 0 0 12px 2px #0009;
+
+  @include u.breakpoint-down("small"){
+    grid-template-columns: auto auto 120px;
+    grid-template-rows: 60px min-content min-content min-content;
+  }
   
   &__title {
-    font-size: max(2.2rem, 3vw);
+    font-size: max(2rem, 3vw);
     display: inline-block;
     width: fit-content;
     margin: 0;
     font-family: g.$primaryFont;
-    box-sizing: border-box;
     text-align: center;
     cursor: pointer;
-  }
+    
+    @include u.breakpoint-down("small"){
+      font-size: 1.6rem;
+      grid-column: 1/3;
+      grid-row: 1/2;
+    }
+
+  }//end title
 
   &__boton{
     height: 45px;
     border-radius: 1rem;
     @include g.mix-flex-aligment(center);
     padding: .5rem;
-    box-sizing: border-box;
     background-color: g.$primaryColor;
+
+    @include u.breakpoint-down("small"){
+      grid-row: 1/2;
+      grid-column: 3/4;
+      padding: .3rem;
+    }
     
     &:hover{
       cursor: pointer;
@@ -46,31 +63,16 @@
     
     &__title{
       font-size: 1.1rem;
-      box-sizing: border-box;
-
+      @include u.breakpoint-down("small"){
+        font-size: .8rem;
+      }
       @include u.breakpoint("medium"){
         font-size: 1.2rem;
       }
     }
 
     &__logo{
-      box-sizing: border-box;
       margin-left: 1rem;
     }
-  }
-
-  @include u.breakpoint-down("small"){
-    grid-template-columns: auto auto 120px;
-    grid-template-rows: 70px min-content min-content min-content;
-
-    &__boton{ 
-      grid-row: 1/2;
-      grid-column: 3/4;
-    }
-    &__title {
-      grid-column: 1/3;
-      grid-row: 1/2;
-    }
-
-  }
-}
+  }//end boton
+}//end header

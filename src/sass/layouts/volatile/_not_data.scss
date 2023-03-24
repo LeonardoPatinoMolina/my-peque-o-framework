@@ -1,5 +1,4 @@
 @use '../../globals' as g;
-@use '../../util' as u;
 
 .not_data{
   width: 100%; 
@@ -11,6 +10,7 @@
     color: #0009;
     user-select: none;
   }
+
   &__logo{
     font-size: 8rem;
     @include g.mix-flex-aligment(center);

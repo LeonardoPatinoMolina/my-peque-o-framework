@@ -1,23 +1,7 @@
 @use '../globals/variables' as v;
-/*modal-----------------------*/
-@keyframes openModal {
-  from {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
-@keyframes closeModal {
-  from {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
+@use '../util/' as u;
 
-/*items modal-----------------*/
+
 .coldDown_an {
   animation-name: coldDown;
   animation-duration: .4s;
@@ -39,6 +23,15 @@
   }
 }
 
+//uso directo
+@keyframes underlineOnce {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
 
 @keyframes shake {
   0% {
@@ -70,83 +63,13 @@
   animation-name: shake;
   animation-duration: 0.7s;
 }
-.bounce-a-in,
-.bounce-a-out {
-  animation-name: bounce_in;
-  animation-timing-function: cubic-bezier(0.8, 0.5, 0.2, 1.4);
-  animation-timing-function: ease-in-out;
-  animation-duration: 0.4s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes bounce_in {
-  from {
-    visibility: hidden;
-    transform: scale(0.1) translateY(-100vh);
-  }
-
-  to {
-    visibility: visible;
-    transform: scale(1) translateY(0);
-  }
-}
-.bounce-a-out {
-  animation-name: bounce_out;
-  animation-direction: reverse;
-}
-
-@keyframes bounce_out {
-  from {
-    visibility: hidden;
-    transform: scale(0.1) translateY(-100vh);
-  }
-  to {
-    visibility: visible;
-    transform: scale(1) translateY(0);
-  }
-}
-.underline-an-alternate {
-  animation-name: underlineAltern;
-  animation-duration: 2s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  animation-fill-mode: forwards;
-  //   animation-name: underlineOnce;
-  //   animation-duration: .3s;
-  //   animation-timing-function: ease-out;
-  //   animation-fill-mode: forwards;
-  //   animation-iteration-count: unset;
-}
-@keyframes underlineAltern {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-  50% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-  100% {
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-  }
-}
-@keyframes underlineOnce {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-  100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
 
 @keyframes loading {
   from {
-    // fill: red;
     opacity: 1;
   }
   to {
     opacity: .3;
-    // fill: blue;
-    // background-color: #fff5;
   }
 }
 .loading-an {
@@ -156,24 +79,7 @@
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-// 0%{
-//   background: v.$primaryColor;
-//   background: linear-gradient(90deg, v.$primaryColor, #111, #111, #111, v.$primaryColor);
-// }
-// 25%{
-//   background: linear-gradient(90deg, #111, v.$primaryColor, #111, #111,#111);
-  
-// }
-// 50% {
-//   background: linear-gradient(90deg, #111, #111, v.$primaryColor, #111, #111);
-//   // background: #111;
-// }
-// 75%{
-//   background: linear-gradient(90deg, #111, #111,#111, v.$primaryColor, #111);
-// }
-// 100%{
-//   background: linear-gradient(90deg, #111, #111,#111, #111, v.$primaryColor);
-// }
+
 @keyframes loading_img {
   from{
     background-position: left;
@@ -195,11 +101,10 @@
   animation-duration: 1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  // animation-direction: alternate;
 }
 
 
-$height-menu: 50px;
+$height-menu: 40px;
 @keyframes showMenu {
   from{
     height: 0;
@@ -208,7 +113,6 @@ $height-menu: 50px;
     height: $height-menu;
   }
 }
-
 @keyframes closeMenu {
   from{
     height: 0;
@@ -217,6 +121,27 @@ $height-menu: 50px;
     height: $height-menu;
   }
 }
+
+@include u.breakpoint-down("small"){
+  $height-menu: 30px;
+  @keyframes showMenu {
+    from{
+      height: 0;
+    }
+    to{
+      height: $height-menu;
+    }
+  }
+  
+  @keyframes closeMenu {
+    from{
+      height: 0;
+    }
+    to{
+      height: $height-menu;
+    }
+  }
+}//small breakpoint
 
 .open_an,
 .close_an {

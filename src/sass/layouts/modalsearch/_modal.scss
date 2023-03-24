@@ -1,23 +1,23 @@
 @use '../../globals/' as g;
 
 .modal_wrapper{
-  position: fixed;
-  width: 100vw;
-  @include g.mix-flex-aligment(center);
-  display: none;
   height: 100vh; 
+  width: 100vw;
+  position: fixed;
+  @include g.mix-flex-aligment(center);
+  display: none;//cambia por javascript a flex
   top: 0;
   left: 0;
   background-color: #0007;
   backdrop-filter: blur(8px);
   z-index: 100;
+}//end modal_wrapper
 
-}
 .modal{
-  background-color: #222;
-  box-shadow: 4px 4px 10px 2px #0008;
   width: max(280px, 52%);
   height: auto;
+  background-color: #222;
+  box-shadow: 4px 4px 10px 2px #0008;
   border-radius: 1rem;
   box-sizing: border-box;
   padding: 1rem;
@@ -39,7 +39,6 @@
     max-height: 300px;
     flex-grow: 1;
     box-sizing: border-box;
-}
-
-}
+  }
+}//end modal
 

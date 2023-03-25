@@ -5,18 +5,11 @@ import { Router } from "../pages/router.js";
 export const NavRule = (component)=>{
   
   const addItemsListener = ()=>{
-    const items = component.body.querySelectorAll(".nav__list__item");
-    
-    items.forEach((item) => {
-      item.addEventListener("click", () => handleClickItem(item));
-    });
+    window.addEventListener('click',handlePrincipal)
   }
   
   const removeItemsListener = ()=>{
-    const items = component.body.querySelectorAll(".nav__list__item");
-    items.forEach((item) => {
-      item.removeEventListener("click", () => handleClickItem(item));
-    });
+    window.removeEventListener('click',handlePrincipal)
   }
   
   return new Rule({
@@ -30,6 +23,14 @@ export const NavRule = (component)=>{
 } 
 
 //utils-----------------------------------------------
+function handlePrincipal({target}){
+  if(target.dataset?.link){
+    handleClickItem(target);
+  }else{
+    closeSubMenu();
+    // deselectItems();
+  }
+}
 function handleClickItem(item){
   const subnavShowsCls = $(".subnav_shows").classList;
   const subnavMoviesCls = $(".subnav_movies").classList;
@@ -81,6 +82,25 @@ function handleClickItem(item){
 
 }//end handle
 
-function deselect(item) {
-  item.classList.remove("selected");
+function deselectItems() {
+  const movies = $$('.subnav_movies__list__item');
+  const shows = $$('.subnav_shows__list__item');
+  for (let i = 0; i < 3; i++) {
+    movies[i].classList.remove("selected");
+    shows[i].classList.remove("selected");
+  };
+}
+
+function closeSubMenu(){
+  const subnavShowsCls = $(".subnav_shows").classList;
+  const subnavMoviesCls = $(".subnav_movies").classList;
+
+  if(subnavShowsCls.contains('open_an')){
+    subnavShowsCls.remove("open_an");
+    subnavShowsCls.add("close_an");
+  }
+  if(subnavMoviesCls.contains('open_an')){
+    subnavMoviesCls.remove("open_an");
+    subnavMoviesCls.add("close_an");
+  }
 }

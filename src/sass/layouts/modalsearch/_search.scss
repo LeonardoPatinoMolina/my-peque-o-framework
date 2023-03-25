@@ -3,6 +3,7 @@
 
 .search{
   min-height: 50px;
+  width: 100%;
   padding: 0;
   border-radius: 16px;
   box-sizing: border-box;
@@ -16,7 +17,7 @@
     border-radius: 15px 0 0 15px;
     border: none;
     background-color: transparent;
-    margin: 0;
+    margin: 0;  
     display: flex;
     font-size: 1.1rem;
     padding-left: 1rem;

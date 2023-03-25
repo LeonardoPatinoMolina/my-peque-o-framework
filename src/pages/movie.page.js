@@ -9,7 +9,7 @@ const builder = async (component, treeProps)=>{
     cacheName: 'movie_page',
     revalidate: 120//2 horas
   });
-  component.props = new MoviePropsPage(response).data
+  component.setProps(new MoviePropsPage(response).data);
 }
 
 const Movie = new TreeComponent({

@@ -9,7 +9,7 @@ const builder = async (parent, treeProps)=>{
     cacheName: 'show_page',
     revalidate: 120 // 2 horas
   });
-  parent.props = new ShowPropsPage(response).data
+  parent.setProps(new ShowPropsPage(response).data);
 }
 
 const Show = new TreeComponent({

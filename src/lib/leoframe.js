@@ -99,6 +99,16 @@ export class Component {
   }
 
   /**
+   * Método encargado de asignar props
+   * @param {{[stirng]:any}} props
+   * @returns {Component}
+   */
+  setProps(props){
+    this.props ={...this.props, ...props};
+    return this;
+  }
+
+  /**
    * Encargada de construir el componente generando el 
    * nodo HTML, estableciendo las props, y a cada uno de los posibles hijos
    * @param {{[string]:any}} externProps

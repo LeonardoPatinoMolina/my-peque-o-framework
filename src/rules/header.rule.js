@@ -1,5 +1,5 @@
 import { Rule } from "../lib/leoframe.js";
-import { $ } from "../lib/utils.js";
+import { $, $$ } from "../lib/utils.js";
 import { Modal } from "../pages/layout/modal/Modal.js";
 import { Router } from "../pages/router.js";
 
@@ -13,13 +13,27 @@ export const HeaderRule = (component)=>{
   const addTitleListener = () =>{
     const title = component.body.querySelector('.header__title');
 
-    title.addEventListener('click',()=>Router.comeHome());
+    title.addEventListener('click',()=>{
+      component.body.querySelectorAll('.nav__list__item').forEach((item)=>{
+        if(item.dataset.link !== 'home') item.classList.remove('selected');
+        else item.classList.add('selected')
+      })
+      deselectItems();
+      Router.comeHome();
+    });
   }
 
   const removeTitleListener = () =>{
     const title = component.body.querySelector('.header__title');
 
-    title.removeEventListener('click',()=>Router.comeHome());
+    title.removeEventListener('click',()=>{
+      component.body.querySelectorAll('.nav__list__item').forEach((item)=>{
+        if(item.dataset.link !== 'home') item.classList.remove('selected');
+        else item.classList.add('selected')
+      })
+      deselectItems();
+      Router.comeHome();
+    });
   }
 
   const addTriggerModalListener = ()=>{
@@ -80,4 +94,13 @@ function handleCLickItem(item, items) {
 
 function deselect(item) {
   item.classList.remove("selected");
+}
+
+function deselectItems() {
+  const movies = $$('.subnav_movies__list__item');
+  const shows = $$('.subnav_shows__list__item');
+  for (let i = 0; i < 3; i++) {
+    movies[i].classList.remove("selected");
+    shows[i].classList.remove("selected");
+  };
 }

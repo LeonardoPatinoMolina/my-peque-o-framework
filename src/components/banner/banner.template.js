@@ -1,14 +1,4 @@
 import { Component } from "../../lib/leoframe.js";
-{/* <img class="banner__img"
-src="src/assets/projector_movie.svg" alt="projector movie" draggable="false"> 
-      <h2 class="banner__subtitle">Luces, cámara...</h2>
-      <div class="banner__img_wrapper">
-        <img class="banner__img"
-        src="https://gifimage.net/wp-content/uploads/2017/10/cuenta-regresiva-gif-13.gif" alt="cuenta regresiva de cine antiguo" draggable="false">
-        <h1 class="banner__title">lorem?</h1>
-      </div>
-
-*/}
 
 export class BannerComponent extends Component{
   name = "banner";

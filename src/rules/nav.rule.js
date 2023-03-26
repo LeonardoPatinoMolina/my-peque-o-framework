@@ -44,6 +44,14 @@ function handleClickItem(item){
       subnavMoviesCls.remove("open_an");
       subnavMoviesCls.add("close_an");
     }
+    $$('.subnav_movies__list__item').forEach((item)=>{
+      if (item.dataset.link === "home") {
+        item.classList.add('selected')
+      }else{
+        item.classList.remove('selected')
+      }
+    })
+
     Router.jumpToTree(item.dataset.link);
   }
   //desplegamos la barra secundaria de peliculas si
@@ -81,15 +89,6 @@ function handleClickItem(item){
   }
 
 }//end handle
-
-function deselectItems() {
-  const movies = $$('.subnav_movies__list__item');
-  const shows = $$('.subnav_shows__list__item');
-  for (let i = 0; i < 3; i++) {
-    movies[i].classList.remove("selected");
-    shows[i].classList.remove("selected");
-  };
-}
 
 function closeSubMenu(){
   const subnavShowsCls = $(".subnav_shows").classList;

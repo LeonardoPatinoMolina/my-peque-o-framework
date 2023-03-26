@@ -171,17 +171,17 @@
 
       /*breakpoitns begin-------------*/
       @include u.breakpoint("medium"){
-        font-size: 1rem;
+        font-size: .9rem;
         grid-column: 2/3;
         grid-row: 3/5;
       }
       @include u.breakpoint-down("medium"){
-        font-size: .9rem;
+        font-size: .8rem;
         grid-column: 2/3;
         grid-row: 3/5;
       }
       @include u.breakpoint-down("small"){
-        font-size: .9rem;
+        font-size: .8rem;
         grid-column: 1/2;
         max-height: unset;
         width: 90%;

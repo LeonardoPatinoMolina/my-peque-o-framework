@@ -487,3 +487,52 @@ export class Rule {
    return this;
   }
 }
+
+export class MyRoot{
+  /**
+   * @type {HTMLElement}
+   */
+  root;
+  
+  /**
+   * 
+   * @param {HTMLElement} root 
+   */
+  constructor(root){
+    this.root = root;
+  }
+
+  /**
+   * 
+   * @param {Component} component 
+   */
+  render(component){
+    this.root.appendChild(component.body);
+  }
+}
+
+export class MyRouter{
+  /** Árbol establecido como el actualmente renderizado
+   * @type {Component}
+   */
+  currentPage;
+
+  /** Ábol establecido para ser renderizado en el inicio
+   * @type {Component}
+   */
+  home;
+
+  /** Objeto encargado de enlistar los árboles de componentes 
+   * prestos a la paginación básica
+   * @type {{[string]:any}}
+   */
+  pages;
+  /**
+   * @param {{home: string, pages: {[string]:any}}} args 
+   */
+  constructor(args){
+    this.pages = args.pages;
+    this.home = args.home;
+  }
+
+}

@@ -52,7 +52,7 @@ export class AboutComponent extends Component{
         Traté de diseñar una serie de reglas que permitieran la importación de ficheros de <span>javascript</span> por demanda, aliviando así la memoria del navegador importando solo los scripts cuando un arbol de componentes los solicite.
       </p>
       <p class="main_about__paragraph">
-        Información más detallada en el repositorio de <em>gitHub</em> ;).
+        Información más detallada en el repositorio de <em><a href="https://github.com/LeoCHAD" target="_blank">gitHub</a></em> ;).
       </p>
     </main>
     `);

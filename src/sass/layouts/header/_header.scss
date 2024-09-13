@@ -19,6 +19,7 @@
   grid-template-rows: 70px min-content min-content;
   align-items: center;
   background-color: #252525;
+  // background-color: #252525;
   box-shadow: 0 0 12px 2px #0009;
 
   @include u.breakpoint-down("small"){
@@ -33,7 +34,7 @@
     margin: 0;
     font-family: g.$primaryFont;
     text-align: center;
-    cursor: pointer;
+    cursor: cell;
     
     @include u.breakpoint-down("small"){
       font-size: 1.6rem;

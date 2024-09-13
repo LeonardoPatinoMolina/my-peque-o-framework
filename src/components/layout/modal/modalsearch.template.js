@@ -9,7 +9,7 @@ export class ModalSearchComponent extends Component{
         <div class="modal__header">
           [child0]
         </div>
-          [child1]
+        [child1]
         <div class="modal_body">
           [child2]
         </div>
